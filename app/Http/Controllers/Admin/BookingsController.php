@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreBookingsRequest;
 use App\Http\Requests\Admin\UpdateBookingsRequest;
+use Auth;
 
 class BookingsController extends Controller
 {
@@ -60,13 +61,22 @@ class BookingsController extends Controller
      * @param  \App\Http\Requests\StoreBookingsRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBookingsRequest $request)
+    public function store(Request $request)
     {
         if (!Gate::allows('booking_create')) {
             return abort(401);
         }
-        $booking = Booking::create($request->all());
-
+        //$booking = Booking::create($request->all());
+        $bookersName = \Auth::user()->name;
+        $booking = new Booking;
+        $booking->time_from = $request->time_from;
+        $booking->time_to = $request->time_to; 
+        $booking->additional_information = $request->additional_information; 
+        $booking->customer_id = $request->customer_id;
+        $booking->room_id = $request->room_id;
+        $booking->amount = $request->amount;
+        $booking->booked_by = $bookersName;
+        $querySuccess = $booking->save();
         return redirect()->route('admin.bookings.index');
     }
 

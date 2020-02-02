@@ -64,17 +64,26 @@ return [
             'actions' => 'Actions',
 		],
 	],
+
+	'drink_sales' => [
+		'title' => 'Drink Sales',
+		'fields' => [
+
+		],
+	],
 	
 	'bookings' => [
 		'title' => 'Bookings',
 		'fields' => [
 			'customer' => 'Customer',
 			'room' => 'Room',
-			'time-from' => 'Time from',
-			'time-to' => 'Time to',
+			'time-from' => 'Check-In',
+			'time-to' => 'Check-Out',
 			'additional-information' => 'Additional information',
-			'amount' => 'Amount',
-			'booker_name' => 'Booked By'
+			'amount_paid' => 'Paid',
+			'booker_name' => 'Authoriser',
+			'discount' => 'Discount',
+			'amount_due' => 'Amount Due'
 		],
 	],
 	

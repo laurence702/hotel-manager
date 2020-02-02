@@ -105,6 +105,12 @@
             @endcan
             
 
+            <li class="{{ $request->segment(2) == 'find_rooms' ? 'active' : '' }}">
+                <a href="{{ route('admin.productsales.index') }}">
+                    <i class="fa fa-wine-glass"></i>
+                    <span class="title">@lang('quickadmin.drink_sales.title')</span>
+                </a>
+            </li>
             
 
             

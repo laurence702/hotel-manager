@@ -24,7 +24,8 @@ class Booking extends Model
         'time_from', 'time_to', 'additional_information', 'customer_id', 'room_id','amount','booked_by'
     ];
 
-
+    protected $dates= ['time_from', 'time_to'];
+    
     /**
      * Set to null if empty
      * @param $input

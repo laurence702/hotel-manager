@@ -37,7 +37,8 @@
                         <th>@lang('quickadmin.bookings.fields.room')</th>
                         <th>@lang('quickadmin.bookings.fields.time-from')</th>
                         <th>@lang('quickadmin.bookings.fields.time-to')</th>
-                        <th>@lang('quickadmin.bookings.fields.amount')</th>
+                        <th>@lang('quickadmin.bookings.fields.amount_due')</th>
+                        <th>@lang('quickadmin.bookings.fields.discount')</th>
                         <th>@lang('quickadmin.bookings.fields.additional-information')</th>
                         <th>@lang('quickadmin.bookings.fields.booker_name')</th>
                         @if( request('show_deleted') == 1 )
@@ -58,15 +59,16 @@
 
                                 <td field-key='customer'>{{ $booking->customer->full_name or '' }}</td>
                                 <td field-key='room'>{{ $booking->room->room_number or '' }}</td>
-                                <td field-key='time_from'>{{ $booking->time_from }}</td>
-                                <td field-key='time_to'>{{ $booking->time_to }}</td>
+                                <td field-key='time_from'>{{ Carbon\Carbon::parse($booking->time_from)->format('M - d - Y h:i') }}</td>
+                                <td field-key='time_to'>{{ Carbon\Carbon::parse($booking->time_to)->format('M - d - Y') }} 12pm </td>
                                 <td field-key='amount'>{{ $booking->amount }}</td>
+                                <td field-key='amount'>0</td>
                                 <td field-key='additional_information'>{!! $booking->additional_information !!}</td>
-                                <td field-key='booker_name'>{{ Auth::user()->name }}</td>
+                                <td field-key='booker_name'>{{ $booking->booked_by }}</td>
                                 @if( request('show_deleted') == 1 )
                                 <td>
-                                    @can('booking_delete')
-                                                                        {!! Form::open(array(
+                                @can('booking_delete')
+                                    {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'POST',
                                         'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",

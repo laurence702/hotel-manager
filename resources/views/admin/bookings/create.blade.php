@@ -74,7 +74,7 @@
 
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('Precio',trans('quickadmin.bookings.fields.amount').'*') !!}
+                    {!! Form::label('Precio',trans('quickadmin.bookings.fields.amount_due').'*') !!}
                     {!! Form::text('amount', old('amount'), ['class' => 'form-control ', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('additional_information'))

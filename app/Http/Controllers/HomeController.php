@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Booking;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -24,6 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $today = Carbon::today();
+        $bookings = Booking::where('created_at',$today)->get();
+        //dd($bookings); die;
+       return view('home');
     }
 }

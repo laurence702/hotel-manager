@@ -7,7 +7,14 @@
                 <div class="panel-heading">@lang('quickadmin.qa_dashboard')</div>
 
                 <div class="panel-body">
-                    @lang('quickadmin.qa_dashboard_text')
+                    <div class="col-md-4"> 
+                        <h3>Bookings Today</h3>
+                        <br>45
+                    </div>
+                    <div class="col-md-4"> 
+                        <h3>Funds Received</h3>
+                        <br>25
+                    </div>
                 </div>
             </div>
         </div>
