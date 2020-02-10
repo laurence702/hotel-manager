@@ -57,7 +57,15 @@
                                     @if ( request('show_deleted') != 1 )<td></td>@endif
                                 @endcan
 
-                                <td field-key='customer'>{{ $booking->customer->full_name or '' }}</td>
+                                <td field-key='customer'>{{ $booking->customer->full_name or '' }} <br>
+                                {!! Form::open(array(
+                                        'style' => 'display: inline-block;',
+                                        'method' => 'DELETE',
+                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
+                                        'route' => ['admin.bookings.destroy', $booking->id])) !!}
+                                    {!! Form::submit(trans('quickadmin.qa_checkout'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                    {!! Form::close() !!}
+                                </td>
                                 <td field-key='room'>{{ $booking->room->room_number or '' }}</td>
                                 <td field-key='time_from'>{{ Carbon\Carbon::parse($booking->time_from)->format('M - d - Y h:i') }}</td>
                                 <td field-key='time_to'>{{ Carbon\Carbon::parse($booking->time_to)->format('M - d - Y') }} 12pm </td>
@@ -94,15 +102,15 @@
                                     @can('booking_edit')
                                     <a href="{{ route('admin.bookings.edit',[$booking->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.qa_edit')</a>
                                     @endcan
-                                    @can('booking_delete')
-{!! Form::open(array(
+                                    <!-- @can('booking_delete')
+                                    {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',
                                         'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
                                         'route' => ['admin.bookings.destroy', $booking->id])) !!}
                                     {!! Form::submit(trans('quickadmin.qa_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
                                     {!! Form::close() !!}
-                                    @endcan
+                                    @endcan -->
                                 </td>
                                 @endif
                             </tr>

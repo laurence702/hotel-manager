@@ -68,7 +68,9 @@ return [
 	'drink_sales' => [
 		'title' => 'Drink Sales',
 		'fields' => [
-
+			'product_name' => 'Product',
+			'description'	=> 'Description',
+			'product_price' => 'Price'
 		],
 	],
 	
@@ -112,6 +114,7 @@ return [
 	'qa_back_to_list' => 'Back to list',
 	'qa_dashboard' => 'Dashboard',
 	'qa_delete' => 'Delete',
+	'qa_checkout' => 'Check out',
 	'qa_delete_selected' => 'Delete selected',
 	'qa_category' => 'Category',
 	'qa_categories' => 'Categories',
@@ -330,4 +333,7 @@ return [
 	'qa_import_data' => 'Import data',
 	'qa_imported_rows_to_table' => 'Imported :rows rows to :table table',
 	'quickadmin_title' => 'Thrivemax Hotel',
+	'qa_product_name' => 'Drink/Product Name',
+	'qa_product_price' => 'Drink/Product Price',
+	'qa_product_description' => 'Drink/Product Description' 
 ];

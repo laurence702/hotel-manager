@@ -22,6 +22,18 @@
                     @endif
                 </div>
             </div>
+
+            <div cass="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('room_id', trans('quickadmin.bookings.fields.room').'', ['class' => 'control-label']) !!}
+                    <select class="custom-select" id="rooms">
+                        @foreach($rooms as $room)
+                        echo <option label="Room-{{$room->room_number}} {{$room->price}}" value="{{$room->price}}"></option>
+                        @endforeach
+                    </select>
+                </div>               
+            </div>
+
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('room_id', trans('quickadmin.bookings.fields.room').'', ['class' => 'control-label']) !!}

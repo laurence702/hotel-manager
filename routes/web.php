@@ -3,6 +3,11 @@ Route::get('/', function () {
     return redirect('/admin/home');
 });
 
+
+Route::get('event', function() {
+    event(new App\Events\TaskEvent('Hey how are you!'));
+});
+
 // Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('auth.login');
 $this->post('login', 'Auth\LoginController@login')->name('auth.login');
@@ -17,6 +22,7 @@ $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('auth.password.reset');
 $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.password.reset');
+Route::get('getperformance','Stats\AnalyticsController@getStats');
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/home', 'HomeController@index');
@@ -51,11 +57,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     //Route::resource('/find_rooms', 'Admin\FindRoomsController', ['except' => 'create']);
     Route::get('/find_rooms', 'Admin\FindRoomsController@index')->name('find_rooms.index');
     Route::post('/find_rooms', 'Admin\FindRoomsController@index');
-
-    Route::resource('/productsales','Admin\ProductsController',['except' => 'productsales.create']);
-
+    Route::resource('/products','Admin\ProductsController',['except' => 'productsales.create']);
+    Route::get('products/create/', ['as' => 'products.create', 'uses' => 'Admin\ProductsController@create']);
     /*Route::get('/bookings/create/', [
         'as' => 'find_rooms.create',
         'uses' => 'Admin\BookingsController@create'
     ]);*/
+
+    Route::get('printInvoice','Admin\BookingsController@printInvoice');
+    
 });
+

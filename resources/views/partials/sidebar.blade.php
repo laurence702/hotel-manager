@@ -104,18 +104,15 @@
             </li>
             @endcan
             
-
-            <li class="{{ $request->segment(2) == 'find_rooms' ? 'active' : '' }}">
-                <a href="{{ route('admin.productsales.index') }}">
+            @can('products_view')
+            <li class="{{ $request->segment(2) == 'products' ? 'active' : '' }}">
+                <a href="{{ route('admin.products.index') }}">
                     <i class="fa fa-wine-glass"></i>
                     <span class="title">@lang('quickadmin.drink_sales.title')</span>
                 </a>
             </li>
+            @endcan
             
-
-            
-
-
 
             <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
                 <a href="{{ route('auth.change_password') }}">

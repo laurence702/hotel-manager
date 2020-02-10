@@ -1,0 +1,3 @@
+1. Edited the web routes from drinks to products
+2. edited the products view
+3. Created the adding drinks blade and it saves also

@@ -102,8 +102,6 @@ class RoomsController extends Controller
         $room = Room::findOrFail($id);
         $room->update($request->all());
 
-
-
         return redirect()->route('admin.rooms.index');
     }
 

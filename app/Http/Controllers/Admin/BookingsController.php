@@ -14,6 +14,78 @@ use Auth;
 
 class BookingsController extends Controller
 {
+
+
+    public function printInvoice() 
+    {
+        $mid = '123123456';
+        $store_name = 'YOURMART';
+        $store_address = 'Mart Address';
+        $store_phone = '1234567890';
+        $store_email = 'yourmart@email.com';
+        $store_website = 'yourmart.com';
+        $tax_percentage = 10;
+        $transaction_id = 'TX123ABC456';
+
+        $items = [
+            [
+                'name' => 'French Fries (tera)',
+                'qty' => 2,
+                'price' => 65000,
+            ],
+            [
+                'name' => 'Roasted Milk Tea (large)',
+                'qty' => 1,
+                'price' => 24000,
+            ],
+            [
+                'name' => 'Honey Lime (large)',
+                'qty' => 3,
+                'price' => 10000,
+            ],
+            [
+                'name' => 'Jasmine Tea (grande)',
+                'qty' => 3,
+                'price' => 8000,
+            ],
+        ];
+
+        $printer = new ReceiptPrinter;
+        $printer->init(
+            config('receiptprinter.connector_type'),
+            config('receiptprinter.connector_descriptor')
+        );
+
+        // Set store info
+        $printer->setStore($mid, $store_name, $store_address, $store_phone, $store_email, $store_website);
+
+        // Add items
+        foreach ($items as $item) {
+            $printer->addItem(
+                $item['name'],
+                $item['qty'],
+                $item['price']
+            );
+        }
+
+                    // Set tax
+            $printer->setTax($tax_percentage);
+
+            // Calculate total
+            $printer->calculateSubTotal();
+            $printer->calculateGrandTotal();
+
+            // Set transaction ID
+            $printer->setTransactionID($transaction_id);
+
+            // Set qr code
+            $printer->setQRcode([
+                'tid' => $transaction_id,
+            ]);
+
+            // Print receipt
+            $printer->printReceipt();
+    }
     /**
      * Display a listing of Booking.
      *
@@ -48,10 +120,11 @@ class BookingsController extends Controller
         if (!Gate::allows('booking_create')) {
             return abort(401);
         }
-
+        
         $customers = Customer::get()->pluck('full_name', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-        $rooms = Room::get()->pluck('room_number', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-
+       // $rooms = Room::get()->pluck('room_number', 'id', 'price')->prepend(trans('quickadmin.qa_please_select'), 'choose room')->toarray();  
+       $rooms = Room::all(); 
+       //return $roomData; die;
         return view('admin.bookings.create', compact('customers', 'rooms'));
     }
 

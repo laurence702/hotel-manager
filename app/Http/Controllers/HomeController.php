@@ -26,9 +26,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $today = Carbon::today();
-        $bookings = Booking::where('created_at',$today)->get();
-        //dd($bookings); die;
-       return view('home');
+        $user = \Auth::user();
+        //print $user;
+        $todayBookingStats = Booking::all();
+        $yesterdayBookingStats = Booking::whereDate('created_at',Carbon::yesterday()->toDateString())->get();
+
+       return view('home',compact('todayBookingStats','yesterdayBookingStats', 'user'));
     }
 }

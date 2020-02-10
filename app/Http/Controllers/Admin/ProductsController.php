@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use App\Product;
 
 class ProductsController extends Controller
@@ -15,10 +16,21 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        
+        if (!Gate::allows('products_view')) {
+            return abort(401);
+        }
+
+
+        if (request('show_deleted') == 1) {
+            if (!Gate::allows('products_delete')) {
+                return abort(401);
+            }
+            $products = Product::onlyTrashed()->get();
+        } else {
+            $products = Product::all();
         return view('admin.products.index', compact('products'));
-    }
+        }
+    }   
 
     /**
      * Show the form for creating a new resource.
@@ -27,7 +39,13 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        if (!Gate::allows('customer_create')) {
+            return abort(401);
+        }        
+        //$product = \App\Product::get()->pluck('price','description' ,'name','id')->prepend(trans('quickadmin.qa_please_select'), '');
+        $products = Product::all();
+ 
+        return view('admin.products.create', compact('products'));
     }
 
     /**
@@ -42,8 +60,9 @@ class ProductsController extends Controller
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
+        //return $product; die;
         $querySuccess = $product->save();
-        return redirect()->route('admin.productsales.index');
+        return redirect()->route('admin.products.index');
     }
 
     /**
@@ -54,7 +73,11 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+        if (!Gate::allows('products_show')) {
+            return abort(401);
+        }
+        $products = Product::findOrFail($id);
+        return view('admin.products.show', compact('products'));
     }
 
     /**
@@ -65,7 +88,13 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+        if (!Gate::allows('products_edit')) {
+            return abort(401);
+        }
+
+        $product = Product::findOrFail($id);
+
+        return view('admin.products.edit', compact('product'));
     }
 
     /**
@@ -77,7 +106,11 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        
+        $product->update($request->all());
+
+        return redirect()->route('admin.products.index');
     }
 
     /**

@@ -109,9 +109,7 @@
     }
     </style>
 </head>
-<script>
-//window.print();
-</script>
+
 <body>
     <div class="invoice-box">
         <table cellpadding="0" cellspacing="0">
@@ -127,6 +125,7 @@
                                 Invoice #: {{ $booking->customer->id or '' }} <br>
                                 Booking Date: {{ Carbon\Carbon::parse($booking->time_from)->format('D d-M-Y') }}<br>
                                 Exit Date: {{ Carbon\Carbon::parse($booking->time_to)->format('D d-M-Y') }}
+
                                 
                             </td>
                         </tr>
