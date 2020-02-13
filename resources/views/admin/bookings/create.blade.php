@@ -22,22 +22,16 @@
                     @endif
                 </div>
             </div>
-
-            <div cass="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('room_id', trans('quickadmin.bookings.fields.room').'', ['class' => 'control-label']) !!}
-                    <select class="custom-select" id="rooms">
-                        @foreach($rooms as $room)
-                        echo <option label="Room-{{$room->room_number}} {{$room->price}}" value="{{$room->price}}"></option>
-                        @endforeach
-                    </select>
-                </div>               
-            </div>
-
+            
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('room_id', trans('quickadmin.bookings.fields.room').'', ['class' => 'control-label']) !!}
-                    {!! Form::select('room_id', $rooms, old('room_id'), ['class' => 'form-control select2']) !!}
+                    <label for="_room">Room</label>
+                        <select name="room_cat" id="_room">
+                        <option value='' selected hidden>select...</option>
+                        @foreach($rooms as $room)
+                            <option data-price="{{ $room->price }}" value="{{ $room->room_number }}">{{ $room->room_number}}</option>
+                        @endforeach
+                        </select> <br><br>   <b> Room Price: ₦<span id='roomprice'></span></b>
                     <p class="help-block"></p>
                     @if($errors->has('room_id'))
                         <p class="help-block">
@@ -46,10 +40,11 @@
                     @endif
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('time_from', trans('quickadmin.bookings.fields.time-from').'*', ['class' => 'control-label']) !!}
-                    {!! Form::text('time_from', old('time_from'), ['class' => 'form-control datetimepicker', 'placeholder' => '', 'required' => '']) !!}
+                    {!! Form::label('time_from', trans('quickadmin.bookings.fields.time-from').'*', ['class' => 'control-label ']) !!}
+                    {!! Form::text('time_from', old('time_from'), ['class' => 'form-control datetimepicker time_from', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('time_from'))
                         <p class="help-block">
@@ -70,10 +65,34 @@
                     @endif
                 </div>
             </div>
+
+            <p id="test"><b>Days staying: 
+                    <span id='ourdays'></span> </p></b><br>
+            
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    <label for="">Amount Due: ₦</label>
+                    <span id='ourprice'></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('Precio',trans('Amount Paid').'*') !!}
+                    {!! Form::number('amount', old('amount'), ['class' => 'form-control ', 'placeholder' => '', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('additional_information'))
+                        <p class="help-block">
+                            {{ $errors->first('additional_information') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+           
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('additional_information', trans('quickadmin.bookings.fields.additional-information').'*', ['class' => 'control-label']) !!}
-                    {!! Form::textarea('additional_information', old('additional_information'), ['class' => 'form-control ', 'placeholder' => '', 'required' => '']) !!}
+                    {!! Form::textarea('additional_information', old('additional_information'), ['class' => 'form-control ', 'placeholder' => 'if customer has unique request', 'required' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('additional_information'))
                         <p class="help-block">
@@ -82,20 +101,7 @@
                     @endif
                 </div>
             </div>
-
-
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('Precio',trans('quickadmin.bookings.fields.amount_due').'*') !!}
-                    {!! Form::text('amount', old('amount'), ['class' => 'form-control ', 'placeholder' => '', 'required' => '']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('additional_information'))
-                        <p class="help-block">
-                            {{ $errors->first('additional_information') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
+           
 
         </div>
     </div>
@@ -111,8 +117,57 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <script>
-        $('.datetimepicker').datetimepicker({
+       
+
+
+        $(document ).ready(function() {   
+
+            
+            $('.datetimepicker').datetimepicker({
             format: "YYYY-MM-DD HH:mm"
+            }); 
+
+
+
+            $('#time_from').blur(function(){
+                if($('#time_to').val()){
+                    getTotalAmount();
+                }
+            });
+
+            $('#time_to').blur(function(){
+                if($('#time_from').val()){
+                    getTotalAmount(); 
+                }
+            });
+
+            $('#_room').change(function(){
+                $('#roomprice').html($('#_room option:selected').data('price'));
+                getTotalAmount();
+            });
+            
+
         });
+     
+        function getTotalAmount(){
+            var timeto = $('#time_to').val()
+            var timefrom = $('#time_from').val()
+            var price = $('#roomprice').html() || 0
+            var diffdays = daysdifference(timefrom, timeto)
+            var amount = price * diffdays
+            $('#ourdays').html(diffdays)
+            $('#ourprice').html(amount)
+        }
+
+        function daysdifference(time_from, time_to){
+                var startDay = new Date(time_from);
+                var endDay = new Date(time_to);
+            
+                var millisBetween = startDay.getTime() - endDay.getTime();
+                var days = millisBetween / (1000 * 3600 * 24);
+            
+                return Math.round(Math.abs(days));
+        }
     </script>
+
 @stop

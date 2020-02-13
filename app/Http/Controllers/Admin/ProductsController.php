@@ -73,11 +73,11 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        if (!Gate::allows('products_show')) {
+        if (!Gate::allows('products_view')) {
             return abort(401);
         }
-        $products = Product::findOrFail($id);
-        return view('admin.products.show', compact('products'));
+        $product = Product::findOrFail($id);
+        return view('admin.products.show', compact('product'));
     }
 
     /**
@@ -121,6 +121,16 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(!Gate::allows('products_delete'))
+        $drink = Product::findOrFail($id);
+        $drink->delete();
+
+        return redirect()->route('admin.products.index');
+    }
+
+
+    public function checkoutPage(Request $request) {
+        $products = Product::all();
+        return view('admin.products.test',compact('products'));
     }
 }

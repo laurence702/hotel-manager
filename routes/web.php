@@ -66,5 +66,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
 
     Route::get('printInvoice','Admin\BookingsController@printInvoice');
     
+    Route::get('ourcheckout','Admin\ProductsController@checkoutPage');
 });
 

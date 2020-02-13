@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreBookingsRequest;
 use App\Http\Requests\Admin\UpdateBookingsRequest;
 use Auth;
+use Carbon\Carbon;
 
 class BookingsController extends Controller
 {
@@ -122,9 +123,9 @@ class BookingsController extends Controller
         }
         
         $customers = Customer::get()->pluck('full_name', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
-       // $rooms = Room::get()->pluck('room_number', 'id', 'price')->prepend(trans('quickadmin.qa_please_select'), 'choose room')->toarray();  
+        //$rooms = Room::get()->pluck('room_number', 'id', 'price')->prepend(trans('quickadmin.qa_please_select'), 'choose room')->toarray();  
        $rooms = Room::all(); 
-       //return $roomData; die;
+
         return view('admin.bookings.create', compact('customers', 'rooms'));
     }
 
@@ -206,8 +207,10 @@ class BookingsController extends Controller
             return abort(401);
         }
         $booking = Booking::findOrFail($id);
-
-        return view('admin.bookings.show', compact('booking'));
+        $checkout = Carbon::parse($booking->time_to);
+        $checkIn = Carbon::parse($booking->time_from);
+        $nod = $checkIn->diffInDays($checkout);
+        return view('admin.bookings.show', compact('booking','nod'));
     }
 
 

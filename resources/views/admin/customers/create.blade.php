@@ -5,13 +5,13 @@
     {!! Form::open(['method' => 'POST', 'route' => ['admin.customers.store']]) !!}
 
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading text-white" style="background-color:#2e6ae2">
             @lang('quickadmin.qa_create')
         </div>
         
         <div class="panel-body">
             <div class="row">
-                <div class="col-xs-12 form-group">
+                <div class="col-xs-6 form-group">
                     {!! Form::label('first_name', trans('quickadmin.customers.fields.first-name').'*', ['class' => 'control-label']) !!}
                     {!! Form::text('first_name', old('first_name'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
@@ -21,9 +21,7 @@
                         </p>
                     @endif
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
+                <div class="col-xs-6 form-group">
                     {!! Form::label('last_name', trans('quickadmin.customers.fields.last-name').'*', ['class' => 'control-label']) !!}
                     {!! Form::text('last_name', old('last_name'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
@@ -34,6 +32,7 @@
                     @endif
                 </div>
             </div>
+           
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('address', trans('quickadmin.customers.fields.address').'*', ['class' => 'control-label']) !!}
@@ -78,6 +77,30 @@
                     @if($errors->has('country_id'))
                         <p class="help-block">
                             {{ $errors->first('country_id') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-6 form-group">
+                Name:*
+                    {!! Form::label('nokName', trans('Name').'*', ['class' => 'control-label']) !!}
+                    {!! Form::text('nokName', old('nokName'), ['class' => 'form-control', 'placeholder' => 'next of kin name', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('email'))
+                        <p class="help-block">
+                            {{ $errors->first('email') }}
+                        </p>
+                    @endif
+                </div>
+                <div class="col-xs-6 form-group">
+                    {!! Form::label('nokNumber', trans('Next of Kin Number').'*', ['class' => 'control-label']) !!}
+                    {!! Form::number('nokNumber', old('nokNumber'), ['class' => 'form-control', 'placeholder' => 'next of kin phone', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('email'))
+                        <p class="help-block">
+                            {{ $errors->first('email') }}
                         </p>
                     @endif
                 </div>

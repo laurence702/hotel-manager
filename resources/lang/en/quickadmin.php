@@ -64,7 +64,7 @@ return [
             'actions' => 'Actions',
 		],
 	],
-
+	
 	'drink_sales' => [
 		'title' => 'Drink Sales',
 		'fields' => [
