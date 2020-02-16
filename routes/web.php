@@ -59,13 +59,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::post('/find_rooms', 'Admin\FindRoomsController@index');
     Route::resource('/products','Admin\ProductsController',['except' => 'productsales.create']);
     Route::get('products/create/', ['as' => 'products.create', 'uses' => 'Admin\ProductsController@create']);
+    Route::post('products_mass_destroy', ['uses' => 'Admin\ProductsController@massDestroy', 'as' => 'products.mass_destroy']);
     /*Route::get('/bookings/create/', [
         'as' => 'find_rooms.create',
         'uses' => 'Admin\BookingsController@create'
     ]);*/
 
-    Route::get('printInvoice','Admin\BookingsController@printInvoice');
-    
-    Route::get('ourcheckout','Admin\ProductsController@checkoutPage');
+    Route::get('printInvoice','Admin\BookingsController@printInvoice');    
+    Route::get('checkout',['uses' => 'Admin\ProductsController@checkoutPage','as'=>'products.checkout']);
+    Route::post('sellDrinks', ['uses' => 'Admin\ProductsController@sellDrinks', 'as' => 'products.drinks_sale']);
 });
 

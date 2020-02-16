@@ -78,7 +78,7 @@
             @can('room_access')
             <li class="{{ $request->segment(2) == 'rooms' ? 'active' : '' }}">
                 <a href="{{ route('admin.rooms.index') }}">
-                    <i class="fa fa-gears"></i>
+                    <i class="fa fa-bed"></i>
                     <span class="title">@lang('quickadmin.rooms.title')</span>
                 </a>
             </li>
@@ -103,13 +103,47 @@
             @endcan
             
             @can('products_view')
-            <li class="{{ $request->segment(2) == 'products' ? 'active' : '' }}">
+            <!-- <li class="{{ $request->segment(2) == 'products' ? 'active' : '' }}">
                 <a href="{{ route('admin.products.index') }}">
                     <i class="fa fa-wine-glass"></i>
                     <span class="title">@lang('quickadmin.drink_sales.title')</span>
                 </a>
+            </li> -->
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-wine-glass"></i>
+                    <span class="title">Drinks</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                
+                @can('products_view')
+                <li class="{{ $request->segment(2) == 'products' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.products.index') }}">
+                            <i class="fa fa-wine-bottle"></i>
+                            <span class="title">
+                                @lang('Drinks Inventory')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                @can('user_access')
+                <li class="{{ $request->segment(2) == 'users' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.products.checkout') }}">
+                            <i class="fa fa-cart-plus"></i>
+                            <span class="title">
+                                @lang('Checkout')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+                </ul>
             </li>
             @endcan
+            
             
 
             <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">

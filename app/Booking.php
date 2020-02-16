@@ -20,11 +20,15 @@ class Booking extends Model
 {
     use SoftDeletes;
 
+    //amount is the amount supposed to be paid
+    //amount_paid is the amount customer paid, it can vary is theres discount
+
     protected $fillable = [
-        'time_from', 'time_to', 'additional_information', 'customer_id', 'room_id','amount','booked_by'
+        'amount','amount_paid','time_from', 'time_to','payment_method' ,'additional_information', 'customer_id', 'room_id','booked_by'
     ];
 
     protected $dates= ['time_from', 'time_to'];
+    
     
     /**
      * Set to null if empty

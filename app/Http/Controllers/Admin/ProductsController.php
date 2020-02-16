@@ -19,7 +19,7 @@ class ProductsController extends Controller
         if (!Gate::allows('products_view')) {
             return abort(401);
         }
-
+        
 
         if (request('show_deleted') == 1) {
             if (!Gate::allows('products_delete')) {
@@ -121,7 +121,9 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        if(!Gate::allows('products_delete'))
+        if(!Gate::allows('products_delete')){
+            return abort(401);
+        }
         $drink = Product::findOrFail($id);
         $drink->delete();
 
@@ -131,6 +133,12 @@ class ProductsController extends Controller
 
     public function checkoutPage(Request $request) {
         $products = Product::all();
-        return view('admin.products.test',compact('products'));
+        return view('admin.products.drinkscheckout',compact('products'));
+    }
+
+    public function sellDrinks(Request $request) {
+        dd($request->input('ids'));
+        //select all products with those input ids
+        //then redirect to next with only those selected products
     }
 }

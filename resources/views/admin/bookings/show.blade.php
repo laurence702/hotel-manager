@@ -25,7 +25,7 @@
                 <tbody>
                     <tr>
                         <td class="description">Hotel-Room({{$nod}}days)</td>
-                        <td class="price"> &nbsp;&nbsp;&nbsp;&nbsp;{{ $booking->amount}}</td>
+                        <td class="price"> &nbsp;&nbsp;&nbsp;&nbsp;{{ $booking->amount_paid}}</td>
                     </tr>
                     <tr>
                         <td>vat %5</td>

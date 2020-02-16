@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Booking;
 use App\Customer;
 use App\Room;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
@@ -12,81 +13,11 @@ use App\Http\Requests\Admin\StoreBookingsRequest;
 use App\Http\Requests\Admin\UpdateBookingsRequest;
 use Auth;
 use Carbon\Carbon;
+use Mail;
 
 class BookingsController extends Controller
 {
 
-
-    public function printInvoice() 
-    {
-        $mid = '123123456';
-        $store_name = 'YOURMART';
-        $store_address = 'Mart Address';
-        $store_phone = '1234567890';
-        $store_email = 'yourmart@email.com';
-        $store_website = 'yourmart.com';
-        $tax_percentage = 10;
-        $transaction_id = 'TX123ABC456';
-
-        $items = [
-            [
-                'name' => 'French Fries (tera)',
-                'qty' => 2,
-                'price' => 65000,
-            ],
-            [
-                'name' => 'Roasted Milk Tea (large)',
-                'qty' => 1,
-                'price' => 24000,
-            ],
-            [
-                'name' => 'Honey Lime (large)',
-                'qty' => 3,
-                'price' => 10000,
-            ],
-            [
-                'name' => 'Jasmine Tea (grande)',
-                'qty' => 3,
-                'price' => 8000,
-            ],
-        ];
-
-        $printer = new ReceiptPrinter;
-        $printer->init(
-            config('receiptprinter.connector_type'),
-            config('receiptprinter.connector_descriptor')
-        );
-
-        // Set store info
-        $printer->setStore($mid, $store_name, $store_address, $store_phone, $store_email, $store_website);
-
-        // Add items
-        foreach ($items as $item) {
-            $printer->addItem(
-                $item['name'],
-                $item['qty'],
-                $item['price']
-            );
-        }
-
-                    // Set tax
-            $printer->setTax($tax_percentage);
-
-            // Calculate total
-            $printer->calculateSubTotal();
-            $printer->calculateGrandTotal();
-
-            // Set transaction ID
-            $printer->setTransactionID($transaction_id);
-
-            // Set qr code
-            $printer->setQRcode([
-                'tid' => $transaction_id,
-            ]);
-
-            // Print receipt
-            $printer->printReceipt();
-    }
     /**
      * Display a listing of Booking.
      *
@@ -140,17 +71,38 @@ class BookingsController extends Controller
         if (!Gate::allows('booking_create')) {
             return abort(401);
         }
+
         //$booking = Booking::create($request->all());
+
         $bookersName = \Auth::user()->name;
-        $booking = new Booking;
-        $booking->time_from = $request->time_from;
+       
+        $data = $request->all(); 
+        $booking = new Booking();
+        $booking->amount_paid = $request->amount_paid; //actual amount paid
+        $amount = $request->ourprice;
+        $booking->amount = $amount + ($amount * 0.05);  //amount due with %5 vat
+        $booking->time_from = $request->time_from;     
         $booking->time_to = $request->time_to; 
         $booking->additional_information = $request->additional_information; 
         $booking->customer_id = $request->customer_id;
-        $booking->room_id = $request->room_id;
-        $booking->amount = $request->amount;
-        $booking->booked_by = $bookersName;
+        $booking->room_id = $request->room_cat; 
+        $booking->payment_method = 'CASH';
+        $booking->booked_by = $bookersName;        
         $querySuccess = $booking->save();
+
+        if( $booking->amount_paid < $booking->amount ){
+            //get admin user which is the first user in db
+            $admin = User::where('role_id','2')->first();
+            
+            $adminName = $admin['name'];
+            $emailAddress =$admin['email'];
+            $mailSent =Mail::send('mails.anomaly', $data,function($message) use ($emailAddress, $bookersName, $adminName){
+                             
+                $message->to($emailAddress, 'CEO ThriveMax')
+                        ->subject('Possible Fraud');
+                $message->from('bookings@thrivemaxhotel.com','ThriveMax App Threat detector');
+            });
+        }
         return redirect()->route('admin.bookings.index');
     }
 

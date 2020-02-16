@@ -25,94 +25,46 @@
             @lang('quickadmin.qa_list')
         </div>
 
-        <div class="panel-body table-responsive">
-            <table class="table table-bordered table-striped {{ count($products) > 0 ? 'datatable' : '' }} @can('products_view') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
-                <thead>
-                    <tr>
-                        @can('products_delete')
-                            @if ( request('show_deleted') != 1 )<th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
-                        @endcan
-
-                        <th>@lang('quickadmin.drink_sales.fields.product_name')</th>
-                        <th>@lang('quickadmin.drink_sales.fields.product_price')</th>
-                        <th>@lang('quickadmin.drink_sales.fields.description')</th>
-                        @if( request('show_deleted') == 1 )
-                        <th>&nbsp;</th>
-                        @else
-                        <th>&nbsp;</th>
-                        @endif
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    @if (count($products) > 0)
-                        @foreach ($products as $product)
-                            <tr data-entry-id="{{ $product->id }}">
-                                @can('products_view')
-                                    @if ( request('show_deleted') != 1 )<td></td>@endif
-                                @endcan
-
-                                <td field-key='name'>{{ $product->name }}</td>
-                                <td field-key='price'>{{ $product->price }}</td>
-                                <td field-key='description'>{!! $product->description !!}</td>
-                                @if( request('show_deleted') == 1 )
-                                <td>
-                                    @can('room_delete')
-                                                                        {!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'POST',
-                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
-                                        'route' => ['admin.rooms.restore', $product->id])) !!}
-                                    {!! Form::submit(trans('quickadmin.qa_restore'), array('class' => 'btn btn-xs btn-success')) !!}
-                                    {!! Form::close() !!}
-                                @endcan
-                                    @can('room_delete')
-                                                                        {!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'DELETE',
-                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
-                                        'route' => ['admin.rooms.perma_del', $product->id])) !!}
-                                    {!! Form::submit(trans('quickadmin.qa_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                    {!! Form::close() !!}
-                                @endcan
-                                </td>
-                                @else
-                                <td>
-                                    @can('products_view')
-                                    <a href="{{ route('admin.products.show',[$product->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>
-                                    @endcan
-                                    @can('products_edit')
-                                    <a href="{{ route('admin.products.edit',[$product->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.qa_edit')</a>
-                                    @endcan
-                                    @can('products_delete')
-                                    {!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'DELETE',
-                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
-                                        'route' => ['admin.products.destroy', $product->id])) !!}
-                                    {!! Form::submit(trans('quickadmin.qa_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                    {!! Form::close() !!}
-                                    @endcan
-                                </td>
-                                @endif
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="8">@lang('quickadmin.qa_no_entries_in_table')</td>
-                        </tr>
-                    @endif
-                </tbody>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col"><input class='selectme' type="checkbox" ></th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($products as $product)
+                <tr>
+                    <th scope="row"><input type="checkbox" value="{{$product->id}}" name="sport"></th>
+                    <td class="some">{{$product->name}}</td>
+                    <td>{{$product->price}}</td>
+                    <td>{{$product->description}}</td>
+                </tr>
+                @endforeach
+            </tbody>
             </table>
+            <br>
+            <input type="button" id='sellall' class="btn btn-success" value="Sell all">
         </div>
     </div>
 @stop
 
 @section('javascript') 
     <script>
-        @can('room_delete')
-            @if ( request('show_deleted') != 1 ) window.route_mass_crud_entries_destroy = '{{ route('admin.rooms.mass_destroy') }}'; @endif
-        @endcan
-
+        $().ready(() => {
+            $('#sellall').click(function(){
+                let favorite = [];
+                $('.selectme').each($(".selectme input[name='sport']:checked"), function(){
+                    $('#sellall').click(function(){
+                        favorite.push($(this).html());
+                        console.log("My favourite sports are: " + favorite.join(", "));
+                    })
+                    
+                });
+            })
+            
+        })
     </script>
 @endsection
