@@ -32,7 +32,7 @@
                             <option data-price="{{ $room->price }}" value="{{ $room->id }}">{{ $room->room_number}}</option>
                         @endforeach
                         </select> <br><br>  
-                         <b> Room Price: ₦<span id='roomprice'></span></b>
+                         <b> Room Price: ₦<span id='roomprice' disabled></span></b>
                         <b> <input type="text" name="realRoomPrice" id="realRoomPrice" hidden > </b>
                     <p class="help-block"></p>
                     @if($errors->has('room_id'))
@@ -73,20 +73,20 @@
             
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    <label for="">Amount Due: ₦</label>
-                    <span id='ourprice'></span>
-                    <b> <input type="text" name="ourprice" id="ourprice2" > </b>
+                    <label  for="">Amount Due: ₦</label>
+                    <span id='ourprice' class="text-primary" disabled></span>
+                    <b> <input type="text" name="ourprice" id="ourprice2" hidden > </b>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('amount_paid',trans('Amount Paid').'*') !!}
-                    {!! Form::number('amount_paid', old('amount_paid'), ['class' => 'form-control ', 'placeholder' => '', 'required' => '']) !!}
+                    {!! Form::label('discount_amount',trans('Discount').'*') !!} <span class="text-danger"><i class="fa fa-warning">(Only on Approval from CEO)</i></span>
+                    {!! Form::number('discount_amount', old('discount_amount'), ['class' => 'form-control ', 'placeholder' => '']) !!}
                     <p class="help-block"></p>
-                    @if($errors->has('amount_paid'))
+                    @if($errors->has('discount_amount'))
                         <p class="help-block">
-                            {{ $errors->first('amount_paid') }}
+                            {{ $errors->first('discount_amount') }}
                         </p>
                     @endif
                 </div>
@@ -158,7 +158,7 @@
             var price = $('#roomprice').html() || 0
             $('#realRoomPrice').attr('value', price );
             var diffdays = daysdifference(timefrom, timeto)
-            var amount = price * diffdays
+            var amount = (price * diffdays) + (0.05 * price * diffdays)
             $('#ourprice2').attr('value', amount);
            
             $('#ourdays').html(diffdays)

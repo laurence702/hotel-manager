@@ -14,6 +14,7 @@ use App\Http\Requests\Admin\UpdateBookingsRequest;
 use Auth;
 use Carbon\Carbon;
 use Mail;
+use App\Mail\DiscountgivenNotification;
 
 class BookingsController extends Controller
 {
@@ -72,38 +73,47 @@ class BookingsController extends Controller
             return abort(401);
         }
 
-        //$booking = Booking::create($request->all());
-
         $bookersName = \Auth::user()->name;
-       
-        $data = $request->all(); 
-        $booking = new Booking();
-        $booking->amount_paid = $request->amount_paid; //actual amount paid
-        $amount = $request->ourprice;
-        $booking->amount = $amount + ($amount * 0.05);  //amount due with %5 vat
-        $booking->time_from = $request->time_from;     
-        $booking->time_to = $request->time_to; 
-        $booking->additional_information = $request->additional_information; 
-        $booking->customer_id = $request->customer_id;
-        $booking->room_id = $request->room_cat; 
-        $booking->payment_method = 'CASH';
-        $booking->booked_by = $bookersName;        
-        $querySuccess = $booking->save();
+        $validator = \Validator::make($request->all(), [
+            'customer_id' => 'required',
+            'time_from' => 'required|date_format:'.config('app.date_format').' H:i',
+            'time_to' => 'required|date_format:'.config('app.date_format'). ' H:i',
 
-        if( $booking->amount_paid < $booking->amount ){
-            //get admin user which is the first user in db
-            $admin = User::where('role_id','2')->first();
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+
+        }else{
+            $discountGiven = isset($request->discount_amount);
+            $booking = new Booking();        
+            $booking->amount =  $request->ourprice;  //amount due with %5 vat
+            $booking->discount_amount= $request->discount_amount;
+            $booking->time_from = $request->time_from;     
+            $booking->time_to = $request->time_to; 
+            $booking->additional_information = $request->additional_information; 
+            $booking->customer_id = $request->customer_id;
+            $booking->room_id = $request->room_cat; 
+            $booking->payment_method = 'CASH';
+            $booking->booked_by = $bookersName;
             
-            $adminName = $admin['name'];
-            $emailAddress =$admin['email'];
-            $mailSent =Mail::send('mails.anomaly', $data,function($message) use ($emailAddress, $bookersName, $adminName){
-                             
-                $message->to($emailAddress, 'CEO ThriveMax')
-                        ->subject('Possible Fraud');
-                $message->from('bookings@thrivemaxhotel.com','ThriveMax App Threat detector');
-            });
+            $querySuccess = $booking->save();
+    
+            if($discountGiven){
+                $admin = User::where('role_id','2')->first();
+                
+                $adminName = $admin['name'];
+                $emailAddress =$admin['email'];
+                Mail::to($emailAddress)->send(new DiscountgivenNotification);
+            }
+            if($querySuccess){
+                return redirect()->route('admin.bookings.index')->with('success','Booking successful!');
+            }else{
+                return redirect()->back()->with('errors',$errors);
+            }
         }
-        return redirect()->route('admin.bookings.index');
+     
+        
     }
 
 

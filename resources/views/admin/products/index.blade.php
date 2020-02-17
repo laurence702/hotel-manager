@@ -98,6 +98,7 @@
                             selected.push(product_id);
                          });
                         
+                         
                          let csrfToken = @json(csrf_token());
                         
                         axios({

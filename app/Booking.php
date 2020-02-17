@@ -24,10 +24,10 @@ class Booking extends Model
     //amount_paid is the amount customer paid, it can vary is theres discount
 
     protected $fillable = [
-        'amount','amount_paid','time_from', 'time_to','payment_method' ,'additional_information', 'customer_id', 'room_id','booked_by'
+        'amount','discount_amount','time_from', 'time_to','payment_method' ,'additional_information', 'customer_id', 'room_id','booked_by'
     ];
 
-    protected $dates= ['time_from', 'time_to'];
+    //protected $dates= ['time_from', 'time_to'];
     
     
     /**
@@ -52,14 +52,14 @@ class Booking extends Model
      * Set attribute to date format
      * @param $input
      */
-    public function setTimeFromAttribute($input)
-    {
-        if ($input != null && $input != '') {
-            $this->attributes['time_from'] = Carbon::createFromFormat(config('app.date_format') . ' H:i', $input)->format('Y-m-d H:i');
-        } else {
-            $this->attributes['time_from'] = null;
-        }
-    }
+    // public function setTimeFromAttribute($input)
+    // {
+    //     if ($input != null && $input != '') {
+    //         $this->attributes['time_from'] = Carbon::createFromFormat(config('app.date_format') . ' H:i', $input)->format('Y-m-d H:i');
+    //     } else {
+    //         $this->attributes['time_from'] = null;
+    //     }
+    // }
 
     /**
      * Get attribute from date format
@@ -67,29 +67,29 @@ class Booking extends Model
      *
      * @return string
      */
-    public function getTimeFromAttribute($input)
-    {
-        $zeroDate = str_replace(['Y', 'm', 'd'], ['0000', '00', '00'], config('app.date_format') . ' H:i:s');
+    // public function getTimeFromAttribute($input)
+    // {
+    //     $zeroDate = str_replace(['Y', 'm', 'd'], ['0000', '00', '00'], config('app.date_format') . ' H:i:s');
 
-        if ($input != $zeroDate && $input != null) {
-            return Carbon::createFromFormat('Y-m-d H:i:s', $input)->format(config('app.date_format') . ' H:i:s');
-        } else {
-            return '';
-        }
-    }
+    //     if ($input != $zeroDate && $input != null) {
+    //         return Carbon::createFromFormat('Y-m-d H:i:s', $input)->format(config('app.date_format') . ' H:i:s');
+    //     } else {
+    //         return '';
+    //     }
+    // }
 
     /**
      * Set attribute to date format
      * @param $input
      */
-    public function setTimeToAttribute($input)
-    {
-        if ($input != null && $input != '') {
-            $this->attributes['time_to'] = Carbon::createFromFormat(config('app.date_format') . ' H:i', $input)->format('Y-m-d H:i');
-        } else {
-            $this->attributes['time_to'] = null;
-        }
-    }
+    // public function setTimeToAttribute($input)
+    // {
+    //     if ($input != null && $input != '') {
+    //         $this->attributes['time_to'] = Carbon::createFromFormat(config('app.date_format') . ' H:i', $input)->format('Y-m-d H:i');
+    //     } else {
+    //         $this->attributes['time_to'] = null;
+    //     }
+    // }
 
     /**
      * Get attribute from date format
@@ -97,16 +97,16 @@ class Booking extends Model
      *
      * @return string
      */
-    public function getTimeToAttribute($input)
-    {
-        $zeroDate = str_replace(['Y', 'm', 'd'], ['0000', '00', '00'], config('app.date_format') . ' H:i');
+    // public function getTimeToAttribute($input)
+    // {
+    //     $zeroDate = str_replace(['Y', 'm', 'd'], ['0000', '00', '00'], config('app.date_format') . ' H:i');
 
-        if ($input != $zeroDate && $input != null) {
-            return Carbon::createFromFormat('Y-m-d H:i:s', $input)->format(config('app.date_format') . ' H:i:s');
-        } else {
-            return '';
-        }
-    }
+    //     if ($input != $zeroDate && $input != null) {
+    //         return Carbon::createFromFormat('Y-m-d H:i:s', $input)->format(config('app.date_format') . ' H:i:s');
+    //     } else {
+    //         return '';
+    //     }
+    // }
 
     public function customer()
     {

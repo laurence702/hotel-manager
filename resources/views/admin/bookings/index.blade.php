@@ -19,6 +19,18 @@
     </p>
     @endcan
 
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block" style="background-color:green;">
+            <button type="button" class="close" data-dismiss="alert">×</button>	
+                <strong>{{ $message }}</strong>
+        </div>
+    @endif
+    @if ($message = Session::get('error'))
+        <div class="alert alert-danger alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>	
+                <strong>{{ $message }}</strong>
+        </div>
+    @endif
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -37,8 +49,8 @@
                         <th>@lang('quickadmin.bookings.fields.room')</th>
                         <th>@lang('quickadmin.bookings.fields.time-from')</th>
                         <th>@lang('quickadmin.bookings.fields.time-to')</th>
-                        <th>@lang('quickadmin.bookings.fields.amount_due')</th>
-                        <th>@lang('quickadmin.bookings.fields.discount')</th>
+                        <th>@lang('quickadmin.bookings.fields.amount_due')(₦)</th>
+                        <th>@lang('quickadmin.bookings.fields.discount')(₦)</th>
                         <th>@lang('quickadmin.bookings.fields.additional-information')</th>
                         <th>@lang('quickadmin.bookings.fields.booker_name')</th>
                         @if( request('show_deleted') == 1 )
@@ -70,7 +82,7 @@
                                 <td field-key='time_from'>{{ Carbon\Carbon::parse($booking->time_from)->format('M - d - Y h:i') }}</td>
                                 <td field-key='time_to'>{{ Carbon\Carbon::parse($booking->time_to)->format('M - d - Y') }} 12pm </td>
                                 <td field-key='amount'>{{ $booking->amount }}</td>
-                                <td field-key='amount'>0</td>
+                                <td field-key='amount'>{{ $booking->discount_amount}}</td>
                                 <td field-key='additional_information'>{!! $booking->additional_information !!}</td>
                                 <td field-key='booker_name'>{{ $booking->booked_by }}</td>
                                 @if( request('show_deleted') == 1 )
