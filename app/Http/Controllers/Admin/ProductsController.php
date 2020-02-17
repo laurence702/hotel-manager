@@ -137,8 +137,14 @@ class ProductsController extends Controller
     }
 
     public function sellDrinks(Request $request) {
-        dd($request->input('ids'));
-        //select all products with those input ids
-        //then redirect to next with only those selected products
+        $product_ids = $request->all();
+         
+        $products = Product::whereIn('id',$product_ids)->get();
+        
+        return response()->json([
+            'status' => true,
+            'data'   => $products
+        ]);
     }
+
 }

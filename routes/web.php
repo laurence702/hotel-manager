@@ -67,6 +67,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
 
     Route::get('printInvoice','Admin\BookingsController@printInvoice');    
     Route::get('checkout',['uses' => 'Admin\ProductsController@checkoutPage','as'=>'products.checkout']);
-    Route::post('sellDrinks', ['uses' => 'Admin\ProductsController@sellDrinks', 'as' => 'products.drinks_sale']);
+    Route::get('sellDrinks', ['uses' => 'Admin\ProductsController@sellDrinks', 'as' => 'products.drinks_sale']);
+    Route::get('printDrinkInvoice','Admin\SalesController@generateInvoice')->name('generate.invoice');
 });
 

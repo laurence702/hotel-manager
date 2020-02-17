@@ -8,15 +8,15 @@
                     @lang('quickadmin.qa_list')
                 </div>
                 <div class="panel-body">
-                <div class="container">
-	<table id="cart" class="table table-hover table-condensed">
+    <div class="container">
+	    <table id="cart" class="table table-hover table-condensed">
         <thead>
             <tr>
-                <th style="width:50%">Product</th>
+                <th style="width:40%">Product</th>
                 <th style="width:10%">Price</th>
-                <th style="width:8%">Quantity</th>
-                <th style="width:22%" class="text-center">Subtotal</th>
-                <th style="width:10%"></th>
+                <th style="width:10%">Quantity</th>
+                <th style="width:15%" class="text-center">Subtotal</th>
+                <th style="width:30%"></th>
             </tr>
         </thead>
        
@@ -29,22 +29,23 @@
                         <div class="col-sm-10">
                             <h4 class="nomargin">{{ $product->name}}</h4>
                             <p>{{ $product->description }}</p>
+                            <button class="refresher btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
+                            <button class="delete-product btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
                         </div>
                     </div>
                 </td>
                 <td data-th="Price">
-                <input type="text" id="ourPrice" disabled value="{{ $product->price}}" class="form-control" />
+                <input type="text" id="ourPrice" disabled value="{{ $product->price}}" class="product-price form-control" />
                 </td>
                 <td data-th="Quantity">
-                    <input id="ourQty" class="myQty" type="number" class="form-control text-center" value="0">
+                    <input id="ourQty" type="number" class="form-control text-center myQty product-qty" value="0">
                 </td>
                 <td id="subTotal" data-th="Subtotal" class="text-center">
-                    <input type="number" id="productPrice" class="totalprice" disabled value="0" class="form-control" />
+                    <input type="number" id="productPrice" disabled value="0" class="form-control totalprice product-total-price" />
                     <!-- <span class="totalprice" id="productPrice">150.00</span> -->
                 </td>
                 <td class="actions" data-th="">
-                    <button id="refresher" class="btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>								
+                   								
                 </td>
             </tr>
             
@@ -52,13 +53,12 @@
        @endforeach
         <tfoot>
             <tr class="visible-xs">
-                <td class="text-center" ><strong>Total 1.99</strong></td>
+                <td class="text-center"><strong></strong></td>
             </tr>
             <tr>
-                <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+                <td><a href="javascript:void(0);" id="finalCheckout" class="btn btn-warning"><i class="fa fa-angle-left"></i> Checkout</a></td>
                 <td colspan="2" class="hidden-xs"></td>
                 <td class="hidden-xs text-center" ><strong id="grandresult">Total #</strong></td>
-                <td><a href="https://www.paypal.com/webapps/hermes?token=5EY097812P7754247&useraction=commit&mfid=1546377013907_cf1dec6830d7" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
             </tr>
         </tfoot>
 	</table>
@@ -91,14 +91,64 @@
 
                         TotalValue += parseFloat(grand);
                         
-                        $('#grandresult').html("Total $" + TotalValue+" :00");
+                        $('#grandresult').html("Total #" + TotalValue+" :00");
                     }
                     
                     // TotalValue += parseFloat($(this).find('.totalprice').html());
                     });
                     
             });
-                          
+
+
+                $('#finalCheckout').click(function(e)
+                {
+                   
+                    e.preventDefault();
+
+                    let order = [];
+
+                    $("tbody tr").each(function(){
+                        order.push({
+                            price: $(this).find('.product-price').val(),
+                            qty: $(this).find('.product-qty').val(),
+                            total: $(this).find('.product-total-price').val(),
+                        })
+                    });
+
+                    let csrfToken = @json(csrf_token());
+
+                    $.ajax({
+                        //Checkout
+                        url: '/api/v1/drinkSaleInvoice',
+                        headers: {'X-CSRF-TOKEN' : csrfToken},
+                        type: 'POST',
+                        data: {order:order},
+                        datatype: 'json',
+                        // success: function(e){
+                        //     console.log(e)
+                        
+                        //     swal ( "Success" ,  "Sold!" ,  "success" )
+                            
+                        //     // window.location.replace("http://thrivemax.test/admin/sellDrinks");
+                            
+                        // },   
+                        // error : function(e){
+                        //     swal ( "Oops" ,  "Failed!!" ,  "error" )
+                        //     location.reload();
+                        // }       
+                    });
+
+                });
+
+            
+                $('.delete-product').click(function(){
+                    console.log('product removed')
+                    $(this).closest('tr').remove();
+                })    
+
+                $('.refresher').click(function(){
+                    location.reload();
+                })                       
             }); 
       
     </script>

@@ -2,19 +2,19 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.drink_sales.title')</h3>
-    @can('room_create')
+    <h3 class="page-title">@lang('quickadmin.bookings.title')</h3>
+    @can('booking_create')
     <p>
-        <a href="{{ route('admin.products.create') }}" class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
+        <a href="{{ route('admin.bookings.create') }}" class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
         
     </p>
     @endcan
 
-    @can('room_delete')
+    @can('booking_delete')
     <p>
         <ul class="list-inline">
-            <li><a href="{{ route('admin.products.index') }}" style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">@lang('quickadmin.qa_all')</a></li> |
-            <li><a href="{{ route('admin.products.index') }}?show_deleted=1" style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">@lang('quickadmin.qa_trash')</a></li>
+            <li><a href="{{ route('admin.bookings.index') }}" style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">@lang('quickadmin.qa_all')</a></li> |
+            <li><a href="{{ route('admin.bookings.index') }}?show_deleted=1" style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">@lang('quickadmin.qa_trash')</a></li>
         </ul>
     </p>
     @endcan
@@ -25,46 +25,110 @@
             @lang('quickadmin.qa_list')
         </div>
 
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                <th scope="col"><input class='selectme' type="checkbox" ></th>
-                <th scope="col">Product Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($products as $product)
-                <tr>
-                    <th scope="row"><input type="checkbox" value="{{$product->id}}" name="sport"></th>
-                    <td class="some">{{$product->name}}</td>
-                    <td>{{$product->price}}</td>
-                    <td>{{$product->description}}</td>
-                </tr>
-                @endforeach
-            </tbody>
-            </table>
-            <br>
-            <input type="button" id='sellall' class="btn btn-success" value="Sell all">
+        <div class="panel-body table-responsive">
+ 
+            <table id="table" class="table table-bordered table-striped {{ count($products) > 0 ? 'datatableemeka' : '' }} @can('products_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
+                <thead>
+                    <tr>
+                        @can('booking_delete')
+                            @if ( request('show_deleted') != 1 )<th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
+                        @endcan
+
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        
+                        @if( request('show_deleted') == 1 )
+                        <th>&nbsp;</th>
+                        @else
+                        @endif
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @foreach($products as $product)
+                    <tr data-entry-id="{{$product->id}}">
+                        @if ( request('show_deleted') != 1 )
+                        <th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
+                        <td class="some">{{$product->name}}</td>
+                        <td>{{$product->price}}</td>
+                        <td>{{$product->description}}</td>
+                    </tr>
+                    @endforeach
+                  
+                </tbody>
+            </table> <button id="checkout" class="btn btn-success btn-xs">Sell selected</button>
         </div>
     </div>
 @stop
 
 @section('javascript') 
     <script>
-        $().ready(() => {
-            $('#sellall').click(function(){
-                let favorite = [];
-                $('.selectme').each($(".selectme input[name='sport']:checked"), function(){
-                    $('#sellall').click(function(){
-                        favorite.push($(this).html());
-                        console.log("My favourite sports are: " + favorite.join(", "));
-                    })
+       
+        var table = $('#table').DataTable({
+                paging: true,
+                destroy:true,
+                searching: true,
+                info: true,
+                columnDefs: [{
+ 
+                    targets: 0,
+                    searchable:false,
+                    orderable:false,
+                    render: function (data, type, full, meta){
                     
-                });
-            })
-            
-        })
+                        return '<input class="product-checkbox checkbox" ' +
+                            'type="checkbox" name="id[]" value="'+data.id+'">';
+                    }
+                }],
+                select: {
+                    style: 'single'
+                },
+                order: [[ 1, 'asc' ]],
+                dom: "Bfrtip",
+                buttons: ["colvis"],
+                initComplete: (settings, json) => {
+                     $('#checkout').click(function(){
+                       
+                       let selected = [];
+                       
+                        $('#table tr input:checked').each(function () {
+                            let product_id = $(this).closest('tr').data('entry-id');
+
+                            selected.push(product_id);
+                         });
+                        
+                         let csrfToken = @json(csrf_token());
+                        
+                        axios({
+                            method: 'post',
+                            url: '/api/drinkSaleInvoice',
+                            data: selected                        
+                        })
+                        .then(function (response) {
+                            window.location('http://thrivemax.test/admin/checkout')
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                      
+
+                    //     $.ajax({
+                    //     url: 'http://thrivemax.test/admin/sellDrinks',
+                    //     headers: {'X-CSRF-TOKEN' : csrfToken},
+                    //     type: 'POST',
+                    //     data: {order:selected},
+                    //     datatype: 'json',
+                    //     success: function(e){
+                    //         //console.log(e)  
+                    //         window.location.replace('http://thrivemax.test/admin/sellDrinks')
+                    //     }          
+                    // });
+                         
+                     })
+                    
+                }
+            });
+
     </script>
 @endsection
