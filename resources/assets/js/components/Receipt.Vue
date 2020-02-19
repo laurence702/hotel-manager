@@ -117,9 +117,6 @@
 </script>
 
 <style>
-body{
-	margin: 0%;
-}
 #invoice-POS {
 	 box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
 	 padding: 2mm;
