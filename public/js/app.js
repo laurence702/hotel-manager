@@ -1072,7 +1072,7 @@ module.exports = function normalizeComponent (
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(46);
+module.exports = __webpack_require__(51);
 
 
 /***/ }),
@@ -44714,13 +44714,13 @@ if (false) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(58)
+  __webpack_require__(44)
 }
 var normalizeComponent = __webpack_require__(9)
 /* script */
-var __vue_script__ = __webpack_require__(44)
+var __vue_script__ = __webpack_require__(49)
 /* template */
-var __vue_template__ = __webpack_require__(45)
+var __vue_template__ = __webpack_require__(50)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -44760,306 +44760,46 @@ module.exports = Component.exports
 
 /***/ }),
 /* 44 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+// style-loader: Adds some css to the DOM by adding a <style> tag
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            purchases: [],
-            total: '',
-            taxedTotal: '',
-            vat: '',
-            purchase: {
-                id: '',
-                price: '',
-                quantity: '',
-                value: '',
-                invoice_number: '',
-                total: ''
-            }
-        };
-    },
-    created: function created() {
-        this.fetchPurchaseDetails();
-    },
-
-
-    methods: {
-        fetchPurchaseDetails: function fetchPurchaseDetails() {
-            var _this = this;
-
-            fetch('http://localhost:8000/api/getlastorder').then(function (res) {
-                return res.json();
-            }).then(function (res) {
-                _this.purchases = res.data;
-                _this.total = res.total;
-                _this.taxedTotal = res.TotalwithTax;
-                _this.vat = res.taxAmount;
-                console.log(res);
-            })
-            // .then(setTimeout(
-            //     ()=>{
-            //         window.print()
-            //     },2000
-            // ))
-            .catch(function (err) {
-                return console.log(err);
-            });
-        }
-    }
-
-});
+// load the styles
+var content = __webpack_require__(45);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(47)("0c0f35c0", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8b069b5e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Receipt.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8b069b5e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Receipt.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ }),
 /* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { attrs: { id: "invoice-POS" } },
-    [
-      _c("center", { attrs: { id: "top" } }, [
-        _c("div", { staticClass: "logo" }),
-        _vm._v(" "),
-        _c("div", { staticClass: "info" }, [
-          _c("h2", [_vm._v("THRIVEMAX HOTEL")])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { attrs: { id: "bot" } }, [
-        _c("div", { attrs: { id: "table" } }, [
-          _c(
-            "table",
-            [
-              _vm._m(1),
-              _vm._v(" "),
-              _vm._l(_vm.purchases, function(purchase) {
-                return _c("tr", { key: purchase.id, staticClass: "service" }, [
-                  _c("td", { staticClass: "tableitem" }, [
-                    _c("p", { staticClass: "itemtext" }, [
-                      _vm._v(_vm._s(purchase.product))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "tableitem" }, [
-                    _c("p", { staticClass: "itemtext" }, [
-                      _vm._v(_vm._s(purchase.quantity))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(2, true),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "tableitem" }, [
-                    _c("p", { staticClass: "itemtext" }, [
-                      _vm._v(_vm._s(purchase.value) + " ")
-                    ])
-                  ])
-                ])
-              }),
-              _vm._v(" "),
-              _c("tr", { staticClass: "tabletitle" }, [
-                _c("td"),
-                _vm._v(" "),
-                _vm._m(3),
-                _vm._v(" "),
-                _c("td", { staticClass: "payment" }, [
-                  _c("h2", [_vm._v("#" + _vm._s(_vm.vat))])
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "payment" })
-              ]),
-              _vm._v(" "),
-              _c("tr", { staticClass: "tabletitle" }, [
-                _c("td"),
-                _vm._v(" "),
-                _vm._m(4),
-                _vm._v(" "),
-                _c("td", { staticClass: "payment" }, [
-                  _c("h2", [_vm._v("#" + _vm._s(_vm.total + _vm.vat))])
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "payment" })
-              ])
-            ],
-            2
-          )
-        ]),
-        _vm._v(" "),
-        _vm._m(5)
-      ])
-    ],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "mid" } }, [
-      _c("div", { staticClass: "info" }, [
-        _c("p", [
-          _c("b", [_vm._v("Address")]),
-          _vm._v(" : 15 Odunlanmi Str,Lagos Island"),
-          _c("br"),
-          _vm._v(" "),
-          _c("b", [_vm._v("Email")]),
-          _vm._v("   : info@thrivemaxhotel.com"),
-          _c("br"),
-          _vm._v(" "),
-          _c("b", [_vm._v("Phone")]),
-          _vm._v("   : 09017331111, 09032222000"),
-          _c("br")
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", { staticClass: "tabletitle" }, [
-      _c("td", { staticClass: "item" }, [_c("h2", [_vm._v("Item")])]),
-      _vm._v(" "),
-      _c("td", { staticClass: "Hours" }, [_c("h2", [_vm._v("Qty")])]),
-      _vm._v(" "),
-      _c("td", { staticClass: "Hours" }, [_c("h2", [_vm._v("Value")])]),
-      _vm._v(" "),
-      _c("td", { staticClass: "Rate" }, [_c("h2", [_vm._v("Sub Total")])])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "tableitem" }, [
-      _c("p", { staticClass: "itemtext" }, [_vm._v("100")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "Rate" }, [_c("h2", [_vm._v("tax")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "Rate" }, [_c("h2", [_vm._v("Total")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "legalcopy" } }, [
-      _vm._v("\n\t\t\t\t\t\t ---------------------\n                     "),
-      _c("p", { staticClass: "centered" }, [
-        _vm._v("Thanks for your business\n                        "),
-        _c("b", [_vm._v("www.thrivemaxhotel.com")])
-      ]),
-      _vm._v("\n                        ----------------------\n\t\t\t\t\t")
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-8b069b5e", module.exports)
-  }
-}
+exports = module.exports = __webpack_require__(46)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\nbody{\r\n\tmargin: 0%;\n}\n#invoice-POS {\r\n\t -webkit-box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);\r\n\t         box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);\r\n\t padding: 2mm;\r\n\t margin: 0 auto;\r\n\t width: 44mm;\r\n\t background: #fff;\n}\n#invoice-POS ::-moz-selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS ::selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS ::moz-selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS h1 {\r\n\t font-size: 1.5em;\r\n\t color: #222;\n}\n#invoice-POS h2 {\r\n\t font-size: 0.9em;\n}\n#invoice-POS h3 {\r\n\t font-size: 1.2em;\r\n\t font-weight: 300;\r\n\t line-height: 2em;\n}\n#invoice-POS p {\r\n\t font-size: 0.7em;\r\n\t color: #666;\r\n\t line-height: 1.2em;\n}\n#invoice-POS #top, #invoice-POS #mid, #invoice-POS #bot {\r\n\t/* Targets all id with 'col-' */\r\n\t border-bottom: 1px solid #eee;\n}\n#invoice-POS #top {\r\n\t min-height: 100px;\n}\n#invoice-POS #mid {\r\n\t min-height: 80px;\n}\n#invoice-POS #bot {\r\n\t min-height: 50px;\n}\n#invoice-POS #top .logo {\r\n\t height: 60px;\r\n\t width: 60px;\r\n\t background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;\r\n\t background-size: 60px 60px;\n}\n#invoice-POS .clientlogo {\r\n\t float: left;\r\n\t height: 60px;\r\n\t width: 60px;\r\n\t background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;\r\n\t background-size: 60px 60px;\r\n\t border-radius: 50px;\n}\n#invoice-POS .info {\r\n\t display: block;\r\n\t margin-left: 0;\n}\n#invoice-POS .title {\r\n\t float: right;\n}\n#invoice-POS .title p {\r\n\t text-align: right;\n}\n#invoice-POS table {\r\n\t width: 100%;\r\n\t border-collapse: collapse;\n}\n#invoice-POS .tabletitle {\r\n\t font-size: 0.5em;\r\n\t background: #eee;\n}\n#invoice-POS .service {\r\n\t border-bottom: 1px solid #eee;\n}\n#invoice-POS .item {\r\n\t width: 24mm;\n}\n#invoice-POS .itemtext {\r\n\t font-size: 0.5em;\n}\n#invoice-POS #legalcopy {\r\n\t margin-top: 5mm;\n}\r\n \r\n", ""]);
+
+// exports
+
 
 /***/ }),
 /* 46 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 47 */,
-/* 48 */,
-/* 49 */
 /***/ (function(module, exports) {
 
 /*
@@ -45141,55 +44881,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 50 */,
-/* 51 */,
-/* 52 */,
-/* 53 */,
-/* 54 */,
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(59);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(60)("0c0f35c0", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8b069b5e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Receipt.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8b069b5e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Receipt.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 59 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(49)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n#invoice-POS {\r\n\t -webkit-box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);\r\n\t         box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);\r\n\t padding: 2mm;\r\n\t margin: 0 auto;\r\n\t width: 44mm;\r\n\t background: #fff;\n}\n#invoice-POS ::-moz-selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS ::selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS ::moz-selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS h1 {\r\n\t font-size: 1.5em;\r\n\t color: #222;\n}\n#invoice-POS h2 {\r\n\t font-size: 0.9em;\n}\n#invoice-POS h3 {\r\n\t font-size: 1.2em;\r\n\t font-weight: 300;\r\n\t line-height: 2em;\n}\n#invoice-POS p {\r\n\t font-size: 0.7em;\r\n\t color: #666;\r\n\t line-height: 1.2em;\n}\n#invoice-POS #top, #invoice-POS #mid, #invoice-POS #bot {\r\n\t/* Targets all id with 'col-' */\r\n\t border-bottom: 1px solid #eee;\n}\n#invoice-POS #top {\r\n\t min-height: 100px;\n}\n#invoice-POS #mid {\r\n\t min-height: 80px;\n}\n#invoice-POS #bot {\r\n\t min-height: 50px;\n}\n#invoice-POS #top .logo {\r\n\t height: 60px;\r\n\t width: 60px;\r\n\t background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;\r\n\t background-size: 60px 60px;\n}\n#invoice-POS .clientlogo {\r\n\t float: left;\r\n\t height: 60px;\r\n\t width: 60px;\r\n\t background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;\r\n\t background-size: 60px 60px;\r\n\t border-radius: 50px;\n}\n#invoice-POS .info {\r\n\t display: block;\r\n\t margin-left: 0;\n}\n#invoice-POS .title {\r\n\t float: right;\n}\n#invoice-POS .title p {\r\n\t text-align: right;\n}\n#invoice-POS table {\r\n\t width: 100%;\r\n\t border-collapse: collapse;\n}\n#invoice-POS .tabletitle {\r\n\t font-size: 0.5em;\r\n\t background: #eee;\n}\n#invoice-POS .service {\r\n\t border-bottom: 1px solid #eee;\n}\n#invoice-POS .item {\r\n\t width: 24mm;\n}\n#invoice-POS .itemtext {\r\n\t font-size: 0.5em;\n}\n#invoice-POS #legalcopy {\r\n\t margin-top: 5mm;\n}\r\n \r\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 60 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -45208,7 +44900,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(61)
+var listToStyles = __webpack_require__(48)
 
 /*
 type StyleObject = {
@@ -45417,7 +45109,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 61 */
+/* 48 */
 /***/ (function(module, exports) {
 
 /**
@@ -45448,6 +45140,300 @@ module.exports = function listToStyles (parentId, list) {
   return styles
 }
 
+
+/***/ }),
+/* 49 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            purchases: [],
+            total: '',
+            taxedTotal: '',
+            vat: '',
+            purchase: {
+                id: '',
+                price: '',
+                quantity: '',
+                value: '',
+                invoice_number: '',
+                total: ''
+            }
+        };
+    },
+    created: function created() {
+        this.fetchPurchaseDetails();
+    },
+
+
+    methods: {
+        fetchPurchaseDetails: function fetchPurchaseDetails() {
+            var _this = this;
+
+            fetch('/api/getlastorder').then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                _this.purchases = res.data;
+                _this.total = res.total;
+                _this.taxedTotal = res.TotalwithTax;
+                _this.vat = res.taxAmount;
+                console.log(res);
+            }).then(setTimeout(function () {
+                window.print();
+            }, 2000)).catch(function (err) {
+                return console.log(err);
+            });
+        }
+    }
+
+});
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { attrs: { id: "invoice-POS" } },
+    [
+      _c("center", { attrs: { id: "top" } }, [
+        _c("div", { staticClass: "logo" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "info" }, [
+          _c("h2", [_vm._v("THRIVEMAX HOTEL")])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "bot" } }, [
+        _c("div", { attrs: { id: "table" } }, [
+          _c(
+            "table",
+            [
+              _vm._m(1),
+              _vm._v(" "),
+              _vm._l(_vm.purchases, function(purchase) {
+                return _c("tr", { key: purchase.id, staticClass: "service" }, [
+                  _c("td", { staticClass: "tableitem" }, [
+                    _c("p", { staticClass: "itemtext" }, [
+                      _vm._v(_vm._s(purchase.product))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "tableitem" }, [
+                    _c("p", { staticClass: "itemtext" }, [
+                      _vm._v(_vm._s(purchase.quantity))
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(2, true),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "tableitem" }, [
+                    _c("p", { staticClass: "itemtext" }, [
+                      _vm._v(_vm._s(purchase.value) + " ")
+                    ])
+                  ])
+                ])
+              }),
+              _vm._v(" "),
+              _c("tr", { staticClass: "tabletitle" }, [
+                _c("td"),
+                _vm._v(" "),
+                _vm._m(3),
+                _vm._v(" "),
+                _c("td", { staticClass: "payment" }, [
+                  _c("h2", [_vm._v("#" + _vm._s(_vm.vat))])
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "payment" })
+              ]),
+              _vm._v(" "),
+              _c("tr", { staticClass: "tabletitle" }, [
+                _c("td"),
+                _vm._v(" "),
+                _vm._m(4),
+                _vm._v(" "),
+                _c("td", { staticClass: "payment" }, [
+                  _c("h2", [_vm._v("#" + _vm._s(_vm.total + _vm.vat))])
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "payment" })
+              ])
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _vm._m(5)
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "mid" } }, [
+      _c("div", { staticClass: "info" }, [
+        _c("p", [
+          _c("b", [_vm._v("Address")]),
+          _vm._v(" : 15 Odunlanmi Str,Lagos Island"),
+          _c("br"),
+          _vm._v(" "),
+          _c("b", [_vm._v("Email")]),
+          _vm._v("   : info@thrivemaxhotel.com"),
+          _c("br"),
+          _vm._v(" "),
+          _c("b", [_vm._v("Phone")]),
+          _vm._v("   : 09017331111, 09032222000"),
+          _c("br")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", { staticClass: "tabletitle" }, [
+      _c("td", { staticClass: "item" }, [_c("h2", [_vm._v("Item")])]),
+      _vm._v(" "),
+      _c("td", { staticClass: "Hours" }, [_c("h2", [_vm._v("Qty")])]),
+      _vm._v(" "),
+      _c("td", { staticClass: "Hours" }, [_c("h2", [_vm._v("Value")])]),
+      _vm._v(" "),
+      _c("td", { staticClass: "Rate" }, [_c("h2", [_vm._v("Sub Total")])])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "tableitem" }, [
+      _c("p", { staticClass: "itemtext" }, [_vm._v("100")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "Rate" }, [_c("h2", [_vm._v("tax")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "Rate" }, [_c("h2", [_vm._v("Total")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "legalcopy" } }, [
+      _vm._v("\n\t\t\t\t\t\t ---------------------\n                     "),
+      _c("p", { staticClass: "centered" }, [
+        _vm._v("Thanks for your business\n                        "),
+        _c("b", [_vm._v("www.thrivemaxhotel.com")])
+      ]),
+      _vm._v("\n                        ----------------------\n\t\t\t\t\t")
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8b069b5e", module.exports)
+  }
+}
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

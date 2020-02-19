@@ -137,7 +137,7 @@ class ProductsController extends Controller
     }
 
     public function sellDrinks(Request $request) {
-        $product_ids = $request->all();
+        return $product_ids = $request->all();
          
         $products = Product::whereIn('id',$product_ids)->get();
         

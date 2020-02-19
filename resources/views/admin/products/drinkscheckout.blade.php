@@ -25,10 +25,12 @@
             <tr id="row1">
                 <td data-th="Product">
                     <div class="row">
-                        <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                        <div class="col-sm-2 hidden-xs">
+                        <i style="color:#e64980" class="fa fa-wine-bottle fa-4x"></i>
+                        </div>
                         <div class="col-sm-10">
-                            <h4 class="nomargin">{{ $product->name}}</h4>
-                            <p>{{ $product->description }}</p>
+                            <span><i class="fa fa-wine"></i><input style="text-align:center; border-radius:20px; margin-top:15px; font-size:18px; background-color:#239dcf;" type="text" name="" class="_drink" id="" value="{{$product->name}}" disabled><span>
+                            <p style="font-size:12px"><span style="color:lemongreen;">description:</span> {{ $product->description }}</p>
                             <button class="refresher btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
                             <button class="delete-product btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
                         </div>
@@ -38,7 +40,7 @@
                 <input type="text" id="ourPrice" disabled value="{{ $product->price}}" class="product-price form-control" />
                 </td>
                 <td data-th="Quantity">
-                    <input id="ourQty" type="number" class="form-control text-center myQty product-qty" value="0">
+                    <input id="ourQty" type="number" min="1" class="form-control text-center myQty product-qty" value="0">
                 </td>
                 <td id="subTotal" data-th="Subtotal" class="text-center">
                     <input type="number" id="productPrice" disabled value="0" class="form-control totalprice product-total-price" />
@@ -109,12 +111,14 @@
 
                     $("tbody tr").each(function(){
                         order.push({
+                            drink_name: $(this).find('._drink').val(),
+                            unit_price: $(this).find('#ourPrice').val(),
                             price: $(this).find('.product-price').val(),
                             qty: $(this).find('.product-qty').val(),
                             total: $(this).find('.product-total-price').val(),
                         })
                     });
-
+                    console.log(order)
                     let csrfToken = @json(csrf_token());
 
                     $.ajax({
@@ -124,19 +128,23 @@
                         type: 'POST',
                         data: {order:order},
                         datatype: 'json',
-                        // success: function(e){
-                        //     console.log(e)
+                        success: function(e){
+                            console.log(e)
                         
-                        //     swal ( "Success" ,  "Sold!" ,  "success" )
+                            swal ( "Success" ,  "Sold!" ,  "success" )
+                            setTimeout(() => {
+                                window.location.replace("/admin/printDrinkInvoice");
+                            }, 2000);
                             
-                        //     // window.location.replace("http://thrivemax.test/admin/sellDrinks");
-                            
-                        // },   
-                        // error : function(e){
-                        //     swal ( "Oops" ,  "Failed!!" ,  "error" )
-                        //     location.reload();
-                        // }       
-                    });
+                        },   
+                        error : function(e){
+                            swal ( "Oops" ,  "Failed!!" ,  "error" )
+                            setTimeout(() => {
+                                location.reload();
+                            }, 2000);
+                           
+                        }       
+                   });
 
                 });
 
@@ -147,7 +155,7 @@
                 })    
 
                 $('.refresher').click(function(){
-                    location.reload();
+                    $(this).closest('.myQty').reset();
                 })                       
             }); 
       

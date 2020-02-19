@@ -96,9 +96,8 @@ class BookingsController extends Controller
             $booking->room_id = $request->room_cat; 
             $booking->payment_method = 'CASH';
             $booking->booked_by = $bookersName;
-            
             $querySuccess = $booking->save();
-    
+            $bookingId = $booking->id;
             if($discountGiven){
                 $admin = User::where('role_id','2')->first();
                 
@@ -107,7 +106,9 @@ class BookingsController extends Controller
                 Mail::to($emailAddress)->send(new DiscountgivenNotification);
             }
             if($querySuccess){
-                return redirect()->route('admin.bookings.index')->with('success','Booking successful!');
+              //  return redirect()->route('admin.bookings.index')->with('success','Booking successful!');
+              $booking = Booking::findOrFail($bookingId);
+              return redirect()->route('admin.bookings.show',compact('booking'));
             }else{
                 return redirect()->back()->with('errors',$errors);
             }

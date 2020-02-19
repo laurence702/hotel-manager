@@ -87,12 +87,13 @@
             }
         },
           created() {
-            this.fetchPurchaseDetails(); 
+			this.fetchPurchaseDetails(); 
+			
         },
 
         methods: {
             fetchPurchaseDetails() {
-                fetch('http://localhost:8000/api/getlastorder')
+                fetch('/api/getlastorder')
                 .then(res => res.json())
                 .then(res => {
                     this.purchases = res.data;
@@ -100,12 +101,13 @@
                     this.taxedTotal = res.TotalwithTax;
                     this.vat = res.taxAmount;
                     console.log(res)
-                })
-                // .then(setTimeout(
-                //     ()=>{
-                //         window.print()
-                //     },2000
-                // ))
+				})
+				.then(
+					setTimeout(() => {
+						window.print();
+					}, 2000)
+				)
+                
                 .catch(err => console.log(err))
             }
         }
@@ -115,6 +117,9 @@
 </script>
 
 <style>
+body{
+	margin: 0%;
+}
 #invoice-POS {
 	 box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
 	 padding: 2mm;

@@ -10,12 +10,13 @@ use Carbon\Carbon;
 class SalesController extends Controller
 {
     public function sellDrinks(Request $request) {
-         $purchases=$request->all();
+        $purchases=$request->all();
         
-         $invoiceId = $this->generateInvoiceId();
+        $invoiceId = $this->generateInvoiceId();
         foreach($purchases['order'] as $purchase){
             $sale = new Sale;
-            $sale->product = 'Coca-Cola';
+            $sale->unit_price = $purchase['unit_price'];
+            $sale->product = $purchase['drink_name'];
             $sale->quantity=$purchase['qty'];
             $sale->value=$purchase['total']; 
             $sale->invoice_number = $invoiceId;
@@ -24,8 +25,6 @@ class SalesController extends Controller
         }
         //get last record 
         $dataRecord = Sale::where('invoice_number',$invoiceId)->get();
-
-        return $dataRecord;
 
         return response()->json([
             'status' => true,

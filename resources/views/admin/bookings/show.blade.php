@@ -18,22 +18,22 @@
             <table>
                 <thead>
                     <tr>
-                        <th class="description">Description</th>
-                        <th class="price">Amount(#)</th>
+                        <th  class="description">Description</th>
+                        <th class="price">Amount(₦)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td class="description">Hotel-Room({{$nod}}days)</td>
-                        <td class="price"> &nbsp;&nbsp;&nbsp;&nbsp;{{ $booking->amount_paid}}</td>
+                        <td class="price">&nbsp;&nbsp;&nbsp;&nbsp;{{ $booking->amount_paid}}</td>
                     </tr>
                     <tr>
-                        <td>vat %5</td>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp; {{ $booking->amount * 0.05 }}</td>
+                        <td>+ %5 vat </td>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;₦{{ number_format($booking->amount * 0.05) }}</td>
                     </tr>
                     <tr>
                     <td><strong>Net Amount</strong></td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;{{ $booking->amount + $booking->amount * 0.05  }}</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;₦{{ number_format($booking->amount)  }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -41,8 +41,12 @@
             <p class="centered">Have a wonderful stay
                 <br><b>www.thrivemaxhotel.com</b></p>
         </div>
-        <!-- <script>
-            window.print();
-        </script> -->
+        <script>
+            //delay print to ensure dom elements loads complete
+            setTimeout(()=>{ 
+                window.print();
+                }, 2000);
+        
+        </script> 
     </body>
 </html>

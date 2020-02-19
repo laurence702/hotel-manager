@@ -119,7 +119,8 @@ a[x-apple-data-detectors] {
                      </tr> 
                      <tr style="border-collapse:collapse;"> 
                       <td esdev-links-color="#b7bdc9" align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:25px;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:20px;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:30px;color:#B7BDC9;">
-                      Hello Admin, <br><br>someone  recently accepted a booking with less amount than supposed to be paid. If you didn't approve this, kindly login to review.</p></td> 
+                      Hello Admin, <br><br>someone  recently approved a discount on a booking in ThriveMax Hotel <br>
+                       If you didn't approve this, kindly login to review.</p></td> 
                      </tr> 
                      <tr style="border-collapse:collapse;"> 
                       <td align="center" style="padding:0;Margin:0;padding-top:5px;padding-bottom:40px;"><span class="es-button-border" style="border-style:solid;border-color:#75B6C9;background:#3D85C6;border-width:1px;display:inline-block;border-radius:28px;width:auto;"><a href="https://bookings.thrivemaxhotel.com/" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;font-size:18px;color:#FFFFFF;border-style:solid;border-color:#3D85C6;border-width:15px 25px 15px 25px;display:inline-block;background:#3D85C6;border-radius:28px;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;">Login →</a></span></td> 
