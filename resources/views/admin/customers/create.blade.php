@@ -11,6 +11,7 @@
         
         <div class="panel-body">
             <h2 id='result'></h2>
+            * fields are required
             <div class="row">
                 <div class="col-xs-6 form-group">
                     {!! Form::label('first_name', trans('quickadmin.customers.fields.first-name').'*', ['class' => 'control-label']) !!}
@@ -35,7 +36,7 @@
             </div>
            
             <div class="row">
-                <div class="col-xs-12 form-group">
+                <div class="col-xs-6 form-group">
                     {!! Form::label('address', trans('quickadmin.customers.fields.address').'*', ['class' => 'control-label']) !!}
                     {!! Form::text('address', old('address'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
@@ -45,11 +46,9 @@
                         </p>
                     @endif
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('phone', trans('quickadmin.customers.fields.phone').'', ['class' => 'control-label']) !!}
-                    {!! Form::text('phone', old('phone'), ['class' => 'form-control', 'pattern'=>'^[0]\d{10}$','title' => 'Example: 08012345678', 'maxlength' => '12', 'placeholder' => '']) !!}
+                <div class="col-xs-6 form-group">
+                    {!! Form::label('phone', trans('quickadmin.customers.fields.phone').'*', ['class' => 'control-label']) !!}
+                    {!! Form::text('phone', old('phone'), ['class' => 'form-control', 'pattern'=>'^[0]\d{10}$','title' => 'Example: 08012345678', 'maxlength' => '12', 'placeholder' => 'enter phone number...']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('phone'))
                         <p class="help-block">
@@ -59,9 +58,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-12 form-group">
-                    {!! Form::label('email', trans('quickadmin.customers.fields.email').'*', ['class' => 'control-label']) !!}
-                    {!! Form::email('email', old('email'), ['class' => 'form-control','pattern'=>'/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/' ,'title' => 'Example: abc@gmail.com','placeholder' => '', 'required' => '']) !!}
+               
+            </div>
+            <div class="row">
+                <div class="col-xs-6 form-group">
+                    {!! Form::label('email', trans('quickadmin.customers.fields.email'), ['class' => 'control-label']) !!}
+                    {!! Form::email('email', old('email'), ['class' => 'form-control','title' => 'Example: abc@gmail.com','placeholder' => 'enter email here...']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('email'))
                         <p class="help-block">
@@ -69,9 +71,7 @@
                         </p>
                     @endif
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
+                <div class="col-xs-6 form-group">
                     {!! Form::label('country_id', trans('quickadmin.customers.fields.country').'', ['class' => 'control-label']) !!}
                     {!! Form::select('country_id', $countries, old('country_id'), ['class' => 'form-control select2']) !!}
                     <p class="help-block"></p>
@@ -82,12 +82,15 @@
                     @endif
                 </div>
             </div>
+            <div class="row">
+                
+            </div>
 
             <div class="row">
                 <div class="col-xs-6 form-group">
-                Name:*
+                
                     {!! Form::label('nokName', trans('Name').'*', ['class' => 'control-label']) !!}
-                    {!! Form::text('nokName', old('nokName'), ['class' => 'form-control', 'placeholder' => 'next of kin name', 'required' => '']) !!}
+                    {!! Form::text('nokName', old('nokName'), ['class' => 'form-control', 'placeholder' => 'next of kin name', 'required' => '','minlength' => '5','maxlength' => '23']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('nokName'))
                         <p class="help-block">
@@ -106,12 +109,12 @@
                     @endif
                 </div>
             </div>
-            
+            {!! Form::submit(trans('quickadmin.qa_save'), ['class' => 'btn btn-success btn-lg']) !!}
+    {!! Form::close() !!}
         </div>
     </div>
 
-    {!! Form::submit(trans('quickadmin.qa_save'), ['class' => 'btn btn-danger']) !!}
-    {!! Form::close() !!}
+    
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
@@ -128,7 +131,7 @@
         $result.text("");
 
         if (validateEmail(email)) {
-            $result.text(email + " is valid :)");
+            $result.text("Success");
             $result.css("color", "green");
         } else {
             $result.text(email + " is not valid :(");
@@ -137,9 +140,9 @@
         return false;
         }
 
-        // $("#myForm").on("submit", function(e) {
-        //    validate();
-        // });
+        $("#myForm").on("submit", function(e) {
+           validate();
+        });
     </script>
 @stop
 

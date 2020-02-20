@@ -73,14 +73,12 @@
                                 </td>
                                 @else
                                 <td>
-                                    @can('country_view')
-                                    <a href="{{ route('admin.categories.show',[$country->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>
-                                    @endcan
                                     @can('country_edit')
-                                    <a href="{{ route('admin.categories.edit',[$country->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.qa_edit')</a>
+                                    <a href="{{ route('admin.categories.edit',[$country->id]) }}" class="fa fa-edit fa-2x pull-right" style="color:#00c0ef"></a>
                                     @endcan
+                                    &nbsp;
                                     @can('country_delete')
-{!! Form::open(array(
+                                    {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',
                                         'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",

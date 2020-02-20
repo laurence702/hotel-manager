@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::get('/find_rooms', 'Admin\FindRoomsController@index')->name('find_rooms.index');
     Route::post('/find_rooms', 'Admin\FindRoomsController@index');
     Route::resource('/products','Admin\ProductsController',['except' => 'productsales.create']);
-    Route::get('products/create/', ['as' => 'products.create', 'uses' => 'Admin\ProductsController@create']);
+    Route::get('products/create/', ['as' => 'products.create', 'uses' => 'Admin\ProductsController@create', 'as'=>'products.create']);
     Route::post('products_mass_destroy', ['uses' => 'Admin\ProductsController@massDestroy', 'as' => 'products.mass_destroy']);
     /*Route::get('/bookings/create/', [
         'as' => 'find_rooms.create',

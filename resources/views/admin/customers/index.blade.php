@@ -5,7 +5,7 @@
     <h3 class="page-title">@lang('quickadmin.customers.title')</h3>
     @can('customer_create')
     <p>
-        <a href="{{ route('admin.customers.create') }}" class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
+        <a href="{{ route('admin.customers.create') }}"><i class="fa fa-plus-square"></i> Add Customer</a>
         
     </p>
     @endcan
@@ -13,8 +13,13 @@
     @can('customer_delete')
     <p>
         <ul class="list-inline">
-            <li><a href="{{ route('admin.customers.index') }}" style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">@lang('quickadmin.qa_all')</a></li> |
-            <li><a href="{{ route('admin.customers.index') }}?show_deleted=1" style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">@lang('quickadmin.qa_trash')</a></li>
+            <li><a href="{{ route('admin.customers.index') }}" style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}"><i class="fa fa-users fa-2x"></i></a></li> 
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <li><a href="{{ route('admin.customers.index') }}?show_deleted=1" style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}"><i class="fa fa-trash fa-2x" style="color:#d9534f"></i></a></i>
+        </ul>
+        <ul class="list-inline">
+            <li>Customers</li> |
+            <li>Trash</li>
         </ul>
     </p>
     @endcan
@@ -72,7 +77,7 @@
                                     {!! Form::submit(trans('quickadmin.qa_restore'), array('class' => 'btn btn-xs btn-success')) !!}
                                     {!! Form::close() !!}
                                 @endcan
-                                    @can('customer_delete')
+                                    @can('customer_thrash')
                                                                         {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',
@@ -84,13 +89,15 @@
                                 </td>
                                 @else
                                 <td>
-                                    @can('customer_view')
-                                    <a href="{{ route('admin.customers.show',[$customer->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>
-                                    @endcan
-                                    @can('customer_edit')
-                                    <a href="{{ route('admin.customers.edit',[$customer->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.qa_edit')</a>
-                                    @endcan
-                                    @can('customer_delete')
+
+                                @can('customer_view')
+                                <a href="{{ route('admin.customers.show',[$customer->id]) }}"><i style="color:#5cb85c" class="fa fa-eye fa-2x"></i></a>
+                                @endcan
+                                
+                                @can('customer_edit')
+                                <a href="{{ route('admin.customers.edit',[$customer->id]) }}"><i style="color:	#428bca" class="fa fa-edit fa-2x"></i></a>
+                                @endcan
+                                @can('customer_delete')
                                 {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',

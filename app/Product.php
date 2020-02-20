@@ -10,7 +10,8 @@ class Product extends Model
     use SoftDeletes;
     protected $table = 'products';
 
-    protected $fillabe = ['name', 'price', 'description'];
+    //protected $fillabe = ['name', 'price', 'description'];
+    protected $guarded = [];
 
     protected $dates = ['created_at','updated_at','deleted_at'];
 }

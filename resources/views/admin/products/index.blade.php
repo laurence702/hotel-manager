@@ -2,29 +2,33 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.bookings.title')</h3>
-    @can('booking_create')
+    <h3 class="page-title">Drinks Section</h3>
+    @can('products_create')
     <p>
-        <a href="{{ route('admin.bookings.create') }}" class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
-        
+    <a href="{{ route('admin.products.create') }}"><i class="fa fa-plus-square fa-2x"></i> Add Product</a>
+        <br> <br>
     </p>
     @endcan
 
-    @can('booking_delete')
-    <p>
-        <ul class="list-inline">
-            <li><a href="{{ route('admin.bookings.index') }}" style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">@lang('quickadmin.qa_all')</a></li> |
-            <li><a href="{{ route('admin.bookings.index') }}?show_deleted=1" style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">@lang('quickadmin.qa_trash')</a></li>
-        </ul>
-    </p>
-    @endcan
-
+   
 
     <div class="panel panel-default">
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block" style="background-color:green;">
+            <button type="button" class="close" data-dismiss="alert">×</button>	
+                <strong>{{ $message }}</strong>
+        </div>
+        @endif
+        @if ($message = Session::get('error'))
+            <div class="alert alert-danger alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>	
+                    <strong>{{ $message }}</strong>
+            </div>
+        @endif
         <div class="panel-heading">
             @lang('quickadmin.qa_list')
         </div>
-
+       
         <div class="panel-body table-responsive">
  
             <table id="table" class="table table-bordered table-striped {{ count($products) > 0 ? 'datatableemeka' : '' }} @can('products_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
@@ -35,12 +39,13 @@
                         @endcan
 
                         <th>Product Name</th>
-                        <th>Price</th>
+                        <th>Price(₦)</th>
                         <th>Description</th>
                         
                         @if( request('show_deleted') == 1 )
                         <th>&nbsp;</th>
                         @else
+                        <th>&nbsp;</th>
                         @endif
                     </tr>
                 </thead>
@@ -53,6 +58,48 @@
                         <td class="some">{{$product->name}}</td>
                         <td>{{$product->price}}</td>
                         <td>{{$product->description}}</td>
+                        @if( request('show_deleted') == 1 )
+                                <td>
+                                    @can('products_delete')
+                                                                        {!! Form::open(array(
+                                        'style' => 'display: inline-block;',
+                                        'method' => 'POST',
+                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
+                                        'route' => ['admin.products.restore', $product->id])) !!}
+                                    {!! Form::submit(trans('quickadmin.qa_restore'), array('class' => 'btn btn-xs btn-success')) !!}
+                                    {!! Form::close() !!}
+                                @endcan
+                                    @can('products_thrash')
+                                                                        {!! Form::open(array(
+                                        'style' => 'display: inline-block;',
+                                        'method' => 'DELETE',
+                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
+                                        'route' => ['admin.products.perma_del', $product->id])) !!}
+                                    {!! Form::submit(trans('quickadmin.qa_permadel'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                    {!! Form::close() !!}
+                                @endcan
+                                </td>
+                                @else
+                                <td>
+
+                                @can('product_view')
+                                <a href="{{ route('admin.products.show',[$product->id]) }}"><i style="color:#5cb85c" class="fa fa-eye fa-2x"></i></a>
+                                @endcan
+                                @can('products_edit')
+                                <a href="{{ route('admin.products.edit',[$product->id]) }}"><i style="color:	#428bca" class="fa fa-edit fa-2x"></i></a>
+                                @endcan
+                                @can('products_delete')
+                                {!! Form::open(array(
+                                        'style' => 'display: inline-block;',
+                                        'method' => 'DELETE',
+                                        'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
+                                        'route' => ['admin.products.destroy', $product->id])) !!}
+                                    {!! Form::submit(trans('quickadmin.qa_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                    {!! Form::close() !!}
+                                    @endcan
+                                </td>
+                                @endif
+                                
                     </tr>
                     @endforeach
                   

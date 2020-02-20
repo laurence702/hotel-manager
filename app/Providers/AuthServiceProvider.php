@@ -88,19 +88,22 @@ class AuthServiceProvider extends ServiceProvider
 
         // Auth gates for: Customers
         Gate::define('customer_access', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1, 2,3,4,5,6,7,8,9,10]);
         });
         Gate::define('customer_create', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1, 2,3,4,5,6,7,8,9,10]);
         });
         Gate::define('customer_edit', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1, 2,3,4,5,6,7,8,9,10,11,12,13]);
         });
         Gate::define('customer_view', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1, 2,3,4,5,6,7,8,9,10,11,12,13]);
         });
         Gate::define('customer_delete', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1, 2,3,4,5,6,7,8,9,10,11,12]);
+        });
+        Gate::define('customer_thrash', function($user){
+            return in_array($user->role_id,[1]);
         });
 
         // Auth gates for: Rooms
@@ -122,19 +125,19 @@ class AuthServiceProvider extends ServiceProvider
 
         // Auth gates for: Bookings
         Gate::define('booking_access', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1,2,3,4,5,6,7,8,9,10]);
         });
         Gate::define('booking_create', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1,2,3,4,5,6,7,8,9,10]);
         });
         Gate::define('booking_edit', function ($user) {
-            return in_array($user->role_id, [1]);
+            return in_array($user->role_id, [1,2,3,4,5,6,7,8,9,10]);
         });
         Gate::define('booking_view', function ($user) {
-            return in_array($user->role_id, [1, 2]);
+            return in_array($user->role_id, [1,2,3,4,5,6,7,8,9,10]);
         });
         Gate::define('booking_delete', function ($user) {
-            return in_array($user->role_id, [1]);
+            return in_array($user->role_id, [1,2,3,4,5,6,7,8,9,10,11]);
         });
 
         // Auth gates for: Find room
@@ -165,7 +168,7 @@ class AuthServiceProvider extends ServiceProvider
             return in_array($user->role_id, [1]);
         });
         Gate::define('products_view', function ($user) {
-            return in_array($user->role_id, [1]);
+            return in_array($user->role_id, [1,2,3,4,5,6,7,8,9,10]);
         });
 
     }

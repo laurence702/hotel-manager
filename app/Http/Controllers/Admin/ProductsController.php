@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\Admin\UpdateProductRequest;
 use App\Product;
 
 class ProductsController extends Controller
@@ -60,7 +61,7 @@ class ProductsController extends Controller
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
-        //return $product; die;
+        
         $querySuccess = $product->save();
         return redirect()->route('admin.products.index');
     }
@@ -104,15 +105,19 @@ class ProductsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
+        if (! Gate::allows('products_edit')) {
+            return view('errors.401');
+        }
+
         $product = Product::findOrFail($id);
         
         $product->update($request->all());
 
-        return redirect()->route('admin.products.index');
+        return redirect()->route('admin.products.index')->with('success','Update Successful');
     }
-
+        
     /**
      * Remove the specified resource from storage.
      *
