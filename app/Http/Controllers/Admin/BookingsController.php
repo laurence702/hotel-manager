@@ -86,9 +86,12 @@ class BookingsController extends Controller
 
         }else{
             $discountGiven = isset($request->discount_amount);
+            $discountPrice = $request->discount_amount;
+            $AmountDue = $request->ourprice;
+    
             $booking = new Booking();        
-            $booking->amount =  $request->ourprice;  //amount due with %5 vat
-            $booking->discount_amount= $request->discount_amount;
+            $booking->amount =  $discountGiven ? (int)($AmountDue - $discountPrice)  : (int)($request->ourprice);  //amount due with %5 vat
+            $booking->discount_amount= $discountPrice;
             $booking->time_from = $request->time_from;     
             $booking->time_to = $request->time_to; 
             $booking->additional_information = $request->additional_information; 
@@ -98,7 +101,7 @@ class BookingsController extends Controller
             $booking->booked_by = $bookersName;
             $querySuccess = $booking->save();
             $bookingId = $booking->id;
-            if($discountGiven){
+            if($discountGiven){                
                 $admin = User::where('role_id','2')->first();
                 
                 $adminName = $admin['name'];
@@ -106,7 +109,7 @@ class BookingsController extends Controller
                 Mail::to($emailAddress)->send(new DiscountgivenNotification);
             }
             if($querySuccess){
-              //  return redirect()->route('admin.bookings.index')->with('success','Booking successful!');
+              //redirect to print receipt page
               $booking = Booking::findOrFail($bookingId);
               return redirect()->route('admin.bookings.show',compact('booking'));
             }else{

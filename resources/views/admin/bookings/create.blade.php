@@ -5,15 +5,15 @@
     {!! Form::open(['method' => 'POST', 'route' => ['admin.bookings.store']]) !!}
 
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading" style="background-color:#0275d8; color:white">
             @lang('quickadmin.qa_create')
         </div>
 
         <div class="panel-body">
             <div class="row">
-                <div class="col-xs-12 form-group">
+                <div class="col-xs-6  form-group">
                     {!! Form::label('customer_id', trans('quickadmin.bookings.fields.customer').' *', ['class' => 'control-label']) !!}
-                    {!! Form::select('customer_id', $customers, old('customer_id'), ['class' => 'form-control select2']) !!}
+                    {!! Form::select('customer_id', $customers, old('customer_id'), ['class' => 'form-control select2 text-center']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('customer_id'))
                         <p class="help-block">
@@ -44,7 +44,7 @@
             </div>
 
             <div class="row">
-                <div class="col-xs-12 form-group">
+                <div class="col-xs-6 form-group">
                     {!! Form::label('time_from', trans('quickadmin.bookings.fields.time-from').'*', ['class' => 'control-label ']) !!}
                     {!! Form::text('time_from', old('time_from'), ['class' => 'form-control datetimepicker time_from', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
@@ -54,9 +54,7 @@
                         </p>
                     @endif
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 form-group">
+                <div class="col-xs-6 form-group">
                     {!! Form::label('time_to', trans('quickadmin.bookings.fields.time-to').'*', ['class' => 'control-label']) !!}
                     {!! Form::text('time_to', old('time_to'), ['class' => 'form-control datetimepicker', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
@@ -67,16 +65,23 @@
                     @endif
                 </div>
             </div>
+            <div class="row">
+               
+            </div>
 
             <p id="test"><b>Days staying: 
                     <span id='ourdays'></span> </p></b><br>
             
             <div class="row">
-                <div class="col-xs-12 form-group">
+                <div class="col-xs-8 form-group">
                     <label  for="">Amount Due: ₦</label>
                     <span id='ourprice' class="text-primary" disabled></span>
                     <b> <input type="text" name="ourprice" id="ourprice2" hidden > </b>
                 </div>
+                <div>
+                    <h4 class="text-danger">5% Vat already included</h4>
+                </div>
+
             </div>
 
             <div class="row">
@@ -158,7 +163,7 @@
             var price = $('#roomprice').html() || 0
             $('#realRoomPrice').attr('value', price );
             var diffdays = daysdifference(timefrom, timeto)
-            var amount = (price * diffdays) + (0.05 * price * diffdays)
+            var amount = (price * diffdays)
             $('#ourprice2').attr('value', amount);
            
             $('#ourdays').html(diffdays)
