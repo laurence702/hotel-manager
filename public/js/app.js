@@ -70,7 +70,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(3);
+var bind = __webpack_require__(4);
 var isBuffer = __webpack_require__(19);
 
 /*global toString:true*/
@@ -424,10 +424,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(5);
+    adapter = __webpack_require__(6);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(5);
+    adapter = __webpack_require__(6);
   }
   return adapter;
 }
@@ -498,10 +498,119 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -519,7 +628,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -709,7 +818,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -720,7 +829,7 @@ var settle = __webpack_require__(22);
 var buildURL = __webpack_require__(24);
 var parseHeaders = __webpack_require__(25);
 var isURLSameOrigin = __webpack_require__(26);
-var createError = __webpack_require__(6);
+var createError = __webpack_require__(7);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(27);
 
 module.exports = function xhrAdapter(config) {
@@ -896,7 +1005,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -921,7 +1030,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -933,7 +1042,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -959,120 +1068,11 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);
-module.exports = __webpack_require__(51);
+module.exports = __webpack_require__(54);
 
 
 /***/ }),
@@ -1098,6 +1098,7 @@ window.Vue = __webpack_require__(36);
 
 Vue.component('example', __webpack_require__(40));
 Vue.component('receipt', __webpack_require__(43));
+Vue.component('cart', __webpack_require__(51));
 
 var app = new Vue({
   el: '#app'
@@ -31487,7 +31488,7 @@ module.exports = __webpack_require__(18);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(3);
+var bind = __webpack_require__(4);
 var Axios = __webpack_require__(20);
 var defaults = __webpack_require__(2);
 
@@ -31522,9 +31523,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(8);
+axios.Cancel = __webpack_require__(9);
 axios.CancelToken = __webpack_require__(34);
-axios.isCancel = __webpack_require__(7);
+axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -31684,7 +31685,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(6);
+var createError = __webpack_require__(7);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -32103,7 +32104,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(31);
-var isCancel = __webpack_require__(7);
+var isCancel = __webpack_require__(8);
 var defaults = __webpack_require__(2);
 
 /**
@@ -32256,7 +32257,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(8);
+var Cancel = __webpack_require__(9);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -44586,14 +44587,14 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(5)))
 
 /***/ }),
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(9)
+var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(41)
 /* template */
@@ -44716,7 +44717,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(44)
 }
-var normalizeComponent = __webpack_require__(9)
+var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(49)
 /* template */
@@ -44793,7 +44794,7 @@ exports = module.exports = __webpack_require__(46)(false);
 
 
 // module
-exports.push([module.i, "\n#invoice-POS {\r\n\t -webkit-box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);\r\n\t         box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);\r\n\t padding: 2mm;\r\n\t margin: 0 auto;\r\n\t width: 44mm;\r\n\t background: #fff;\n}\n#invoice-POS ::-moz-selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS ::selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS ::moz-selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS h1 {\r\n\t font-size: 1.5em;\r\n\t color: #222;\n}\n#invoice-POS h2 {\r\n\t font-size: 0.9em;\n}\n#invoice-POS h3 {\r\n\t font-size: 1.2em;\r\n\t font-weight: 300;\r\n\t line-height: 2em;\n}\n#invoice-POS p {\r\n\t font-size: 0.7em;\r\n\t color: #666;\r\n\t line-height: 1.2em;\n}\n#invoice-POS #top, #invoice-POS #mid, #invoice-POS #bot {\r\n\t/* Targets all id with 'col-' */\r\n\t border-bottom: 1px solid #eee;\n}\n#invoice-POS #top {\r\n\t min-height: 100px;\n}\n#invoice-POS #mid {\r\n\t min-height: 80px;\n}\n#invoice-POS #bot {\r\n\t min-height: 50px;\n}\n#invoice-POS #top .logo {\r\n\t height: 60px;\r\n\t width: 60px;\r\n\t background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;\r\n\t background-size: 60px 60px;\n}\n#invoice-POS .clientlogo {\r\n\t float: left;\r\n\t height: 60px;\r\n\t width: 60px;\r\n\t background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;\r\n\t background-size: 60px 60px;\r\n\t border-radius: 50px;\n}\n#invoice-POS .info {\r\n\t display: block;\r\n\t margin-left: 0;\n}\n#invoice-POS .title {\r\n\t float: right;\n}\n#invoice-POS .title p {\r\n\t text-align: right;\n}\n#invoice-POS table {\r\n\t width: 100%;\r\n\t border-collapse: collapse;\n}\n#invoice-POS .tabletitle {\r\n\t font-size: 0.5em;\r\n\t background: #eee;\n}\n#invoice-POS .service {\r\n\t border-bottom: 1px solid #eee;\n}\n#invoice-POS .item {\r\n\t width: 24mm;\n}\n#invoice-POS .itemtext {\r\n\t font-size: 0.5em;\n}\n#invoice-POS #legalcopy {\r\n\t margin-top: 5mm;\n}\r\n \r\n", ""]);
+exports.push([module.i, "\n* {\r\n  margin: 0;\r\n  padding: 0;\n}\n#invoice-POS {\r\n\t -webkit-box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);\r\n\t         box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);\r\n\t padding: 2mm;\r\n\t margin: 0 auto;\r\n\t width: 44mm;\r\n\t background: #fff;\n}\n#invoice-POS ::-moz-selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS ::selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS ::moz-selection {\r\n\t background: #f31544;\r\n\t color: #fff;\n}\n#invoice-POS h1 {\r\n\t font-size: 1.5em;\r\n\t color: #222;\n}\n#invoice-POS h2 {\r\n\t font-size: 0.9em;\n}\n#invoice-POS h3 {\r\n\t font-size: 1.2em;\r\n\t font-weight: 300;\r\n\t line-height: 2em;\n}\n#invoice-POS p {\r\n\t font-size: 0.7em;\r\n\t color: #666;\r\n\t line-height: 1.2em;\n}\n#invoice-POS #top, #invoice-POS #mid, #invoice-POS #bot {\r\n\t/* Targets all id with 'col-' */\r\n\t border-bottom: 1px solid #eee;\n}\n#invoice-POS #top {\r\n\t min-height: 100px;\n}\n#invoice-POS #mid {\r\n\t min-height: 80px;\n}\n#invoice-POS #bot {\r\n\t min-height: 50px;\n}\n#invoice-POS #top .logo {\r\n\t height: 60px;\r\n\t width: 60px;\r\n\t background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;\r\n\t background-size: 60px 60px;\n}\n#invoice-POS .clientlogo {\r\n\t float: left;\r\n\t height: 60px;\r\n\t width: 60px;\r\n\t background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;\r\n\t background-size: 60px 60px;\r\n\t border-radius: 50px;\n}\n#invoice-POS .info {\r\n\t display: block;\r\n\t margin-left: 0;\n}\n#invoice-POS .title {\r\n\t float: right;\n}\n#invoice-POS .title p {\r\n\t text-align: right;\n}\n#invoice-POS table {\r\n\t width: 100%;\r\n\t border-collapse: collapse;\n}\n#invoice-POS .tabletitle {\r\n\t font-size: 0.5em;\r\n\t background: #eee;\n}\n#invoice-POS .service {\r\n\t border-bottom: 1px solid #eee;\n}\n#invoice-POS .item {\r\n\t width: 24mm;\n}\n#invoice-POS .itemtext {\r\n\t font-size: 0.5em;\n}\n#invoice-POS #legalcopy {\r\n\t margin-top: 5mm;\n}\n@media print {\n#invoice-POS{\r\n\t\ttext-align: center;\n}\n}\r\n", ""]);
 
 // exports
 
@@ -45217,7 +45218,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
+//eslint-ignore
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
@@ -45229,6 +45232,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 id: '',
                 price: '',
                 quantity: '',
+                unit_price: '',
                 value: '',
                 invoice_number: '',
                 total: ''
@@ -45249,12 +45253,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (res) {
                 _this.purchases = res.data;
                 _this.total = res.total;
+                _this.unit_price = res.unit_price;
                 _this.taxedTotal = res.TotalwithTax;
                 _this.vat = res.taxAmount;
                 console.log(res);
-            }).then(setTimeout(function () {
-                window.print();
-            }, 2000)).catch(function (err) {
+            }).then(window.print()).catch(function (err) {
                 return console.log(err);
             });
         }
@@ -45275,7 +45278,11 @@ var render = function() {
     { attrs: { id: "invoice-POS" } },
     [
       _c("center", { attrs: { id: "top" } }, [
-        _c("div", { staticClass: "logo" }),
+        _c("div", { staticClass: "logo pull-right" }, [
+          _c("img", {
+            attrs: { src: "/imgs/main-logo.png", align: "center", width: "50" }
+          })
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "info" }, [
           _c("h2", [_vm._v("THRIVEMAX HOTEL")])
@@ -45305,7 +45312,11 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(2, true),
+                  _c("td", { staticClass: "tableitem" }, [
+                    _c("p", { staticClass: "itemtext" }, [
+                      _vm._v(_vm._s(purchase.unit_price))
+                    ])
+                  ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "tableitem" }, [
                     _c("p", { staticClass: "itemtext" }, [
@@ -45315,25 +45326,15 @@ var render = function() {
                 ])
               }),
               _vm._v(" "),
+              _vm._m(2),
+              _vm._v(" "),
               _c("tr", { staticClass: "tabletitle" }, [
-                _c("td"),
+                _c("td", { staticStyle: { "margin-left": "4px" } }),
                 _vm._v(" "),
                 _vm._m(3),
                 _vm._v(" "),
                 _c("td", { staticClass: "payment" }, [
-                  _c("h2", [_vm._v("#" + _vm._s(_vm.vat))])
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "payment" })
-              ]),
-              _vm._v(" "),
-              _c("tr", { staticClass: "tabletitle" }, [
-                _c("td"),
-                _vm._v(" "),
-                _vm._m(4),
-                _vm._v(" "),
-                _c("td", { staticClass: "payment" }, [
-                  _c("h2", [_vm._v("#" + _vm._s(_vm.total + _vm.vat))])
+                  _c("h2", [_vm._v("₦" + _vm._s(_vm.total))])
                 ]),
                 _vm._v(" "),
                 _c("td", { staticClass: "payment" })
@@ -45343,7 +45344,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._m(5)
+        _vm._m(4)
       ])
     ],
     1
@@ -45390,15 +45391,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "tableitem" }, [
-      _c("p", { staticClass: "itemtext" }, [_vm._v("100")])
+    return _c("tr", { staticClass: "tabletitle" }, [
+      _c("td"),
+      _vm._v(" "),
+      _c("td", { staticClass: "payment" })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "Rate" }, [_c("h2", [_vm._v("tax")])])
   },
   function() {
     var _vm = this
@@ -45410,7 +45407,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { attrs: { id: "legalcopy" } }, [
+    return _c("div", { attrs: { id: "legalcopy", align: "center" } }, [
       _vm._v("\n\t\t\t\t\t\t ---------------------\n                     "),
       _c("p", { staticClass: "centered" }, [
         _vm._v("Thanks for your business\n                        "),
@@ -45431,6 +45428,86 @@ if (false) {
 
 /***/ }),
 /* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(52)
+/* template */
+var __vue_template__ = __webpack_require__(53)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Cart.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2c4ae852", Component.options)
+  } else {
+    hotAPI.reload("data-v-2c4ae852", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("h1", [_vm._v("Hello Carts")])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2c4ae852", module.exports)
+  }
+}
+
+/***/ }),
+/* 54 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

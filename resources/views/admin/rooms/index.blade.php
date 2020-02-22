@@ -28,14 +28,16 @@
         <div class="panel-body table-responsive">
             <table class="table table-bordered table-striped {{ count($rooms) > 0 ? 'datatable' : '' }} @can('room_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                 <thead>
-                    <tr>
+                    <tr style="background-color:#1674c5b3 !important;">
                         @can('room_delete')
                             @if ( request('show_deleted') != 1 )<th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
                         @endcan
 
                         <th>@lang('quickadmin.rooms.fields.room-number')</th>
                         <th>@lang('quickadmin.rooms.fields.floor')</th>
+                        <th>@lang('Price')(#)</th>
                         <th>@lang('quickadmin.rooms.fields.description')</th>
+                    
                         @if( request('show_deleted') == 1 )
                         <th>&nbsp;</th>
                         @else
@@ -54,11 +56,12 @@
 
                                 <td field-key='room_number'>{{ $room->room_number }}</td>
                                 <td field-key='floor'>{{ $room->floor }}</td>
-                                <td field-key='description'>{!! $room->description !!}</td>
+                                <td field-key='price'>{{ number_format($room->price)}}</td>
+                                <td field-key='description'>{!! $room->description !!}</td>                                
                                 @if( request('show_deleted') == 1 )
                                 <td>
                                     @can('room_delete')
-                                                                        {!! Form::open(array(
+                                {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'POST',
                                         'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",

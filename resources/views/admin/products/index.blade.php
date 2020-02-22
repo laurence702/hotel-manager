@@ -148,13 +148,18 @@
                          
                          let csrfToken = @json(csrf_token());
                         
+                        // console.log(selected)
                         axios({
                             method: 'post',
-                            url: '/api/drinkSaleInvoice',
-                            data: selected                        
+                            url: '/api/getselectedProduct',
+                            data: selected,
+                            headers: {'X-CSRF-TOKEN' : csrfToken},                        
                         })
-                        .then(function (response) {
-                            window.location('http://thrivemax.test/admin/checkout')
+                        .then(function (res) {
+                            let vm = res.data
+                            console.log(vm);
+                            window.localStorage.setItem("selectedItems", JSON.stringify(vm));
+                            window.location  = '/admin/checkout';
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -162,7 +167,7 @@
                       
 
                     //     $.ajax({
-                    //     url: 'http://thrivemax.test/admin/sellDrinks',
+                    //     url: '/admin/sellDrinks',
                     //     headers: {'X-CSRF-TOKEN' : csrfToken},
                     //     type: 'POST',
                     //     data: {order:selected},

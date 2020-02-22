@@ -140,6 +140,16 @@
                         </a>
                     </li>
                 @endcan
+                @can('user_access')
+                <li class="{{ $request->segment(2) == 'users' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.products.saleshistory') }}">
+                            <i class="fa fa-history"></i>
+                            <span class="title">
+                                @lang('Sales History')
+                            </span>
+                        </a>
+                    </li>
+                @endcan
                 </ul>
             </li>
             @endcan

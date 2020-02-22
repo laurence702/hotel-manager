@@ -12,7 +12,7 @@
 
         <div class="panel-body">
             <div class="row">
-                <div class="col-xs-12 form-group">
+                <div class="col-xs-6 form-group">
                     {!! Form::label('room_number', trans('quickadmin.rooms.fields.room-number').'*', ['class' => 'control-label']) !!}
                     {!! Form::text('room_number', old('room_number'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
@@ -22,6 +22,18 @@
                         </p>
                     @endif
                 </div>
+                <div class="row">
+                <div class="col-xs-6 form-group">
+                    {!! Form::label('price', trans('Price').'*', ['class' => 'control-label']) !!}
+                    {!! Form::text('price', old('price'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('price'))
+                        <p class="help-block">
+                            {{ $errors->first('price') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
             </div>
             <div class="row">
                 <div class="col-xs-12 form-group">

@@ -44,9 +44,9 @@
         </div>
         <script>
             //delay print to ensure dom elements loads complete
-            // setTimeout(()=>{ 
-            //     window.print();
-            //     }, 2000);
+            setTimeout(()=>{ 
+                window.print();
+                }, 2000);
         
         </script> 
     </body>

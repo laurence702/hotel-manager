@@ -28,7 +28,7 @@
         <div class="panel-body table-responsive">
             <table class="table table-bordered table-striped {{ count($categories) > 0 ? 'datatable' : '' }} @can('country_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                 <thead>
-                    <tr>
+                    <tr style="background-color:#1674c5b3 !important;">
                         @can('country_delete')
                             @if ( request('show_deleted') != 1 )<th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
                         @endcan

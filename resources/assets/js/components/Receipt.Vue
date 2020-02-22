@@ -1,9 +1,12 @@
+
 <template>
        
   <div id="invoice-POS">
     
     <center id="top">
-      <div class="logo"></div>
+      <div class="logo pull-right">
+		<img src="/imgs/main-logo.png" align="center" width="50"/>
+	  </div>
       <div class="info"> 
         <h2>THRIVEMAX HOTEL</h2>
       </div><!--End Info-->
@@ -33,7 +36,7 @@
 							<tr class="service" v-for="purchase in purchases" v-bind:key="purchase.id">
 								<td class="tableitem"><p class="itemtext">{{purchase.product}}</p></td>
 								<td class="tableitem"><p class="itemtext">{{purchase.quantity}}</p></td>
-								<td class="tableitem"><p class="itemtext">100</p></td>
+								<td class="tableitem"><p class="itemtext">{{purchase.unit_price}}</p></td>
                                 <td class="tableitem"><p class="itemtext">{{purchase.value}} </p></td>
 							</tr>
 
@@ -41,22 +44,20 @@
 
 							<tr class="tabletitle">
 								<td></td>
-								<td class="Rate"><h2>tax</h2></td>
-								<td class="payment"><h2>#{{vat}}</h2></td>
                                 <td class="payment"></td>
 							</tr>
 
 							<tr class="tabletitle">
-								<td></td>
+								<td style="margin-left:4px"></td>
 								<td class="Rate"><h2>Total</h2></td>
-								<td class="payment"><h2>#{{total + vat}}</h2></td>
+								<td class="payment"><h2>₦{{total}}</h2></td>
                              <td class="payment"></td>
 							</tr>
 
 						</table>
 					</div><!--End Table-->
 
-					<div id="legalcopy">
+					<div id="legalcopy" align="center">
 						 ---------------------
                      <p class="centered">Thanks for your business
                         <b>www.thrivemaxhotel.com</b></p>
@@ -69,6 +70,7 @@
 </template>
 
 <script>
+//eslint-ignore
     export default {
         data(){
             return {
@@ -79,7 +81,8 @@
                 purchase: {
                     id:'',
                     price:'',
-                    quantity:'',
+					quantity:'',
+					unit_price :'',
                     value:'',
                     invoice_number:'',
                     total: ''
@@ -97,15 +100,14 @@
                 .then(res => res.json())
                 .then(res => {
                     this.purchases = res.data;
-                    this.total = res.total;
+					this.total = res.total;
+					this.unit_price = res.unit_price;
                     this.taxedTotal = res.TotalwithTax;
                     this.vat = res.taxAmount;
                     console.log(res)
 				})
 				.then(
-					setTimeout(() => {
-						window.print();
-					}, 2000)
+					window.print()
 				)
                 
                 .catch(err => console.log(err))
@@ -117,6 +119,10 @@
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+}
 #invoice-POS {
 	 box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
 	 padding: 2mm;
@@ -207,4 +213,9 @@
 	 margin-top: 5mm;
 }
  
+ @media print {
+	 #invoice-POS{
+		text-align: center;
+	 }
+ }
 </style>

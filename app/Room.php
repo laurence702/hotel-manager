@@ -17,7 +17,7 @@ class Room extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['room_number', 'floor', 'description','category_id'];
+    protected $fillable = ['room_number', 'price', 'floor', 'description','category_id'];
 
     /**
      * Set attribute to money format
@@ -27,6 +27,13 @@ class Room extends Model
     {
         $this->attributes['floor'] = $input ? $input : null;
     }
+
+    public function setPriceAttribute($input)
+    {
+        return $this->attributes['price'] = $input ? (int)$input : null;
+    }
+
+
     public function booking()
     {
         return $this->HasOne(Booking::class, 'room_id')->withTrashed();

@@ -65,7 +65,6 @@ class RoomsController extends Controller
         $room = Room::create($request->all());
 
 
-
         return redirect()->route('admin.rooms.index');
     }
 

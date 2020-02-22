@@ -33,7 +33,7 @@
         <div class="panel-body table-responsive">
             <table class="table table-bordered table-striped {{ count($customers) > 0 ? 'datatable' : '' }} @can('customer_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                 <thead>
-                    <tr>
+                    <tr class="bg-primary" style="background-color:#1674c5b3 !important;"> 
                         @can('customer_delete')
                             @if ( request('show_deleted') != 1 )<th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
                         @endcan

@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.customers.title')</h3>
+    <h3 class="page-title">Checkout</h3>
     <div class="panel panel-default">
                 <div class="panel-heading">
                     @lang('quickadmin.qa_list')
@@ -19,40 +19,11 @@
                 <th style="width:30%"></th>
             </tr>
         </thead>
-       
-        @foreach($products as $product)
-        <tbody>
-            <tr id="row1">
-                <td data-th="Product">
-                    <div class="row">
-                        <div class="col-sm-2 hidden-xs">
-                        <i style="color:#e64980" class="fa fa-wine-bottle fa-4x"></i>
-                        </div>
-                        <div class="col-sm-10">
-                            <span><i class="fa fa-wine"></i><input style="text-align:center; border-radius:20px; margin-top:15px; font-size:18px; background-color:#239dcf;" type="text" name="" class="_drink" id="" value="{{$product->name}}" disabled><span>
-                            <p style="font-size:12px"><span style="color:lemongreen;">description:</span> {{ $product->description }}</p>
-                            <button class="refresher btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
-                            <button class="delete-product btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
-                        </div>
-                    </div>
-                </td>
-                <td data-th="Price">
-                <input type="text" id="ourPrice" disabled value="{{ $product->price}}" class="product-price form-control" />
-                </td>
-                <td data-th="Quantity">
-                    <input id="ourQty" type="number" min="1" class="form-control text-center myQty product-qty" value="0">
-                </td>
-                <td id="subTotal" data-th="Subtotal" class="text-center">
-                    <input type="number" id="productPrice" disabled value="0" class="form-control totalprice product-total-price" />
-                    <!-- <span class="totalprice" id="productPrice">150.00</span> -->
-                </td>
-                <td class="actions" data-th="">
-                   								
-                </td>
-            </tr>
-            
-        </tbody>
-       @endforeach
+        <div id="prods" style="">
+      
+        </div>
+
+        <tbody id="selectedView"></tbody>
         <tfoot>
             <tr class="visible-xs">
                 <td class="text-center"><strong></strong></td>
@@ -66,7 +37,7 @@
 	</table>
 
 </div>
- 
+   
     </div>
         </div>
 @stop
@@ -76,8 +47,55 @@
 
 
     <script>
+    const renderSelectedItems = selectedItems => {
+        const mainSelectView = document.getElementById("selectedView");
+        selectedItems.forEach(ele => {
+            const tem = `
+                        <tr id="row1">
+                                <td data-th="Product">
+                                    <div class="row">
+                                        <div class="col-sm-2 hidden-xs">
+                                        <i style="color:#e64980" class="fa fa-wine-bottle fa-4x"></i>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <span><i class="fa fa-wine"></i>
+                                            <input placeholder="${ele.name}" style="text-align:center; border-radius:20px; margin-top:15px; font-size:18px; background-color:#239dcf;" type="text" name="" class="_drink" id="" value="${ele.name}" disabled>
+                                            <span>
+                                            <p style="font-size:12px"><span style="color:lemongreen;">description:  ${ele.description}</span> </p>
+                                            <button class="refresher btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
+                                            <button class="delete-product btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-th="Price">
+                                <input type="text" id="ourPrice" disabled value="${ele.price}" class="product-price form-control" />
+                                </td>
+                                <td data-th="Quantity">
+                                    <input id="ourQty" type="number" min="1" class="form-control text-center myQty product-qty" value="0">
+                                </td>
+                                <td id="subTotal" data-th="Subtotal" class="text-center">
+                                    <input type="number" id="productPrice" disabled value="0" class="form-control totalprice product-total-price" />
+                                    <!-- <span class="totalprice" id="productPrice"></span> -->
+                                </td>
+                                <td class="actions" data-th="">
+                                                                
+                                </td>
+                            </tr>       
+                        `;
+
+                     mainSelectView.innerHTML += tem;
+        });
+    };  
         $( document).ready (function (){
-           
+            const selectedItems = JSON.parse(window.localStorage.getItem("selectedItems"));
+            
+                let prods= selectedItems;
+
+                renderSelectedItems(selectedItems);
+                console.log(prods);
+            
+            
+        
             $(".myQty").on('change', function (){
                 
                 let qtyVal=$(this).val();

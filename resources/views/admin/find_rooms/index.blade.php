@@ -45,8 +45,8 @@
         <div class="panel-body table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
-                <tr>
-                    <th/></th>
+                <tr style="background-color:#1674c5b3 !important;">
+                    <th></th>
                     <th>@lang('quickadmin.rooms.fields.room-number')</th>
                     <th>@lang('quickadmin.rooms.fields.floor')</th>
                     <th>@lang('quickadmin.rooms.fields.description')</th>

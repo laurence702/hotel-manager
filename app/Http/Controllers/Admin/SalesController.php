@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Sale;
+use App\Product;
+use App\Cart;
 use Carbon\Carbon;
 
 class SalesController extends Controller
@@ -65,4 +67,63 @@ class SalesController extends Controller
             'taxAmount' => (int) $total * 0.05
         ]);
     }
+
+    //Get Last Record
+    public function getLastCart()
+    {
+        $cartItems =  DB::table('cart')->insertGetId(
+            [ 'product_id' => 'first' ]
+        );
+
+        dd($cartItems);
+    }
+
+    public function createCart(Request $request) {
+        //save ids of products
+        //send response and then frontend will redirect and fetch last record
+        $product_ids = $request->all(); 
+        
+        $cartCode = $this->generateInvoiceId();
+        foreach($product_ids as $product_ids)
+        {
+            $cart = new Cart;
+            $cart->cart_code = $cartCode;
+            $cart->product_id = $product_ids;
+            $qSucess = $cart->save(); 
+        }
+
+        //$products = Product::whereIn('id',$product_ids)->get();
+        $cartId = $cart->id;
+        return response()->json([
+            'status' => true,
+            'last_cart_code'   => $cartCode
+        ]);
+    }
+
+    public function getCartItems(Request $request)
+    {
+       return $res = Cart::all();
+    }
+
+    public function showAllSales(Request $request)
+    {
+        $sales = Sale::orderBy('created_at','desc')->get();
+        return view('admin.products.saleshistory', compact('sales'));
+    }
+
+    
+    public function getSelectedProducts(Request $request) {
+      
+        $product_ids = $request->all();
+        $products_selected = Product::whereIn('id',$product_ids)->get()->toarray();
+          
+        return $products_selected;
+                
+    }
+
+    public function checkoutPage(Request $request) {
+
+        return view('admin.products.drinkscheckout');
+    }
+    
 }

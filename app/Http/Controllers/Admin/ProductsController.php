@@ -134,22 +134,7 @@ class ProductsController extends Controller
 
         return redirect()->route('admin.products.index');
     }
-
-
-    public function checkoutPage(Request $request) {
-        $products = Product::all();
-        return view('admin.products.drinkscheckout',compact('products'));
-    }
-
-    public function sellDrinks(Request $request) {
-        return $product_ids = $request->all();
          
-        $products = Product::whereIn('id',$product_ids)->get();
-        
-        return response()->json([
-            'status' => true,
-            'data'   => $products
-        ]);
-    }
 
 }
+

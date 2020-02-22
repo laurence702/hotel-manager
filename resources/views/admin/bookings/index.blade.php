@@ -81,8 +81,8 @@
                                 <td field-key='room'>{{ $booking->room->room_number or '' }}</td>
                                 <td field-key='time_from'>{{ Carbon\Carbon::parse($booking->time_from)->format('M - d - Y h:i') }}</td>
                                 <td field-key='time_to'>{{ Carbon\Carbon::parse($booking->time_to)->format('M - d - Y') }} 12pm </td>
-                                <td field-key='amount'>{{ $booking->amount }}</td>
-                                <td field-key='amount'>{{ $booking->discount_amount}}</td>
+                                <td field-key='amount'>{{ number_format($booking->amount) }}</td>
+                                <td field-key='amount'>{{ number_format($booking->discount_amount) }}</td>
                                 <td field-key='additional_information'>{!! $booking->additional_information !!}</td>
                                 <td field-key='booker_name'>{{ $booking->booked_by }}</td>
                                 @if( request('show_deleted') == 1 )

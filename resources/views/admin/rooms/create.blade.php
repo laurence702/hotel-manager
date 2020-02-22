@@ -37,6 +37,19 @@
 
             <div class="row">
                 <div class="col-xs-12 form-group">
+                    {!! Form::label('price', trans('Price').'*', ['class' => 'control-label']) !!}
+                    {!! Form::number('price', old('price'), ['class' => 'form-control', 'placeholder' => '','maxlength'=> 6 ,'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('price'))
+                        <p class="help-block">
+                            {{ $errors->first('price') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 form-group">
                     {!! Form::label('floor', trans('quickadmin.rooms.fields.floor').'*', ['class' => 'control-label']) !!}
                     {!! Form::number('floor', old('floor'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
