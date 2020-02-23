@@ -1098,6 +1098,7 @@ window.Vue = __webpack_require__(36);
 
 Vue.component('example', __webpack_require__(40));
 Vue.component('receipt', __webpack_require__(43));
+Vue.component('receipt2', __webpack_require__(64));
 Vue.component('cart', __webpack_require__(51));
 
 var app = new Vue({
@@ -45511,6 +45512,331 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */,
+/* 59 */,
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */,
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(69)
+}
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(67)
+/* template */
+var __vue_template__ = __webpack_require__(71)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Receipt2.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d59d7d9e", Component.options)
+  } else {
+    hotAPI.reload("data-v-d59d7d9e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 65 */,
+/* 66 */,
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+//eslint-ignore
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            purchases: [],
+            total: '',
+            vat: '',
+            purchaseDate: '',
+            invoice_number: '',
+            purchase: {
+                id: '',
+                price: '',
+                quantity: '',
+                unit_price: '',
+                value: '',
+                invoice_number: '',
+                total: '',
+                purchaseDate: ''
+            }
+        };
+    },
+    created: function created() {
+        this.fetchPurchaseDetails();
+    },
+
+
+    methods: {
+        fetchPurchaseDetails: function fetchPurchaseDetails() {
+            var _this = this;
+
+            fetch('/api/getlastorder').then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                var today = new Date();
+                var dd = String(today.getDate());
+                var mm = String(today.getMonth() + 1);
+                var yyyy = String(today.getFullYear());
+                _this.purchases = res.data;
+                _this.total = res.total;
+                _this.unit_price = res.unit_price;
+                _this.taxedTotal = res.TotalwithTax;
+                _this.purchaseDate = dd + '/' + mm + '/' + yyyy;
+                _this.invoice_number = res.data[0]['invoice_number'];
+                console.log(res);
+            }).then().catch(function (err) {
+                return console.log(err);
+            });
+        }
+    }
+
+});
+
+/***/ }),
+/* 68 */,
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(70);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(47)("3eb49156", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d59d7d9e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Receipt2.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d59d7d9e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Receipt2.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(46)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "ticket" }, [
+    _c("img", {
+      staticStyle: { "margin-left": "40px" },
+      attrs: { src: "/imgs/main-logo.png", width: "100" }
+    }),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", [
+      _c("b", [_vm._v("Date:")]),
+      _vm._v(" " + _vm._s(_vm.purchaseDate) + " "),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("Invoice_number:")]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" " + _vm._s(_vm.invoice_number) + " \n        ")
+    ]),
+    _vm._v(" "),
+    _c("table", [
+      _vm._m(1),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        _vm._l(_vm.purchases, function(purchase) {
+          return _c("tr", { key: purchase.id }, [
+            _c("td", { staticClass: "description" }, [
+              _vm._v(_vm._s(purchase.quantity))
+            ]),
+            _vm._v(" "),
+            _c("td", [_vm._v(" ")]),
+            _vm._v(" "),
+            _c("td", { staticClass: "price" }, [
+              _vm._v(_vm._s(purchase.product))
+            ]),
+            _vm._v(" "),
+            _c("td", [_vm._v(" ")]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(purchase.value))])
+          ])
+        }),
+        0
+      )
+    ]),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v("\n        ------------------------ "),
+    _c("br"),
+    _vm._v(" "),
+    _c("i", [_vm._v("Subtotal")]),
+    _vm._v("     ₦" + _vm._s(_vm.total) + " "),
+    _c("br"),
+    _vm._v("\n        ------------------------\n        "),
+    _vm._m(2)
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "centered" }, [
+      _c("b", [_vm._v("THRIVEMAX HOTEL")]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v("15 Odunlanmi Str,\n            "),
+      _c("br"),
+      _vm._v("Lagos Island\n            "),
+      _c("br"),
+      _vm._v("09017331111\n        ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { staticClass: "description" }, [_vm._v("Qty")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" ")]),
+        _vm._v(" "),
+        _c("th", { staticClass: "price" }, [_vm._v("Product")]),
+        _vm._v(" "),
+        _c("th", [_vm._v(" ")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Total")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "centered" }, [
+      _vm._v("Thanks for your business "),
+      _c("br"),
+      _vm._v(" "),
+      _c("b", [_vm._v("thrivemaxhotel.com")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d59d7d9e", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

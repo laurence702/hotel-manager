@@ -13,7 +13,7 @@
     
 
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading" style="background-color:#1674c5b3 !important;">
             @lang('quickadmin.qa_list')
         </div>
 
@@ -46,10 +46,10 @@
                                 <td field-key='role'>{{ $user->role->title or '' }}</td>
                                                                 <td>
                                     @can('user_view')
-                                    <a href="{{ route('admin.users.show',[$user->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>
+                                    <a href="{{ route('admin.users.show',[$user->id]) }}"><i style="color:#5cb85c" class="fa fa-eye fa-2x"></i></a>
                                     @endcan
                                     @can('user_edit')
-                                    <a href="{{ route('admin.users.edit',[$user->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.qa_edit')</a>
+                                    <a href="{{ route('admin.users.edit',[$user->id]) }}"><i style="color:#428bca" class="fa fa-edit fa-2x"></i></a>
                                     @endcan
                                     @can('user_delete')
 {!! Form::open(array(

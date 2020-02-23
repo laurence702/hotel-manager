@@ -2,10 +2,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.bookings.title')</h3>
+   <br>
     @can('booking_create')
     <p>
-        <a href="{{ route('admin.bookings.create') }}" class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
+        <a href="{{ route('admin.bookings.create') }}"><i class="fa fa-plus-square"></i>Add Booking</a>
         
     </p>
     @endcan
@@ -13,8 +13,8 @@
     @can('booking_delete')
     <p>
         <ul class="list-inline">
-            <li><a href="{{ route('admin.bookings.index') }}" style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}">@lang('quickadmin.qa_all')</a></li> |
-            <li><a href="{{ route('admin.bookings.index') }}?show_deleted=1" style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}">@lang('quickadmin.qa_trash')</a></li>
+            <li><a href="{{ route('admin.bookings.index') }}" style="{{ request('show_deleted') == 1 ? '' : 'font-weight: 700' }}"><i class="fa fa-users fa-2x"></i></a></li> |
+            <li><a href="{{ route('admin.bookings.index') }}?show_deleted=1" style="{{ request('show_deleted') == 1 ? 'font-weight: 700' : '' }}"><i class="fa fa-trash fa-2x" style="color:#d9534f"></i></a></li>
         </ul>
     </p>
     @endcan
@@ -32,15 +32,11 @@
         </div>
     @endif
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @lang('quickadmin.qa_list')
-        </div>
-
+       
         <div class="panel-body table-responsive">
             <table class="table table-bordered table-striped {{ count($bookings) > 0 ? 'datatable' : '' }} @can('booking_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                 <thead>
-                    <tr>
+                    <tr  style="background-color:#1674c5b3 !important;">
                         @can('booking_delete')
                             @if ( request('show_deleted') != 1 )<th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
                         @endcan
@@ -109,10 +105,10 @@
                                 @else
                                 <td>
                                     @can('booking_view')
-                                    <a href="{{ route('admin.bookings.show',[$booking->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>
+                                    <a href="{{ route('admin.bookings.show',[$booking->id]) }}"><i style="color:#5cb85c" class="fa fa-eye fa-2x"></i></a>
                                     @endcan
                                     @can('booking_edit')
-                                    <a href="{{ route('admin.bookings.edit',[$booking->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.qa_edit')</a>
+                                    <a href="{{ route('admin.bookings.edit',[$booking->id]) }}"><i style="color:#428bca" class="fa fa-edit fa-2x"></i></a>
                                     @endcan
                                     <!-- @can('booking_delete')
                                     {!! Form::open(array(
@@ -135,7 +131,7 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    
 @stop
 
 @section('javascript') 

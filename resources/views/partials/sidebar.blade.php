@@ -130,7 +130,7 @@
                         </a>
                     </li>
                 @endcan
-                @can('user_access')
+                @can('products_view')
                 <li class="{{ $request->segment(2) == 'users' ? 'active active-sub' : '' }}">
                         <a href="{{ route('admin.products.checkout') }}">
                             <i class="fa fa-cart-plus"></i>
@@ -140,7 +140,7 @@
                         </a>
                     </li>
                 @endcan
-                @can('user_access')
+                @can('products_view')
                 <li class="{{ $request->segment(2) == 'users' ? 'active active-sub' : '' }}">
                         <a href="{{ route('admin.products.saleshistory') }}">
                             <i class="fa fa-history"></i>

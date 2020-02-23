@@ -25,11 +25,6 @@
     @endcan
 
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            @lang('quickadmin.qa_list')
-        </div>
-
         <div class="panel-body table-responsive">
             <table class="table table-bordered table-striped {{ count($customers) > 0 ? 'datatable' : '' }} @can('customer_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                 <thead>
@@ -95,7 +90,7 @@
                                 @endcan
                                 
                                 @can('customer_edit')
-                                <a href="{{ route('admin.customers.edit',[$customer->id]) }}"><i style="color:	#428bca" class="fa fa-edit fa-2x"></i></a>
+                                <a href="{{ route('admin.customers.edit',[$customer->id]) }}"><i style="color:#428bca" class="fa fa-edit fa-2x"></i></a>
                                 @endcan
                                 @can('customer_delete')
                                 {!! Form::open(array(
@@ -118,7 +113,7 @@
                 </tbody>
             </table>
         </div>
-    </div>
+   
 @stop
 
 @section('javascript') 

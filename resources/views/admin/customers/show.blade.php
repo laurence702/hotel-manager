@@ -50,7 +50,7 @@
 <div role="tabpanel" class="tab-pane active" id="bookings">
 <table class="table table-bordered table-striped {{ count($bookings) > 0 ? 'datatable' : '' }}">
     <thead>
-        <tr>
+        <tr style="background-color:#1674c5b3 !important;">
             <th>@lang('quickadmin.bookings.fields.customer')</th>
                         <th>@lang('quickadmin.bookings.fields.room')</th>
                         <th>@lang('quickadmin.bookings.fields.time-from')</th>

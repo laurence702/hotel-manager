@@ -17,7 +17,8 @@ window.Vue = require('vue');
 
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('receipt', require('./components/Receipt.vue'));
-Vue.component('cart',require('./components/Cart.vue'))
+Vue.component('receipt2',require('./components/Receipt2.vue'));
+Vue.component('cart',require('./components/Cart.vue'));
 
 const app = new Vue({
     el: '#app'

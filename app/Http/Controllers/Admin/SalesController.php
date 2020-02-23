@@ -41,7 +41,7 @@ class SalesController extends Controller
 
 
     public function generateInvoice() {
-        return view('admin.products.show');
+        return view('admin.products.receipt-template2');
     }
 
 
@@ -108,7 +108,9 @@ class SalesController extends Controller
     public function showAllSales(Request $request)
     {
         $sales = Sale::orderBy('created_at','desc')->get();
-        return view('admin.products.saleshistory', compact('sales'));
+       
+        $salesToday = Sale::select('value')->whereDay('created_at',date('d'))->sum('value');
+        return view('admin.products.saleshistory', compact('sales','salesToday'));
     }
 
     
