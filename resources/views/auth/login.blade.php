@@ -68,7 +68,9 @@
 	</style>
 </head>
 <body class="page-header-fixed mainlogin">
-<img src="/imgs/main-logo.png" alt="" width="130">
+	<div class="">
+		<img src="/imgs/main-logo.png" alt="" width="130">
+	</div>
 	<div style="margin-top: 10%;"></div>
 	<div class="container-fluid">
 		<div class="row form-section">

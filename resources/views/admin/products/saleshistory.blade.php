@@ -22,6 +22,7 @@
                         <th>@lang('Value')</th>
                         <th>Sold At</th>
                         <th>Invoice Number</th>
+                        <th>Sold By</th>
                     
                     </tr>
                 </thead>
@@ -40,6 +41,7 @@
                                 <td field-key='description'>{!! $sale->value !!}</td>    
                                 <td field-key='sell_time'>{{ \Carbon\Carbon::parse($sale->created_at)->format('d-M   h:i') }}</td>                            
                                 <td field-key='invoice_number'>{{ $sale->invoice_number}}</td>
+                                <td>{{ $sale->soldBy}}</td>
                             </tr>
                         @endforeach
                     @else

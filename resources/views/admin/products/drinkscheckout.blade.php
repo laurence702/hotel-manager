@@ -32,8 +32,14 @@
                 <td><a href="javascript:void(0);" id="finalCheckout" class="btn btn-warning"><i class="fa fa-angle-left"></i> Checkout</a></td>
                 <td colspan="2" class="hidden-xs"></td>
                 <td class="hidden-xs text-center" ><strong id="grandresult">Total #</strong></td>
+                
+                <div class="bg-success" id="soldBy">
+                  {{ \Auth::user()->name}}
+                </div>
             </tr>
         </tfoot>
+
+        
 	</table>
 
 </div>
@@ -127,6 +133,9 @@
 
                     let order = [];
 
+                    let soldBy= $('#soldBy').html();
+
+                    console.log(soldBy);
                     $("tbody tr").each(function(){
                         order.push({
                             drink_name: $(this).find('._drink').val(),
@@ -134,6 +143,7 @@
                             price: $(this).find('.product-price').val(),
                             qty: $(this).find('.product-qty').val(),
                             total: $(this).find('.product-total-price').val(),
+                            soldBy: soldBy
                         })
                     });
                     console.log(order)
@@ -157,6 +167,7 @@
                         },   
                         error : function(e){
                             swal ( "Oops" ,  "Failed!!" ,  "error" )
+                            console.log(e)
                             setTimeout(() => {
                                 location.reload();
                             }, 2000);

@@ -17,14 +17,17 @@ class SalesController extends Controller
         $invoiceId = $this->generateInvoiceId();
         foreach($purchases['order'] as $purchase){
             $sale = new Sale;
-            $sale->unit_price = $purchase['unit_price'];
+            $sale->unit_price = (int)$purchase['unit_price'];
             $sale->product = $purchase['drink_name'];
-            $sale->quantity=$purchase['qty'];
-            $sale->value=$purchase['total']; 
+            $sale->quantity=(int)$purchase['qty'];
+            $sale->value=(int)$purchase['total']; 
             $sale->invoice_number = $invoiceId;
+            $sale->soldBy = trim($purchase['soldBy']);
+            
             $sale->save();
      
         }
+
         //get last record 
         $dataRecord = Sale::where('invoice_number',$invoiceId)->get();
 

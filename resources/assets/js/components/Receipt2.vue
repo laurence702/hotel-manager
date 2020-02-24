@@ -87,7 +87,9 @@
                     console.log(res)
 				})
 				.then(
-					//window.print()
+					setTimeout(() => {
+                        window.print();
+                    }, 2000)
 				)
                 
                 .catch(err => console.log(err))

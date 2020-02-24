@@ -142,13 +142,13 @@
                 @endcan
                 @can('products_view')
                 <li class="{{ $request->segment(2) == 'users' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.products.saleshistory') }}">
-                            <i class="fa fa-history"></i>
-                            <span class="title">
-                                @lang('Sales History')
-                            </span>
-                        </a>
-                    </li>
+                    <a href="{{ route('admin.products.saleshistory') }}">
+                        <i class="fa fa-history"></i>
+                        <span class="title">
+                            @lang('Sales History')
+                        </span>
+                    </a>
+                </li>
                 @endcan
                 </ul>
             </li>
@@ -162,6 +162,15 @@
                     <span class="title">@lang('quickadmin.qa_change_password')</span>
                 </a>
             </li>
+
+            <li class="{{ $request->segment(2) == 'users' ? 'active active-sub' : '' }}">
+                    <a href=".../www.thrivemaxhotel.com/webmail">
+                        <i class="fa fa-mail-bulk"></i>
+                        <span class="title">
+                            @lang('Web Mail')
+                        </span>
+                    </a>
+                </li>
 
             <li>
                 <a href="#logout" onclick="$('#logout').submit();">
