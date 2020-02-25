@@ -28,3 +28,5 @@ Route::get('getcart','Admin\SalesController@getCartItems');
 
 ///
 Route::post('getselectedProduct','Admin\SalesController@getSelectedProducts');
+
+Route::get('test-email', 'JobController@processQueue');
