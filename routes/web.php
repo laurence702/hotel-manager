@@ -70,5 +70,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::get('sellDrinks', ['uses' => 'Admin\ProductsController@sellDrinks', 'as' => 'products.drinks_sale']);
     Route::get('printDrinkInvoice','Admin\SalesController@generateInvoice')->name('generate.invoice');
     Route::get('saleshistory',['uses' => 'Admin\SalesController@showAllSales', 'as' => 'products.saleshistory']);
+    Route::resource('onlinebooking','Admin\OnlineBookingController', ['except' => 'bookings.create']);
 });
 

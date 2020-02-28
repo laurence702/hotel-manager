@@ -111,9 +111,9 @@ class SalesController extends Controller
     public function showAllSales(Request $request)
     {
         $sales = Sale::orderBy('created_at','desc')->get();
-       
+        $numberSoldToday = Sale::select('value')->whereDay('created_at',date('d'))->count();
         $salesToday = Sale::select('value')->whereDay('created_at',date('d'))->sum('value');
-        return view('admin.products.saleshistory', compact('sales','salesToday'));
+        return view('admin.products.saleshistory', compact('sales','salesToday','numberSoldToday'));
     }
 
     

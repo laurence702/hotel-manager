@@ -5,7 +5,7 @@
     <h3 class="page-title">@lang('quickadmin.users.title')</h3>
     @can('user_create')
     <p>
-        <a href="{{ route('admin.users.create') }}" class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
+        <a href="{{ route('admin.users.create') }}"><i class="fa fa-plus"></i><i class="fa fa-user-tag fa-2x"></i> @lang('quickadmin.qa_add_new')</a>
         
     </p>
     @endcan

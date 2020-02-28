@@ -5,9 +5,10 @@
     <h3 class="page-title">@lang('quickadmin.roles.title')</h3>
     @can('role_create')
     <p>
-        <a href="{{ route('admin.roles.create') }}" class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
+        <a href="{{ route('admin.roles.create') }}"><i class="fa fa-user-tag fa-2x"></i> @lang('quickadmin.qa_add_new')</a>
         
     </p>
+  
     @endcan
 
     

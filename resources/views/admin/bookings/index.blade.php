@@ -66,7 +66,7 @@
                                 @endcan
 
                                 <td field-key='customer'>{{ $booking->customer->full_name or '' }} <br>
-                                {!! Form::open(array(
+                                    {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',
                                         'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",

@@ -92,6 +92,15 @@
                 </a>
             </li>
             @endcan
+
+            @can('booking_access')
+            <li class="{{ $request->segment(2) == 'bookings' ? 'active' : '' }}">
+                <a href="{{ route('admin.onlinebooking.index') }}">
+                    <i class="fa fa-book"></i>
+                    <span class="title">@lang('Online Booking')</span>
+                </a>
+            </li>
+            @endcan
             
             @can('find_room_access')
             <li class="{{ $request->segment(2) == 'find_rooms' ? 'active' : '' }}">
@@ -164,7 +173,7 @@
             </li>
 
             <li class="{{ $request->segment(2) == 'users' ? 'active active-sub' : '' }}">
-                    <a href=".../www.thrivemaxhotel.com/webmail">
+                    <a href="www.thrivemaxhotel.com/webmail">
                         <i class="fa fa-mail-bulk"></i>
                         <span class="title">
                             @lang('Web Mail')

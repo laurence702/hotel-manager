@@ -5,7 +5,7 @@
     <h3 class="page-title">@lang('quickadmin.countries.title')</h3>
     @can('country_create')
     <p>
-        <a href="{{ route('admin.countries.create') }}" class="btn btn-success">@lang('quickadmin.qa_add_new')</a>
+        <a href="{{ route('admin.countries.create') }}"><i class="fa fa-plus"></i><i class="fa fa-flag fa-2x"></i> @lang('quickadmin.qa_add_new')</a>
         
     </p>
     @endcan

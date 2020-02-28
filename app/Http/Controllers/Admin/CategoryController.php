@@ -13,6 +13,7 @@ use App\Http\Requests\Admin\StoreCategoriesRequest;
 
 class CategoryController extends Controller
 {
+    
     public function index()
     {
         $categories=Category::all();
