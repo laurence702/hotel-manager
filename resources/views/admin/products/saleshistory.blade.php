@@ -1,15 +1,26 @@
 <html>
  <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Laravel 5.8 - Daterange Filter in Datatables with Server-side Processing</title>
+  <title>{{env('APP_NAME')}}</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
   <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet"
+      href="//cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css"/>
   <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>  
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
+ 
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
  </head>
  <body>
   <div class="container">    
@@ -31,7 +42,7 @@
             <br />
    <div class="table-responsive">
     <table class="table table-bordered table-striped" id="order_table">
-           <thead>
+           <thead style="background-color:coral;">
             <tr>
                 <th>@lang('Product')</th>
                 <th>@lang('Quantity')</th>
@@ -61,8 +72,12 @@ $(document).ready(function(){
  function load_data(from_date = '', to_date = '')
  {
   $('#order_table').DataTable({
+    buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
    processing: true,
    serverSide: true,
+   
    ajax: {
     data:{from_date:from_date, to_date:to_date}
    },

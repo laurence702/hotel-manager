@@ -8,6 +8,7 @@ use App\Sale;
 use App\Product;
 use App\Cart;
 use Carbon\Carbon;
+use DB;
 
 class SalesController extends Controller
 {
@@ -108,17 +109,32 @@ class SalesController extends Controller
        return $res = Cart::all();
     }
 
-    public function showAllSales(Request $request)
+    //SORTABLE DATATABLE
+    function showAllSales(Request $request)
     {
-        $sales = Sale::orderBy('created_at','desc')->get();
-        $numberSoldToday = Sale::select('value')->whereDay('created_at',date('d'))->count();
-        $salesToday = Sale::select('value')->whereDay('created_at',date('d'))->sum('value');
-        return view('admin.products.saleshistory', compact('sales','salesToday','numberSoldToday'));
+        if(request()->ajax()){
+            if(!empty($request->from_date)){
+                $data = DB::table('sales')
+                ->whereBetween('created_at', array($request->from_date, $request->to_date))
+                ->get();
+            }else{
+                $data = DB::table('sales')
+                ->get();
+            }
+            return datatables()->of($data)->make(true);
+        }
+        return view('admin.products.saleshistory');
     }
 
+        //
+        // $sales = Sale::orderBy('created_at','desc')->get();
+        // $numberSoldToday = Sale::select('value')->whereDay('created_at',date('d'))->count();
+        // $salesToday = Sale::select('value')->whereDay('created_at',date('d'))->sum('value');
+        // return view('admin.products.saleshistory', compact('sales','salesToday','numberSoldToday'));
     
-    public function getSelectedProducts(Request $request) {
-      
+
+    
+    public function getSelectedProducts(Request $request) {      
         $product_ids = $request->all();
         $products_selected = Product::whereIn('id',$product_ids)->get()->toarray();
           
