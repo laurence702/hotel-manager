@@ -67,7 +67,8 @@
                                             <span><i class="fa fa-wine"></i>
                                             <input placeholder="${ele.name}" style="text-align:center; border-radius:20px; margin-top:15px; font-size:18px; background-color:#239dcf;" type="text" name="" class="_drink" id="" value="${ele.name}" disabled>
                                             <span>
-                                            <p style="font-size:12px"><span style="color:lemongreen;">description:  ${ele.description}</span> </p>
+                                            <p style="font-size:12px"><span style="color:lemongreen;">description:  ${ele.description}</span> </p>                          
+                                            Product Code:<input placeholder="${ele.id}" value="${ele.id}" class="prod_Id" disabled>
                                             <button class="refresher btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
                                             <button class="delete-product btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
                                         </div>
@@ -138,6 +139,7 @@
                     console.log(soldBy);
                     $("tbody tr").each(function(){
                         order.push({
+                            product_id: $(this).find('.prod_Id').val(),
                             drink_name: $(this).find('._drink').val(),
                             unit_price: $(this).find('#ourPrice').val(),
                             price: $(this).find('.product-price').val(),
@@ -150,24 +152,23 @@
                     let csrfToken = @json(csrf_token());
 
                     $.ajax({
-                        //Checkout
                         url: '/api/v1/drinkSaleInvoice',
                         headers: {'X-CSRF-TOKEN' : csrfToken},
                         type: 'POST',
                         data: {order:order},
                         datatype: 'json',
-                        success: function(e){
-                            console.log(e)
-                        
+                        success: function(res){
+                            console.log(res)                            
                             swal ( "Success" ,  "Sold!" ,  "success" )
                             setTimeout(() => {
                                 window.location.replace("/admin/printDrinkInvoice");
                             }, 2000);
                             
                         },   
-                        error : function(e){
-                            swal ( "Oops" ,  "Failed!!" ,  "error" )
-                            console.log(e)
+                        error : function(err){
+                            prodName = err.data;
+                            swal ( "Oops" ,  "Not enough in stock!!" ,  "error" )
+                            console.log(err)
                             setTimeout(() => {
                                 location.reload();
                             }, 2000);

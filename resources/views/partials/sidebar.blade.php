@@ -163,15 +163,6 @@
                 </a>
             </li>
 
-            <li class="{{ $request->segment(2) == 'users' ? 'active active-sub' : '' }}">
-                    <a href=".../www.thrivemaxhotel.com/webmail">
-                        <i class="fa fa-mail-bulk"></i>
-                        <span class="title">
-                            @lang('Web Mail')
-                        </span>
-                    </a>
-                </li>
-
             <li>
                 <a href="#logout" onclick="$('#logout').submit();">
                     <i class="fa fa-arrow-left"></i>
@@ -180,5 +171,10 @@
             </li>
         </ul>
     </section>
+    <script>
+        function redirect() {
+            alert('Hello')
+        }
+    </script>
 </aside>
 

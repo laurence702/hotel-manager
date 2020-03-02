@@ -6,6 +6,18 @@
         <div class="col-md-4 col-xs-4"  style="background-color:#b5dfa3"> 
             <h3><i class="fa fa-money"></i> Today: ₦{{number_format($salesToday)}}</h3>
         </div> 
+    </div> <br>
+    <div class="row input-daterange">
+        <div class="col-md-4">
+            <input type="date" name="from_date" id="from_date" class="form-control" placeholder="From Date"/>
+        </div>
+        <div class="col-md-4">
+            <input type="date" name="to_date" id="to_date" class="form-control" placeholder="To Date"/>
+        </div>
+        <div class="col-md-4">
+            <button type="button" name="filter" id="filter" class="btn btn-primary">Filter</button>
+            <button type="button" name="refresh" id="refresh" class="btn btn-default">Refresh</button>
+        </div>
     </div>
        
         <div class="panel-body table-responsive">
@@ -56,5 +68,15 @@
 @stop
 
 @section('javascript') 
+<script>
+    $(document).ready(() => {
+        $('#filter').click(()=>{
+            timeFrom = $('#time_from').val()
+            timeTo = $('#time_to').val()
+
+            alert('today is '+ timeFrom)
+        })
+    })
+</script>
    
 @endsection

@@ -40,6 +40,7 @@
 
                         <th>Product Name</th>
                         <th>Price(₦)</th>
+                        <th>Stock count</th>
                         <th>Description</th>
                         
                         @if( request('show_deleted') == 1 )
@@ -57,6 +58,7 @@
                         <th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
                         <td class="some">{{$product->name}}</td>
                         <td>{{$product->price}}</td>
+                        <td>{{$product->stock_count}}</td>
                         <td>{{$product->description}}</td>
                         @if( request('show_deleted') == 1 )
                                 <td>

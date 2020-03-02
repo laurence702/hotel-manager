@@ -37,6 +37,20 @@
                     @endif
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('Precio',trans('Stock Count').'*') !!}
+                    {!! Form::number('stock_count', old('stock_count'), ['class' => 'form-control ', 'placeholder' => '', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('stock_count'))
+                        <p class="help-block">
+                            {{ $errors->first('stock_count') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('description', trans('quickadmin.rooms.fields.description').'*', ['class' => 'control-label']) !!}
@@ -49,7 +63,7 @@
                     @endif
                 </div>
             </div>
-            
+
         </div>
     </div>
 

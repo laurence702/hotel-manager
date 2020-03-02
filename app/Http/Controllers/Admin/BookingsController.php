@@ -106,7 +106,7 @@ class BookingsController extends Controller
                 
                 $adminName = $admin['name'];
                 $emailAddress =$admin['email'];
-                Mail::to($emailAddress)->send(new DiscountgivenNotification);
+                Mail::to($emailAddress)->send(new DiscountgivenNotification); //this is whats shoots mail to boss is theres discount
             }
             if($querySuccess){
               //redirect to print receipt page

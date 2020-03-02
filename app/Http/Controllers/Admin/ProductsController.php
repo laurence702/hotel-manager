@@ -61,6 +61,7 @@ class ProductsController extends Controller
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->stock_count = $request->stock_count;
         
         $querySuccess = $product->save();
         return redirect()->route('admin.products.index');

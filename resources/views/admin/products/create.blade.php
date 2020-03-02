@@ -37,15 +37,27 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('Precio',trans('Stock Count').'*') !!}
+                    {!! Form::number('stock_count', old('stock_count'), ['class' => 'form-control ', 'placeholder' => '', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('stock_count'))
+                        <p class="help-block">
+                            {{ $errors->first('stock_count') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('Precio',trans('quickadmin.qa_product_price').'*') !!}
                     {!! Form::number('price', old('price'), ['class' => 'form-control ', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
-                    @if($errors->has('additional_information'))
+                    @if($errors->has('price'))
                         <p class="help-block">
-                            {{ $errors->first('additional_information') }}
+                            {{ $errors->first('price') }}
                         </p>
                     @endif
                 </div>

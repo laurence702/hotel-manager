@@ -12,36 +12,38 @@ use Carbon\Carbon;
 class SalesController extends Controller
 {
     public function sellDrinks(Request $request) {
-        $purchases=$request->all();
-        
-        $invoiceId = $this->generateInvoiceId();
-        foreach($purchases['order'] as $purchase){
-            $sale = new Sale;
-            $sale->unit_price = (int)$purchase['unit_price'];
-            $sale->product = $purchase['drink_name'];
-            $sale->quantity=(int)$purchase['qty'];
-            $sale->value=(int)$purchase['total']; 
-            $sale->invoice_number = $invoiceId;
-            $sale->soldBy = trim($purchase['soldBy']);
-            
-            $sale->save();
-     
+        $purchases=$request->all();      
+        foreach($purchases['order'] as $key => $purchase){
+            $prod_id=$purchase['product_id'];
+            $s = Product::where('id',$prod_id)->get();
+            $sCount = $s[$key]['stock_count'];
+            if($sCount < $purchase['qty']){
+                $prodName = $purchase['drink_name'];                
+                return response()->json(['status'=>false,'message'=>"Not enough {$prodName} in stock"],500);
+            }else{
+                $invoiceId = $this->generateInvoiceId();
+                $sale = new Sale;
+                $numberPurchased = $purchase['qty'];
+                $prod_id=$purchase['product_id'];
+                $sale->productId = (int)$prod_id;
+                $sale->unit_price = (int)$purchase['unit_price'];
+                $sale->product = $purchase['drink_name'];
+                $sale->quantity=(int)$numberPurchased;
+                $sale->value=(int)$purchase['total']; 
+                $sale->invoice_number = $invoiceId;
+                $sale->soldBy = trim($purchase['soldBy']);            
+                $sale->save();               
+               $newStockCount = Product::where('id',$prod_id)->decrement('stock_count',$numberPurchased); //decrease stock 
+            }                                      
         }
-
-        //get last record 
+        //get last record which will be used to print Invoice
         $dataRecord = Sale::where('invoice_number',$invoiceId)->get();
-
-        return response()->json([
-            'status' => true,
-            'data' => $dataRecord,
-            'message'   => 'Success',
-        ]);
+        return response()->json(['status' => true,'data' => $dataRecord,'message' => 'Success']);
     }
-
+  
     public function generateInvoiceId(){
         return '#'.str_shuffle('12RBHZ367890#DQE');
     }
-
 
     public function generateInvoice() {
         return view('admin.products.receipt-template2');

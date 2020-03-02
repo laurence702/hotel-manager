@@ -27,6 +27,7 @@ class UpdateProductRequest extends FormRequest
             'name' => 'required',
             'price' => 'required',
             'description' => 'required',
+            'stock_count' => 'required'
         ];
     }
 }
