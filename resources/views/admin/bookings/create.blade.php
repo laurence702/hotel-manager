@@ -87,7 +87,7 @@
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('discount_amount',trans('Discount').'*') !!} <span class="text-danger"><i class="fa fa-warning">(Only on Approval from CEO)</i></span>
-                    {!! Form::number('discount_amount', old('discount_amount'), ['class' => 'form-control ', 'placeholder' => '']) !!}
+                    {!! Form::number('discount_amount', old('discount_amount'), ['class' => 'form-control ', 'maxlength'=> 5, 'placeholder' => '']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('discount_amount'))
                         <p class="help-block">
@@ -100,7 +100,7 @@
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('additional_information', trans('quickadmin.bookings.fields.additional-information').'*', ['class' => 'control-label']) !!}
-                    {!! Form::textarea('additional_information', old('additional_information'), ['class' => 'form-control ', 'placeholder' => 'if customer has unique request', 'required' => '']) !!}
+                    {!! Form::textarea('additional_information', old('additional_information'), ['class' => 'form-control ', 'placeholder' => 'if customer has unique request']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('additional_information'))
                         <p class="help-block">

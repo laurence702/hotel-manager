@@ -10,15 +10,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class DiscountgivenNotification extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $discountPrice;
+    public $AmountDue;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($discountPrice,$AmountDue)
     {
-        //
+        $this->discountPrice = $discountPrice;
+        $this->$AmountDue = $AmountDue;
     }
 
     /**
@@ -28,6 +30,6 @@ class DiscountgivenNotification extends Mailable
      */
     public function build()
     {
-        return $this->from('thrivemax-alert-08755d@inbox.mailtrap.io')->view('mails.anomaly');
+        return $this->from('thrivemaxhotel@gmail.com')->view('mails.anomaly');
     }
 }
