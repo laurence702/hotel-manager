@@ -68,7 +68,7 @@
                                             <input placeholder="${ele.name}" style="text-align:center; border-radius:20px; margin-top:15px; font-size:18px; background-color:#239dcf;" type="text" name="" class="_drink" id="" value="${ele.name}" disabled>
                                             <span>
                                             <p style="font-size:12px"><span style="color:lemongreen;">description:  ${ele.description}</span> </p>                          
-                                            Product Code:<input placeholder="${ele.id}" value="${ele.id}" class="prod_Id" disabled>
+                                            <p style="font-size:12px">Product Code:<input placeholder="${ele.id}" value="${ele.id}" style="width:29px" class="prod_Id" disabled></p>
                                             <button class="refresher btn btn-info btn-sm"><i class="fa fa-refresh"></i></button>
                                             <button class="delete-product btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
                                         </div>
@@ -156,25 +156,22 @@
                         headers: {'X-CSRF-TOKEN' : csrfToken},
                         type: 'POST',
                         data: {order:order},
-                        datatype: 'json',
-                        success: function(res){
-                            console.log(res)                            
+                        datatype: 'json'                         
+                   }).done((res)=>{
+                            console.log(res.responseText)                            
                             swal ( "Success" ,  "Sold!" ,  "success" )
-                            setTimeout(() => {
-                                window.location.replace("/admin/printDrinkInvoice");
-                            }, 2000);
+                            // setTimeout(() => {
+                            //     window.location.replace("/admin/printDrinkInvoice");
+                            // }, 2000);
                             
-                        },   
-                        error : function(err){
-                            prodName = err.data;
-                            swal ( "Oops" ,  "Not enough in stock!!" ,  "error" )
-                            console.log(err)
-                            setTimeout(() => {
-                                location.reload();
-                            }, 2000);
-                           
-                        }       
-                   });
+                   }).fail((err)=>{
+                            message = err.responseText;
+                            swal ( "Oops" ,  message ,  "error" )
+                            console.log(message)
+                            // setTimeout(() => {
+                            //     location.reload();
+                            // }, 2000);
+                   })
 
                 });
 

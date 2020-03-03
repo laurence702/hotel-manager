@@ -18,8 +18,9 @@ class SalesController extends Controller
             $s = Product::where('id',$prod_id)->get();
             $sCount = $s[$key]['stock_count'];
             if($sCount < $purchase['qty']){
-                $prodName = $purchase['drink_name'];                
-                return response()->json(['status'=>false,'message'=>"Not enough {$prodName} in stock"],500);
+                $prodName = $purchase['drink_name'];        
+                return response("Not enough {$prodName} in stock", 500)
+                  ->header('Content-Type', 'application/json');        
             }else{
                 $invoiceId = $this->generateInvoiceId();
                 $sale = new Sale;
