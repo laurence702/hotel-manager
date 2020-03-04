@@ -23,7 +23,7 @@ class UsersController extends Controller
         }
 
 
-                $users = User::all();
+                $users = User::where('is_dev',null)->get();
 
         return view('admin.users.index', compact('users'));
     }

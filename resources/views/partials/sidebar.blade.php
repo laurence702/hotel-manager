@@ -92,6 +92,15 @@
                 </a>
             </li>
             @endcan
+
+            @can('booking_access')
+            <li class="{{ $request->segment(2) == 'bookings' ? 'active' : '' }}">
+                <a href="{{ route('admin.onlinebooking.index') }}">
+                    <i class="fa fa-book"></i>
+                    <span class="title">@lang('Online Booking')</span>
+                </a>
+            </li>
+            @endcan
             
             @can('find_room_access')
             <li class="{{ $request->segment(2) == 'find_rooms' ? 'active' : '' }}">
@@ -171,10 +180,5 @@
             </li>
         </ul>
     </section>
-    <script>
-        function redirect() {
-            alert('Hello')
-        }
-    </script>
 </aside>
 

@@ -28,55 +28,81 @@
                             @if ( request('show_deleted') != 1 )<th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
                         @endcan
 
-                        <th>@lang('Product')</th>
-                        <th>@lang('Quantity')</th>
-                        <th>@lang('Unit Price')(#)</th>
-                        <th>@lang('Value')</th>
-                        <th>Sold At</th>
-                        <th>Invoice Number</th>
-                        <th>Sold By</th>
-                    
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    @if (count($sales) > 0)
-                        @foreach ($sales as $sale)
-                            <tr data-entry-id="{{ $sale->id }}">
-                                @can('room_delete')
-                                    @if ( request('show_deleted') != 1 )<td></td>@endif
-                                @endcan
-
-                                <td field-key='product'>{{ $sale->product }}</td>
-                                <td field-key='floor'>{{ $sale->quantity }}</td>
-                                <td field-key='price'>{{ number_format($sale->unit_price)}}</td>
-                                <td field-key='description'>{!! $sale->value !!}</td>    
-                                <td field-key='sell_time'>{{ \Carbon\Carbon::parse($sale->created_at)->format('d-M   h:i') }}</td>                            
-                                <td field-key='invoice_number'>{{ $sale->invoice_number}}</td>
-                                <td>{{ $sale->soldBy}}</td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="8">@lang('quickadmin.qa_no_entries_in_table')</td>
-                        </tr>
-                    @endif
-                </tbody>
-            </table>
-        </div>
-    
-@stop
-
-@section('javascript') 
 <script>
-    $(document).ready(() => {
-        $('#filter').click(()=>{
-            timeFrom = $('#time_from').val()
-            timeTo = $('#time_to').val()
+$(document).ready(function(){
+ $('.input-daterange').datepicker({
+  todayBtn:'linked',
+  format:'yyyy-mm-dd',
+  autoclose:true
+ });
 
-            alert('today is '+ timeFrom)
-        })
-    })
-</script>
+ load_data();
+
+ function load_data(from_date = '', to_date = '')
+ {
+  $('#order_table').DataTable({
+    buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+   processing: true,
+   serverSide: true,
    
-@endsection
+   ajax: {
+    data:{from_date:from_date, to_date:to_date}
+   },
+   columns: [
+    {
+     data:'product',
+     name:'product'
+    },
+    {
+     data:'quantity',
+     name:'quantity'
+    },
+    {
+     data:'unit_price',
+     name:'unit_price'
+    },
+    {
+     data:'value',
+     name:'value'
+    },
+    {
+     data:'soldBy',
+     name:'soldBy'
+    },
+    {
+     data:'invoice_number',
+     name:'invoice_number'
+    },
+    {
+     data:'created_at',
+     name: 'created_at'
+    }
+   ]
+  });
+ }
+
+ $('#filter').click(function(){
+  var from_date = $('#from_date').val();
+  var to_date = $('#to_date').val();
+  if(from_date != '' &&  to_date != '')
+  {
+   $('#order_table').DataTable().destroy();
+   load_data(from_date, to_date);
+  }
+  else
+  {
+   alert('Both Date is required');
+  }
+ });
+
+ $('#refresh').click(function(){
+  $('#from_date').val('');
+  $('#to_date').val('');
+  $('#order_table').DataTable().destroy();
+  load_data();
+ });
+
+});
+</script>

@@ -8,7 +8,7 @@
   <meta name="x-apple-disable-message-reformatting"> 
   <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
   <meta content="telephone=no" name="format-detection"> 
-  <title>New email template 2020-02-15</title> 
+  <title>Thrivemax email</title> 
   <!--[if (mso 16)]>
     <style type="text/css">
     a {text-decoration: none;}
@@ -119,7 +119,8 @@ a[x-apple-data-detectors] {
                      </tr> 
                      <tr style="border-collapse:collapse;"> 
                       <td esdev-links-color="#b7bdc9" align="center" style="padding:0;Margin:0;padding-top:10px;padding-bottom:25px;"><p style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:20px;font-family:'open sans', 'helvetica neue', helvetica, arial, sans-serif;line-height:30px;color:#B7BDC9;">
-                      Hello Admin, <br><br>someone  recently approved a discount on a booking in ThriveMax Hotel <br>
+                      Hello Admin, <br><br>someone  recently approved a discount of #{{number_format($discountPrice)}} <br>
+                       on a booking in ThriveMax Hotel <br>
                        If you didn't approve this, kindly login to review.</p></td> 
                      </tr> 
                      <tr style="border-collapse:collapse;"> 

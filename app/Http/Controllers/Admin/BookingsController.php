@@ -67,57 +67,40 @@ class BookingsController extends Controller
      * @param  \App\Http\Requests\StoreBookingsRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBookingsRequest $request)
     {
         if (!Gate::allows('booking_create')) {
             return abort(401);
         }
-
-        $bookersName = \Auth::user()->name;
-        $validator = \Validator::make($request->all(), [
-            'customer_id' => 'required',
-            'time_from' => 'required|date_format:'.config('app.date_format').' H:i',
-            'time_to' => 'required|date_format:'.config('app.date_format'). ' H:i',
-
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
-
-        }else{
-            $discountGiven = isset($request->discount_amount);
-            $discountPrice = $request->discount_amount;
-            $AmountDue = $request->ourprice;
-    
-            $booking = new Booking();        
-            $booking->amount =  $discountGiven ? (int)($AmountDue - $discountPrice)  : (int)($request->ourprice);  //amount due with %5 vat
-            $booking->discount_amount= $discountPrice;
-            $booking->time_from = $request->time_from;     
-            $booking->time_to = $request->time_to; 
-            $booking->additional_information = $request->additional_information; 
-            $booking->customer_id = $request->customer_id;
-            $booking->room_id = $request->room_cat; 
-            $booking->payment_method = 'CASH';
-            $booking->booked_by = $bookersName;
-            $querySuccess = $booking->save();
-            $bookingId = $booking->id;
-            if($discountGiven){                
-                $admin = User::where('role_id','2')->first();
-                
-                $adminName = $admin['name'];
-                $emailAddress =$admin['email'];
-                Mail::to($emailAddress)->send(new DiscountgivenNotification); //this is whats shoots mail to boss is theres discount
-            }
-            if($querySuccess){
-              //redirect to print receipt page
-              $booking = Booking::findOrFail($bookingId);
-              return redirect()->route('admin.bookings.show',compact('booking'));
-            }else{
-                return redirect()->back()->with('errors',$errors);
-            }
+        $bookersName = \Auth::user()->name;        
+        $discountGiven = isset($request->discount_amount);
+        $discountPrice = $request->discount_amount;
+        $AmountDue = $request->ourprice;
+        $booking = new Booking();        
+        $booking->amount =  $discountGiven ? (int)($AmountDue - $discountPrice)  : (int)($request->ourprice);
+        $booking->discount_amount= $discountPrice;
+        $booking->time_from = $request->time_from;     
+        $booking->time_to = $request->time_to; 
+        $booking->additional_information = $request->additional_information; 
+        $booking->customer_id = $request->customer_id;
+        $booking->room_id = $request->room_cat; 
+        $booking->payment_method = 'CASH';
+        $booking->booked_by = $bookersName;
+        $querySuccess = $booking->save();
+        $bookingId = $booking->id;
+        if($discountGiven){                
+            $emailAddress = 'thrivemaxhotel@gmail.com';
+            Mail::to($emailAddress)
+            ->send(new DiscountgivenNotification($discountPrice,$AmountDue));
         }
-     
-        
+        if($querySuccess){
+            //redirect to print receipt page
+            $booking = Booking::findOrFail($bookingId);
+            return redirect()->route('admin.bookings.show',compact('booking'));
+        }else{
+            return redirect()->back()->with('errors',$errors);
+        }
+             
     }
 
 

@@ -22,5 +22,5 @@ Vue.component('cart',require('./components/Cart.vue'));
 Vue.component('bookingreport', require('./components/BookingReport.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
 });
