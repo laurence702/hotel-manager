@@ -20,7 +20,7 @@ class OnlineBookingController extends Controller
             return abort(401);
         }
 
-        $bookings = OnlineBooking::all();
+        $bookings = OnlineBooking::Orderby('id','desc')->get();
         
         // if (request('show_deleted') == 1) {
         //     if (!Gate::allows('booking_delete')) {

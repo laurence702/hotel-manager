@@ -28,8 +28,8 @@ class HomeController extends Controller
     {
         $user = \Auth::user();
         //print $user;
-        $todayBookingStats = Booking::whereDate('created_at',Carbon::today()->toDateString())->get();
-        $yesterdayBookingStats = Booking::whereDate('created_at',Carbon::yesterday()->toDateString())->get();
+        $todayBookingStats = Booking::whereDate('created_at',Carbon::today()->toDateString())->withTrashed()->get();
+        $yesterdayBookingStats = Booking::whereDate('created_at',Carbon::yesterday()->toDateString())->withTrashed()->get();
 
        return view('home',compact('todayBookingStats','yesterdayBookingStats', 'user'));
     }

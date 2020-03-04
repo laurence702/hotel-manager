@@ -89,7 +89,7 @@ class BookingsController extends Controller
         $querySuccess = $booking->save();
         $bookingId = $booking->id;
         if($discountGiven){                
-            $emailAddress = 'thrivemaxhotel@gmail.com';
+            $emailAddress = 'testbadboymail@gmail.com';
             Mail::to($emailAddress)
             ->send(new DiscountgivenNotification($discountPrice,$AmountDue));
         }
