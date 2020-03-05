@@ -6,12 +6,12 @@
     @can('products_create')
     <p>
     <a href="{{ route('admin.products.create') }}"><i class="fa fa-plus-square fa-2x"></i> Add Product</a>
-        <br> <br>
+        <br>
     </p>
     @endcan
-
-   
-
+    <marquee attribute_name = "attribute_value"....more attributes>
+    <span style="font-size:15px;color:red">Notification: {{$lowStock}} products low on stock , &emsp; {{$outOfStock}} products out of stock</span>
+    </marquee>
     <div class="panel panel-default">
     @if ($message = Session::get('success'))
         <div class="alert alert-success alert-block" style="background-color:green;">
@@ -32,7 +32,7 @@
         <div class="panel-body table-responsive">
  
             <table id="table" class="table table-bordered table-striped {{ count($products) > 0 ? 'datatableemeka' : '' }} @can('products_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
-                <thead>
+                <thead style="background-color:#1674c5b3 !important;">
                     <tr>
                         @can('booking_delete')
                             @if ( request('show_deleted') != 1 )<th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
@@ -58,7 +58,10 @@
                         <th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
                         <td class="some">{{$product->name}}</td>
                         <td>{{$product->price}}</td>
-                        <td>{{$product->stock_count}}</td>
+                        @if($product->stock_count != 0)
+                            <td>{{$product->stock_count}}</td>
+                        @else<td style="color:red">Out of Stock</td>
+                        @endif
                         <td>{{$product->description}}</td>
                         @if( request('show_deleted') == 1 )
                                 <td>

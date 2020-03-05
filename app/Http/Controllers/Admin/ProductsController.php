@@ -19,8 +19,7 @@ class ProductsController extends Controller
     {
         if (!Gate::allows('products_view')) {
             return abort(401);
-        }
-        
+        }       
 
         if (request('show_deleted') == 1) {
             if (!Gate::allows('products_delete')) {
@@ -29,7 +28,9 @@ class ProductsController extends Controller
             $products = Product::onlyTrashed()->get();
         } else {
             $products = Product::all();
-        return view('admin.products.index', compact('products'));
+            $outOfStock = Product::where('stock_count','0')->count();
+            $lowStock= Product::where('stock_count','<','5')->count();
+        return view('admin.products.index', compact(['products','outOfStock','lowStock']));
         }
     }   
 

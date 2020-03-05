@@ -88,11 +88,11 @@ class BookingsController extends Controller
         $booking->booked_by = $bookersName;
         $querySuccess = $booking->save();
         $bookingId = $booking->id;
-        if($discountGiven){                
-            $emailAddress = 'thrivemaxhotel@gmail.com';
-            Mail::to($emailAddress)
-            ->send(new DiscountgivenNotification($discountPrice,$AmountDue));
-        }
+        // if($discountGiven){                
+        //     $emailAddress = 'thrivemaxhotel@gmail.com';
+        //     Mail::to($emailAddress)
+        //     ->send(new DiscountgivenNotification($discountPrice,$AmountDue));
+        // }
         if($querySuccess){
             //redirect to print receipt page
             $booking = Booking::findOrFail($bookingId);

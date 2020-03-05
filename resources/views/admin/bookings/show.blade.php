@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="ticket">
-        <img src="{{asset('/imgs/main-logo.png')}}" style="margin-left:40px" width="100"/>
+        <img src="{{asset('/imgs/main-logo.png')}}" style="margin-left:10px" width="100"/>
             <p class="centered"><b>THRIVEMAX HOTEL</b>
                 <br>15 Odunlanmi Str,
                 <br>Lagos Island
@@ -28,7 +28,7 @@
                         <td class="price">&nbsp;&nbsp;&nbsp;&nbsp;{{ $booking->amount_paid}}</td>
                     </tr>
                     <tr>
-                        <td>%5 vat included</td>
+                        @if(isset($vat))<td>%5 vat included</td>@endif
                         <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                     </tr>
                     <tr>
@@ -44,9 +44,10 @@
         </div>
         <script>
             //delay print to ensure dom elements loads complete
-            setTimeout(()=>{ 
-                window.print();
-                }, 2000);
+            window.print(),
+            // window.onafterprint = function(event) {
+            //     window.location.href = '/'
+            // }
         
         </script> 
     </body>
