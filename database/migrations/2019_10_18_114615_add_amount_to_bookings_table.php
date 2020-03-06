@@ -25,9 +25,9 @@ class AddAmountToBookingsTable extends Migration
      */
     public function down()
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->dropColumn('amount');
+        // Schema::table('bookings', function (Blueprint $table) {
+        //     $table->dropColumn('amount');
 
-        });
+        // });
     }
 }

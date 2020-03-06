@@ -27,8 +27,8 @@ class AddCategoryRooms extends Migration
      */
     public function down()
     {
-        Schema::table('rooms', function (Blueprint $table) {
-            $table->dropColumn('category_id');
-        });
+        // Schema::table('rooms', function (Blueprint $table) {
+        //     $table->dropColumn('category_id');
+        // });
     }
 }

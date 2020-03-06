@@ -36,6 +36,6 @@ class Create1516728224BookingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bookings');
+        //Schema::dropIfExists('bookings');
     }
 }

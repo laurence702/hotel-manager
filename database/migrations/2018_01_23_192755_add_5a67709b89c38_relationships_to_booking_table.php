@@ -32,8 +32,8 @@ class Add5a67709b89c38RelationshipsToBookingTable extends Migration
      */
     public function down()
     {
-        Schema::table('bookings', function(Blueprint $table) {
+        // Schema::table('bookings', function(Blueprint $table) {
             
-        });
+        // });
     }
 }

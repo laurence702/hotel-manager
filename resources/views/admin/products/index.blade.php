@@ -9,9 +9,18 @@
         <br>
     </p>
     @endcan
-    <marquee attribute_name = "attribute_value"....more attributes>
-    <span style="font-size:15px;color:red">Notification: {{$lowStock}} products low on stock , &emsp; {{$outOfStock}} products out of stock</span>
+
+    @if(count($products ) < 1 )
+    <marquee attribute_name = "attribute_value"....more attributes>        
+        <span style="font-size:17px;color:red">Notification: We have no product in stock</span>
     </marquee>
+    @else <div>
+            <marquee attribute_name = "attribute_value"....more attributes>
+                <span style="font-size:15px;color:red">Notification: {{$lowStock}} products low on stock , &emsp; {{$outOfStock}} products out of stock</span>
+            </marquee>
+          </div>
+    @endif
+    
     <div class="panel panel-default">
     @if ($message = Session::get('success'))
         <div class="alert alert-success alert-block" style="background-color:green;">

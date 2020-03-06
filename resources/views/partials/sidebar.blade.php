@@ -16,7 +16,7 @@
             @can('user_management_access')
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-users"></i>
+                    <i class="fa fa-gears"></i>
                     <span class="title">@lang('quickadmin.user-management.title')</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
@@ -50,7 +50,7 @@
             @can('country_access')
             <li class="{{ $request->segment(2) == 'countries' ? 'active' : '' }}">
                 <a href="{{ route('admin.countries.index') }}">
-                    <i class="fa fa-gears"></i>
+                    <i class="fa fa-flag"></i>
                     <span class="title">@lang('quickadmin.countries.title')</span>
                 </a>
             </li>
@@ -163,6 +163,15 @@
             </li>
             @endcan
             
+            @can('create_voucher')
+                <li class="{{ $request->segment(1) == 'create_voucher' ? 'active' : '' }}">
+                    <a href="{{ route('auth.change_password') }}">
+                        <i class="fa fa-gift"></i>
+                        <span class="title">@lang('Gift Voucher')</span>
+                    </a>
+                </li>
+            @endcan
+
             
 
             <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">

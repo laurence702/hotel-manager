@@ -28,8 +28,8 @@ class Add5a6770e6b5767RelationshipsToCustomerTable extends Migration
      */
     public function down()
     {
-        Schema::table('customers', function(Blueprint $table) {
+        // Schema::table('customers', function(Blueprint $table) {
             
-        });
+        // });
     }
 }

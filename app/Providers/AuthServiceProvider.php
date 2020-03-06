@@ -170,6 +170,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('products_view', function ($user) {
             return in_array($user->role_id, [1,2,3,4,5,6,7,8,9,10]);
         });
+        Gate::define('create_voucher', function($user){
+            return in_array($user->role_id,[1]);
+        });
 
     }
 }

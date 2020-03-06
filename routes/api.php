@@ -1,13 +1,8 @@
 <?php
 
 Route::group(['prefix' => '/v1', 'as' => 'api.'], function () {
-        Route::post('testsome', function(){
-        return [
-            'success' => true,
-            'data' => request()->all()
-        ];
-    });
     Route::post('drinkSaleInvoice','Admin\SalesController@sellDrinks');
+    Route::resource('discountVoucher','Admin\GiftVoucherController');
 });
 
 Route::get('getlastorder','Admin\SalesController@getLastRecord');
