@@ -45981,7 +45981,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.card-body[data-v-890a4874] {\r\n  -webkit-box-flex: 1;\r\n      -ms-flex: 1 1 auto;\r\n          flex: 1 1 auto;\r\n  padding: 1.25rem;\n}\n.card[data-v-890a4874] {\r\n  position: relative;\r\n  display: -webkit-box;\r\n  display: -ms-flexbox;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n      -ms-flex-direction: column;\r\n          flex-direction: column;\r\n  width: 70%;\r\n  min-width: 20%;\r\n  word-wrap: break-word;\r\n  background-color: #fff;\r\n  background-clip: border-box;\r\n  border: 1px solid #e3e6f0;\r\n  border-radius: 0.35rem;\n}\n.card-body[data-v-890a4874] {\r\n  -webkit-box-flex: 1;\r\n      -ms-flex: 1 1 auto;\r\n          flex: 1 1 auto;\r\n  padding: 1.25rem;\n}\n*[data-v-890a4874],[data-v-890a4874]\r\n::after,[data-v-890a4874]\r\n::before {\r\n  -webkit-box-sizing: border-box;\r\n          box-sizing: border-box;\n}\ndiv[data-v-890a4874] {\r\n  display: block;\n}\n.border-left-primary[data-v-890a4874] {\r\n  border-left: 0.25rem solid #4e73df !important;\n}\n.border-left-success[data-v-890a4874] {\r\n  border-left: 0.25rem solid #1cc88a !important;\r\n  border-left-width: 0.25rem !important;\r\n  border-left-style: solid !important;\r\n  border-left-color: rgb(28, 200, 138) !important;\n}\nbody[data-v-890a4874] {\r\n  margin: 0;\r\n  font-family: Nunito, -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto,\r\n    \"Helvetica Neue\", Arial, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\",\r\n    \"Segoe UI Symbol\", \"Noto Color Emoji\";\r\n  font-size: 1rem;\r\n  font-weight: 400;\r\n  line-height: 1.5;\r\n  color: #858796;\r\n  text-align: left;\r\n  background-color: #fff;\n}\n.text-gray-300[data-v-890a4874] {\r\n  color: #dddfeb !important;\n}\n.fa[data-v-890a4874],\r\n.fas[data-v-890a4874] {\r\n  font-weight: 900;\n}\r\n", ""]);
 
 // exports
 
@@ -46035,26 +46035,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {};
-    },
-    created: function created() {
-        this.getReportDetails();
-    },
+  data: function data() {
+    return {};
+  },
+  created: function created() {
+    this.getReportDetails();
+  },
 
-    methods: {
-        getReportDetails: function getReportDetails() {
-            fetch('/api/getlastorder').then(function (res) {
-                return res.json();
-            }).then(function (res) {
-                console.log(res);
-            }).then().catch(function (err) {
-                return console.log(err);
-            });
-        }
+  methods: {
+    getReportDetails: function getReportDetails() {
+      fetch("/api/v1/getperformance").then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        console.log(res);
+      }).then().catch(function (err) {
+        return console.log(err);
+      });
     }
+  }
 });
 
 /***/ }),
@@ -46073,84 +46087,121 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-10" }, [
+      _c("div", { staticClass: "col-md-8 ml-5" }, [
         _c("div", { staticClass: "panel panel-primary" }, [
-          _c("div", { staticClass: "panel-heading" }, [_vm._v("Welcome")]),
+          _c(
+            "div",
+            {
+              staticClass: "panel-heading",
+              staticStyle: { "background-color": "#2e6ae2 !important" }
+            },
+            [_vm._v("\n        Welcome\n      ")]
+          ),
           _vm._v(" "),
           _c("br"),
           _vm._v(" "),
           _c("div", { staticClass: "panel-body" }, [
-            _c(
-              "div",
-              {
-                staticClass: "col-md-4 col-xs-7",
-                staticStyle: { "background-color": "#b5dfa3" }
-              },
-              [
-                _c("h3", [
-                  _c("i", { staticClass: "fa fa-money" }),
-                  _vm._v(" ₦500")
-                ]),
-                _vm._v(
-                  "\n                        Todays Earnings\n                    "
-                )
-              ]
-            ),
+            _c("div", { staticClass: "col-xl-3 col-md-6 mb-4" }, [
+              _c(
+                "div",
+                { staticClass: "card border-left-primary shadow h-100 py-2" },
+                [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c(
+                      "div",
+                      { staticClass: "row no-gutters align-items-center" },
+                      [
+                        _c("div", { staticClass: "col mr-2" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "text-xs font-weight-bold text-primary text-uppercase mb-1"
+                            },
+                            [
+                              _vm._v(
+                                "\n                      Earnings (Today)\n                  "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "h5 mb-0 font-weight-bold text-gray-800"
+                            },
+                            [
+                              _vm._v(
+                                "\n                      3\n                  "
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-auto" }, [
+                          _vm._v("\n                    \n                  "),
+                          _c("i", {
+                            staticClass: "fas fa-users fa-2x text-gray-300"
+                          })
+                        ])
+                      ]
+                    )
+                  ])
+                ]
+              )
+            ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col-md-4 col-xs-2 bg-info" }),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "col-md-4 col-xs-3",
-                staticStyle: { "background-color": "#ff5252!important" }
-              },
-              [
-                _c("h3", [
-                  _c("i", { staticClass: "fa fa-users" }),
-                  _vm._v("4")
-                ]),
-                _vm._v("\n                         Today\n                    ")
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "panel-body" }, [
-            _c(
-              "div",
-              {
-                staticClass: "col-md-4 col-xs-7",
-                staticStyle: { "background-color": "#b5dfa3" }
-              },
-              [
-                _c("h3", [
-                  _c("i", { staticClass: "fa fa-money" }),
-                  _vm._v(" ₦5000 ")
-                ]),
-                _vm._v(
-                  "\n                        Yesterdays\n                    "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-4 col-xs-2 bg-info" }),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "col-md-4 col-xs-3",
-                staticStyle: { "background-color": "#ff5252!important" }
-              },
-              [
-                _c("h3", [
-                  _c("i", { staticClass: "fa fa-users" }),
-                  _vm._v("19")
-                ]),
-                _vm._v(
-                  "\n                         Yesterday\n                    "
-                )
-              ]
-            )
+            _c("div", { staticClass: "col-xl-3 col-md-6 mb-4" }, [
+              _c(
+                "div",
+                { staticClass: "card border-left-success shadow h-100 py-2" },
+                [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c(
+                      "div",
+                      { staticClass: "row no-gutters align-items-center" },
+                      [
+                        _c("div", { staticClass: "col mr-2" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "text-xs font-weight-bold text-success text-uppercase mb-1"
+                            },
+                            [
+                              _vm._v(
+                                "\n                      Earnings (Annual)\n                  "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "h5 mb-0 font-weight-bold text-gray-800"
+                            },
+                            [
+                              _vm._v(
+                                "\n                      #215,000\n                  "
+                              )
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-auto" }, [
+                          _vm._v("\n                    "),
+                          _c("i", {
+                            staticClass: "fas fa-money fa-2x text-gray-300"
+                          })
+                        ])
+                      ]
+                    )
+                  ])
+                ]
+              )
+            ])
           ])
         ])
       ])

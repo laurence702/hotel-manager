@@ -10,12 +10,13 @@ use Carbon\Carbon;
 
 class AnalyticsController extends Controller
 {
-    
-    public function getStats(){
 
-        $todayBookingStats = Booking::whereDate('created_at',Carbon::today()->toDateString())->get();
-        $yesterdayBookingStats = Booking::whereDate('created_at',Carbon::yesterday()->toDateString())->get();
+    public function getStats()
+    {
 
-        return view('home');
+        $todayBookingStats = Booking::whereDate('created_at', Carbon::today()->toDateString())->get();
+        $yesterdayBookingStats = Booking::whereDate('created_at', Carbon::yesterday()->toDateString())->get();
+
+        return $todayBookingStats;
     }
 }
