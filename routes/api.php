@@ -3,7 +3,7 @@
 $this->group(['prefix' => '/v1', 'as' => 'api.'], function () {
     $this->post('drinkSaleInvoice', 'Admin\SalesController@sellDrinks');
     $this->resource('discountVoucher', 'Admin\GiftVoucherController');
-    $this->get('getperformance', 'Stats\AnalyticsController@getStats');
+    $this->post('getperformance', 'Stats\AnalyticsController@getStats');
 });
 
 $this->get('getlastorder', 'Admin\SalesController@getLastRecord');

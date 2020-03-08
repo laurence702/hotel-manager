@@ -28,6 +28,11 @@ class Booking extends Model
     ];
 
     //protected $dates= ['time_from', 'time_to'];
+
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d', // Change your format
+        'updated_at' => 'datetime:Y-m-d',
+    ];
     
     
     /**

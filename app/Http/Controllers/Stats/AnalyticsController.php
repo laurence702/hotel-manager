@@ -11,12 +11,16 @@ use Carbon\Carbon;
 class AnalyticsController extends Controller
 {
 
-    public function getStats()
-    {
+    public function getStats(Request $request)
+    {   
+        $xto= new Carbon($request->to_date);
+        $xfrom = new Carbon($request->from_date);
 
-        $todayBookingStats = Booking::whereDate('created_at', Carbon::today()->toDateString())->get();
-        $yesterdayBookingStats = Booking::whereDate('created_at', Carbon::yesterday()->toDateString())->get();
+        $from = $xfrom;
+        $to = $xto;
 
-        return $todayBookingStats;
+        $BookingStats = Booking::whereBetween('created_at', [$from, $to])->withTrashed()->sum('amount');
+        $clients= Booking::whereBetween('created_at', [$from, $to])->withTrashed()->count();
+        return $arrayName = array('clients' => $clients , 'cashFlow'=> number_format($BookingStats));
     }
 }

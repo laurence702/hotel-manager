@@ -15,10 +15,10 @@
                     <div
                       class="text-xs font-weight-bold text-primary text-uppercase mb-1"
                     >
-                      &emsp;&emsp;Earnings (Today)
+                      &emsp;&emsp;Customers
                     </div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                      &emsp;&emsp;3
+                      &emsp;&emsp; {{ clients }}
                     </div>
                   </div>
                   <div class="col-auto">
@@ -37,10 +37,10 @@
                     <div
                       class="text-xs font-weight-bold text-success text-uppercase mb-1"
                     >
-                      &emsp;&emsp;Earnings (Annual)
+                      &emsp;&emsp;Earnings
                     </div>
                     <div class="h5 mb-0 font-weight-bold text-gray-800">
-                      &emsp;&emsp;#215,000
+                      &emsp;&emsp;# {{ cashFlow }}
                     </div>
                   </div>
                   <div class="col-auto">
@@ -53,24 +53,79 @@
         </div>
       </div>
     </div>
+    <form @submit.prevent="getReportDetails" class="mb-3">
+      <div class="col-md-4">
+        <div class="row input-daterange">
+          <div class="col-md-5">
+            From:
+            <input
+              type="date"
+              v-model="stats.from_date"
+              class="form-control"
+              placeholder="From Date"
+            />
+          </div>
+          <div class="col-md-5">
+            To:
+            <input
+              type="date"
+              v-model="stats.to_date"
+              class="form-control"
+              placeholder="To Date"
+            />
+          </div>
+        </div>
+        <br />
+        <br />
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary">
+            Filter
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 <script>
 export default {
   data() {
-    return {};
+    return {
+      from_date: "",
+      to_date: "",
+      cashFlow: "",
+      clients: "",
+      stats: {
+        from_date: "",
+        to_date: ""
+      }
+    };
+  },
+  mounted() {
+    this.csrfToken = document.querySelector('meta[name="csrf-token"]').content;
   },
   created() {
-    this.getReportDetails();
+    // this.getReportDetails();
   },
   methods: {
     getReportDetails() {
-      fetch("/api/v1/getperformance")
+      console.log(this.stats.to_date);
+      console.log(this.stats.from_date);
+      fetch("/api/v1/getperformance", {
+        method: "post",
+        body: JSON.stringify(this.stats),
+        headers: {
+          "content-type": "application/json",
+          "X-CSRF-Token": document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute("content")
+        }
+      })
         .then(res => res.json())
         .then(res => {
+          this.cashFlow = res.cashFlow;
+          this.clients = res.clients;
           console.log(res);
         })
-        .then()
         .catch(err => console.log(err));
     }
   }

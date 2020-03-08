@@ -15,7 +15,7 @@
             
             @can('user_management_access')
             <li class="treeview">
-                <a href="#">
+                <a href="{{ route('admin.roles.index') }}">
                     <i class="fa fa-gears"></i>
                     <span class="title">@lang('quickadmin.user-management.title')</span>
                     <span class="pull-right-container">
@@ -120,7 +120,7 @@
             </li> -->
 
             <li class="treeview">
-                <a href="#">
+                <a href="{{ route('admin.products.index') }}">
                     <i class="fa fa-wine-glass"></i>
                     <span class="title">Drinks</span>
                     <span class="pull-right-container">

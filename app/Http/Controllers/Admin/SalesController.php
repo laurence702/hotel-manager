@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use DB;
+use App\Cart;
 use App\Sale;
 use App\Product;
-use App\Cart;
-use Carbon\Carbon;
-use DB;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SalesController extends Controller
 {
@@ -47,9 +46,8 @@ class SalesController extends Controller
 
     public function getLastRecord()
     {
-        $orderDetails = Sale::orderBy('created_at', 'DESC')
-            ->first();
-
+        $orderDetails = Sale::orderBy('created_at', 'DESC')->first();
+        
         $i_id = $orderDetails['invoice_number'];
 
         $lastInvoiceId = Sale::where('invoice_number', $i_id)->get();
