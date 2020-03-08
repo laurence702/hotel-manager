@@ -14,28 +14,18 @@ class DateRangeController extends Controller
      */
     function index(Request $request)
     {
-        $xto= new Carbon($request->to_date);
-        $xfrom = new Carbon($request->from_date);
-        
-        $from = $xfrom; $to=$xto;
-       
-         if(request()->ajax())
-         {
-          if(!empty($request->from_date))
-          {
-           $data = DB::table('sales')
-             ->whereBetween('created_at', array($from,$to))
-             ->get();
-          }
-          else
-          {
-           $data = DB::table('sales')
-             ->get();
-          }
-          return datatables()->of($data)->make(true);
-         }
-         return view('daterange');
-        
+        if(request()->ajax()){
+            if(!empty($request->from_date)){
+                $data = DB::table('sales')
+                ->whereBetween('created_at', array($request->from_date, $request->to_date))
+                ->get();
+            }else{
+                $data = DB::table('sales')
+                ->get();
+            }
+            return datatables()->of($data)->make(true);
+        }
+        return view('admin.products.saleshistory');        
     }
 
     /**
