@@ -66,5 +66,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::get('printDrinkInvoice', 'Admin\SalesController@generateInvoice')->name('generate.invoice');
     Route::get('saleshistory', ['uses' => 'Admin\SalesController@showAllSales', 'as' => 'products.saleshistory']);
     Route::resource('onlinebooking', 'Admin\OnlineBookingController', ['except' => 'bookings.create']);
-    Route::get('dateRange','Admin\SalesController@SalesFilter')->name('daterange.index');
+   // Route::get('dateRange','Admin\SalesController@SalesFilter')->name('daterange.index');
+    Route::resource('daterange', 'DateRangeController');
 });

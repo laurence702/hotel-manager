@@ -88,7 +88,7 @@ class SalesController extends Controller
 
     public function checkoutPage(Request $request)
     {
-
         return view('admin.products.drinkscheckout');
     }
+
 }

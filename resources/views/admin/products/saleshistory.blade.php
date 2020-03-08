@@ -1,6 +1,10 @@
 @inject('request', 'Illuminate\Http\Request')
 @extends('layouts.app')
 
+@section('css')
+
+@endsection
+
 @section('content')
     <div class="panel-body">   
         <div class="col-md-4 col-xs-4"  style="background-color:#b5dfa3"> 
@@ -21,92 +25,82 @@
     </div>
        
         <div class="panel-body table-responsive">
-            <table class="table table-bordered table-striped {{ count($sales) > 0 ? 'datatable' : '' }} @can('room_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
+            <table id="order_table" class="table table-bordered table-striped {{ count($sales) > 0 ? 'datatableemeka' : '' }} @can('room_delete') @if ( request('show_deleted') != 1 ) dt-select @endif @endcan">
                 <thead style="background-color:#2e6ae2">
                     <tr>
                         @can('room_delete')
                             @if ( request('show_deleted') != 1 )<th style="text-align:center;"><input type="checkbox" id="select-all" /></th>@endif
                         @endcan
-
+                        <th>Product Id</th>
                         <th>@lang('Product')</th>
                         <th>@lang('Quantity')</th>
                         <th>@lang('Unit Price')(#)</th>
                         <th>@lang('Value')</th>
-                        <th>Sold At</th>
                         <th>Invoice Number</th>
                         <th>Sold By</th>
-                    
+                        <th>Sold At</th>                    
                     </tr>
                 </thead>
-                
-                <tbody>
-                    @if (count($sales) > 0)
-                        @foreach ($sales as $sale)
-                            <tr data-entry-id="{{ $sale->id }}">
-                                @can('room_delete')
-                                    @if ( request('show_deleted') != 1 )<td></td>@endif
-                                @endcan
-
-                                <td field-key='product'>{{ $sale->product }}</td>
-                                <td field-key='floor'>{{ $sale->quantity }}</td>
-                                <td field-key='price'>{{ number_format($sale->unit_price)}}</td>
-                                <td field-key='description'>{!! $sale->value !!}</td>    
-                                <td field-key='sell_time'>{{ \Carbon\Carbon::parse($sale->created_at)->format('d-M   h:i') }}</td>                            
-                                <td field-key='invoice_number'>{{ $sale->invoice_number}}</td>
-                                <td>{{ $sale->soldBy}}</td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="8">@lang('quickadmin.qa_no_entries_in_table')</td>
-                        </tr>
-                    @endif
-                </tbody>
+              
             </table>
         </div>
     
 @stop
 
 @section('javascript') 
+  
 <script>
 $(document).ready(function(){
- $('.input-daterange').datepicker({
-  todayBtn:'linked',
-  format:'yyyy-mm-dd',
-  autoclose:true
- });
-
+ 
  load_data();
 
  function load_data(from_date = '', to_date = '')
  {
-  $('#order_table').DataTable({
+    var table = $('#order_table').DataTable({
    processing: true,
+   paging: true,
+   searching: true,
    serverSide: true,
    ajax: {
-    url:'{{ route("daterange.index") }}',
+    url:'{{ route("admin.products.saleshistory") }}',
     data:{from_date:from_date, to_date:to_date}
    },
    columns: [
     {
-     data:'order_id',
-     name:'order_id'
+     data:'',
+     name:''    
     },
     {
-     data:'order_customer_name',
-     name:'order_customer_name'
+     data:'productId',
+     name:'productId'
     },
     {
-     data:'order_item',
-     name:'order_item'
+     data:'product',
+     name:'product'
     },
     {
-     data:'order_value',
-     name:'order_value'
+     data:'quantity',
+     name:'quantity'
     },
     {
-     data:'order_date',
-     name:'order_date'
+     data:'unit_price',
+     name:'unit_price'
+    },
+    {
+     data:'value',
+     name:'value'
+    },
+    {
+     data:'soldBy',
+     name:'soldBy'
+    },
+    {
+     data:'invoice_number',
+     name:'invoice_number'
+    },
+    {
+     data:'created_at',
+     name:'created_at'
     }
    ]
   });
