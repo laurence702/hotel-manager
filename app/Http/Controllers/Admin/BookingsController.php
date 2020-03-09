@@ -2,22 +2,43 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Booking;
-use App\Customer;
+use Auth;
+use Mail;
 use App\Room;
 use App\User;
+use App\Booking;
+use App\Customer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
+use App\Mail\DiscountgivenNotification;
 use App\Http\Requests\Admin\StoreBookingsRequest;
 use App\Http\Requests\Admin\UpdateBookingsRequest;
-use Auth;
-use Carbon\Carbon;
-use Mail;
-use App\Mail\DiscountgivenNotification;
 
 class BookingsController extends Controller
 {
+    public function showAllBooking(Request $request)
+    {
+        // $customers = Customer::all();
+
+        if (request()->ajax()) {
+            if (!empty($request->from_date)) {
+                $data = Booking::withTrashed()->whereBetween('created_at', array($request->from_date, $request->to_date))->get();
+            } else {
+                $data = Booking::withTrashed()->get();
+                // foreach ($data as $bookingData) {
+                //     foreach ($customers as $customer) {
+
+                //     }
+                //      $bookingData['customer_id'] == $customers['first_name'];
+                // }
+            }
+            return datatables()->of($data)->make(true);
+        }
+        return view('admin.bookings.bookinghistory');
+    }
 
     /**
      * Display a listing of Booking.
@@ -53,10 +74,10 @@ class BookingsController extends Controller
         if (!Gate::allows('booking_create')) {
             return abort(401);
         }
-        
+
         $customers = Customer::get()->pluck('full_name', 'id')->prepend(trans('quickadmin.qa_please_select'), '');
         //$rooms = Room::get()->pluck('room_number', 'id', 'price')->prepend(trans('quickadmin.qa_please_select'), 'choose room')->toarray();  
-       $rooms = Room::all(); 
+        $rooms = Room::all();
 
         return view('admin.bookings.create', compact('customers', 'rooms'));
     }
@@ -72,35 +93,34 @@ class BookingsController extends Controller
         if (!Gate::allows('booking_create')) {
             return abort(401);
         }
-        $bookersName = \Auth::user()->name;        
+        $bookersName = \Auth::user()->name;
         $discountGiven = isset($request->discount_amount);
         $discountPrice = $request->discount_amount;
         $AmountDue = $request->ourprice;
-        $booking = new Booking();        
-        $booking->amount =  $discountGiven ? (int)($AmountDue - $discountPrice)  : (int)($request->ourprice);
-        $booking->discount_amount= $discountPrice;
-        $booking->time_from = $request->time_from;     
-        $booking->time_to = $request->time_to; 
-        $booking->additional_information = $request->additional_information; 
+        $booking = new Booking();
+        $booking->amount =  $discountGiven ? (int) ($AmountDue - $discountPrice)  : (int) ($request->ourprice);
+        $booking->discount_amount = $discountPrice;
+        $booking->time_from = $request->time_from;
+        $booking->time_to = $request->time_to;
+        $booking->additional_information = $request->additional_information;
         $booking->customer_id = $request->customer_id;
-        $booking->room_id = $request->room_cat; 
+        $booking->room_id = $request->room_cat;
         $booking->payment_method = 'CASH';
         $booking->booked_by = $bookersName;
         $querySuccess = $booking->save();
         $bookingId = $booking->id;
-        // if($discountGiven){                
-        //     $emailAddress = 'thrivemaxhotel@gmail.com';
-        //     Mail::to($emailAddress)
-        //     ->send(new DiscountgivenNotification($discountPrice,$AmountDue));
-        // }
-        if($querySuccess){
+        if ($discountGiven) {
+            $emailAddress = 'thrivemaxhotel@gmail.com';
+            Mail::to($emailAddress)
+                ->send(new DiscountgivenNotification($discountPrice, $AmountDue));
+        }
+        if ($querySuccess) {
             //redirect to print receipt page
             $booking = Booking::findOrFail($bookingId);
-            return redirect()->route('admin.bookings.show',compact('booking'));
-        }else{
-            return redirect()->back()->with('errors',$errors);
+            return redirect()->route('admin.bookings.show', compact('booking'));
+        } else {
+            return redirect()->back()->with('errors', $errors);
         }
-             
     }
 
 
@@ -159,7 +179,7 @@ class BookingsController extends Controller
         $checkout = Carbon::parse($booking->time_to);
         $checkIn = Carbon::parse($booking->time_from);
         $nod = $checkIn->diffInDays($checkout);
-        return view('admin.bookings.show', compact('booking','nod'));
+        return view('admin.bookings.show', compact('booking', 'nod'));
     }
 
 

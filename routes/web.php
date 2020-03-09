@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     return redirect('/admin/home');
 });
@@ -65,5 +68,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::get('sellDrinks', ['uses' => 'Admin\ProductsController@sellDrinks', 'as' => 'products.drinks_sale']);
     Route::get('printDrinkInvoice', 'Admin\SalesController@generateInvoice')->name('generate.invoice');
     Route::get('saleshistory', ['uses' => 'Admin\SalesController@showAllSales', 'as' => 'products.saleshistory']);
+    Route::get('bookinghistory', 'Admin\BookingsController@showAllBooking')->name('bookings.bookinghistory');
     Route::resource('onlinebooking', 'Admin\OnlineBookingController', ['except' => 'bookings.create']);
 });

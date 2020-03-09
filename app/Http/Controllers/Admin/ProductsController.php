@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\Admin\UpdateProductRequest;
+use App\Http\Requests\Admin\StoreProductsRequest;
 use App\Product;
 
 class ProductsController extends Controller
@@ -19,7 +20,7 @@ class ProductsController extends Controller
     {
         if (!Gate::allows('products_view')) {
             return abort(401);
-        }       
+        }
 
         if (request('show_deleted') == 1) {
             if (!Gate::allows('products_delete')) {
@@ -28,11 +29,11 @@ class ProductsController extends Controller
             $products = Product::onlyTrashed()->get();
         } else {
             $products = Product::all();
-            $outOfStock = Product::where('stock_count','0')->count();
-            $lowStock= Product::where('stock_count','<','5')->count();
-        return view('admin.products.index', compact(['products','outOfStock','lowStock']));
+            $outOfStock = Product::where('stock_count', '0')->count();
+            $lowStock = Product::where('stock_count', '<', '5')->count();
+            return view('admin.products.index', compact(['products', 'outOfStock', 'lowStock']));
         }
-    }   
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -43,10 +44,10 @@ class ProductsController extends Controller
     {
         if (!Gate::allows('customer_create')) {
             return abort(401);
-        }        
+        }
         //$product = \App\Product::get()->pluck('price','description' ,'name','id')->prepend(trans('quickadmin.qa_please_select'), '');
         $products = Product::all();
- 
+
         return view('admin.products.create', compact('products'));
     }
 
@@ -56,16 +57,18 @@ class ProductsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductsRequest $request)
     {
-        $product= new Product;
+        $product = new Product;
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->stock_count = $request->stock_count;
-        
         $querySuccess = $product->save();
-        return redirect()->route('admin.products.index');
+        if ($querySuccess)
+            return redirect()->route('admin.products.index')->with('success');
+        else
+            return redirect()->route('admin.products.index')->with('errors');
     }
 
     /**
@@ -109,17 +112,17 @@ class ProductsController extends Controller
      */
     public function update(UpdateProductRequest $request, $id)
     {
-        if (! Gate::allows('products_edit')) {
+        if (!Gate::allows('products_edit')) {
             return view('errors.401');
         }
 
         $product = Product::findOrFail($id);
-        
+
         $product->update($request->all());
 
-        return redirect()->route('admin.products.index')->with('success','Update Successful');
+        return redirect()->route('admin.products.index')->with('success', 'Update Successful');
     }
-        
+
     /**
      * Remove the specified resource from storage.
      *
@@ -128,7 +131,7 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        if(!Gate::allows('products_delete')){
+        if (!Gate::allows('products_delete')) {
             return abort(401);
         }
         $drink = Product::findOrFail($id);
@@ -136,7 +139,4 @@ class ProductsController extends Controller
 
         return redirect()->route('admin.products.index');
     }
-         
-
 }
-

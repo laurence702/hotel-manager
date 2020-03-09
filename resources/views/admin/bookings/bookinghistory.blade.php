@@ -7,11 +7,7 @@
 
 @section('content')
 <div class="panel-body">
-    <div class="well col-md-4" style="background-color:#00C851; color:antiquewhite;">
-        <h4 align="center">
-            <b>Cash: #500</b>
-        </h4>
-    </div>
+
 </div>
 <div class="row input-daterange">
     <div class="col-md-4">
@@ -30,13 +26,15 @@
     <table id="order_table" class="table table-bordered table-striped">
         <thead style="background-color:#2e6ae2">
             <tr>
-                <th>@lang('Product')</th>
-                <th>@lang('Quantity')</th>
-                <th>@lang('Unit Price')(#)</th>
-                <th>@lang('Value')</th>
-                <th>Invoice Number</th>
-                <th>Sold By</th>
-                <th>Sold At</th>
+                <th>@lang('Room Number')</th>
+                <th>@lang('quickadmin.bookings.fields.customer')</th>
+                <th>@lang('quickadmin.bookings.fields.amount_due')(₦)</th>
+                <th>@lang('quickadmin.bookings.fields.discount')(₦)</th>
+                <th>@lang('quickadmin.bookings.fields.time-from')</th>
+                <th>@lang('quickadmin.bookings.fields.time-to')</th>
+                <th>Payment method</th>
+                <th>@lang('quickadmin.bookings.fields.booker_name')</th>
+                <th>@lang('quickadmin.bookings.fields.additional-information')</th>
             </tr>
         </thead>
 
@@ -61,6 +59,7 @@
                 processing: true,
                 serverSide: true,
                 stateSave: true,
+                paging: true,
                 ajax: {
                     data: {
                         from_date: from_date,
@@ -68,32 +67,40 @@
                     },
                 },
                 columns: [{
-                        data: 'product',
-                        name: 'product'
+                        data: 'room_id',
+                        name: 'room_id'
                     },
                     {
-                        data: 'quantity',
-                        name: 'quantity'
+                        data: 'customer_id',
+                        name: 'customer_id'
                     },
                     {
-                        data: 'unit_price',
-                        name: 'unit_price'
+                        data: 'amount',
+                        name: 'amount'
                     },
                     {
-                        data: 'value',
-                        name: 'value'
+                        data: 'discount_amount',
+                        name: 'discount_amount'
                     },
                     {
-                        data: 'invoice_number',
-                        name: 'invoice_number'
+                        data: 'time_from',
+                        name: 'time_from'
                     },
                     {
-                        data: 'soldBy',
-                        name: 'soldBy'
+                        data: 'time_to',
+                        name: 'time_to'
                     },
                     {
-                        data: 'created_at',
-                        name: 'created_at'
+                        data: 'payment_method',
+                        name: 'payment_method'
+                    },
+                    {
+                        data: 'booked_by',
+                        name: 'booked_by'
+                    },
+                    {
+                        data: 'additional_information',
+                        name: 'additional_information'
                     }
                 ]
             });

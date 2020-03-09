@@ -8,10 +8,10 @@
 @endsection
 
 @section('content')
-        <div id="app">
-            <bookingreport :csrf-token="{{ csrf_token() }}"></bookingreport>
-        </div>
-        <script src="{{ asset('js/app.js') }}"></script>
+<div id="app">
+  <bookingreport></bookingreport>
+</div>
+<script src="{{ asset('js/app.js') }}"></script>
 @endsection
 
 @section('javascript')
@@ -24,7 +24,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script type="text/javascript">      
-  window.csrf_token = "{{ csrf_token() }}"
-</script>
+
 @endsection

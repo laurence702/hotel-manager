@@ -77,10 +77,22 @@
         </div>
         <br />
         <br />
-        <div class="col-md-2">
-          <button type="submit" class="btn btn-primary">
-            Filter
-          </button>
+        <div class="row col-md-4">
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-primary">
+              Filter
+            </button>
+          </div>
+          &emsp;&emsp;&emsp;&emsp;
+          <div class="col-md-2">
+            <button
+              type="button"
+              class="btn btn-info"
+              v-on:click="getReportTodaysDetails"
+            >
+              Refresh
+            </button>
+          </div>
         </div>
       </div>
     </form>
@@ -104,7 +116,7 @@ export default {
     this.csrfToken = document.querySelector('meta[name="csrf-token"]').content;
   },
   created() {
-    // this.getReportDetails();
+    this.getReportTodaysDetails();
   },
   methods: {
     getReportDetails() {
@@ -113,6 +125,24 @@ export default {
       fetch("/api/v1/getperformance", {
         method: "post",
         body: JSON.stringify(this.stats),
+        headers: {
+          "content-type": "application/json",
+          "X-CSRF-Token": document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute("content")
+        }
+      })
+        .then(res => res.json())
+        .then(res => {
+          this.cashFlow = res.cashFlow;
+          this.clients = res.clients;
+          //console.log(res);
+        })
+        .catch(err => console.log(err));
+    },
+    getReportTodaysDetails() {
+      fetch("/api/v1/getperformancetoday", {
+        method: "get",
         headers: {
           "content-type": "application/json",
           "X-CSRF-Token": document

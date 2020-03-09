@@ -24,7 +24,7 @@ class Booking extends Model
     //amount_paid is the amount customer paid, it can vary is theres discount
 
     protected $fillable = [
-        'amount','discount_amount','time_from', 'time_to','payment_method' ,'additional_information', 'customer_id', 'room_id','booked_by'
+        'amount', 'discount_amount', 'time_from', 'time_to', 'payment_method', 'additional_information', 'customer_id', 'room_id', 'booked_by'
     ];
 
     //protected $dates= ['time_from', 'time_to'];
@@ -33,8 +33,8 @@ class Booking extends Model
         'created_at' => 'datetime:Y-m-d', // Change your format
         'updated_at' => 'datetime:Y-m-d',
     ];
-    
-    
+
+
     /**
      * Set to null if empty
      * @param $input

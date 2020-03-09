@@ -47,7 +47,7 @@ class SalesController extends Controller
     public function getLastRecord()
     {
         $orderDetails = Sale::orderBy('created_at', 'DESC')->first();
-        
+
         $i_id = $orderDetails['invoice_number'];
 
         $lastInvoiceId = Sale::where('invoice_number', $i_id)->get();
@@ -71,18 +71,23 @@ class SalesController extends Controller
     //SORTABLE DATATABLE
     function showAllSales(Request $request)
     {
-         if(request()->ajax()){
-            if(!empty($request->from_date)){
+        if (request()->ajax()) {
+            if (!empty($request->from_date)) {
+                $cashMade = DB::table('sales')
+                    ->whereBetween('created_at', array($request->from_date, $request->to_date))->sum('value');
+
                 $data = DB::table('sales')
-                ->whereBetween('created_at', array($request->from_date, $request->to_date))
-                ->get();
-            }else{
+                    ->whereBetween('created_at', array($request->from_date, $request->to_date))->get();
+            } else {
+                $cashMade = DB::table('sales')
+                    ->sum('value');
+
                 $data = DB::table('sales')
-                ->get();
+                    ->get();
             }
-            return datatables()->of($data)->make(true);
+            return datatables()->of($data, $cashMade)->make(true);
         }
-        return view('admin.products.saleshistory');   
+        return view('admin.products.saleshistory', compact('cashMade'));
     }
 
 
@@ -98,5 +103,4 @@ class SalesController extends Controller
     {
         return view('admin.products.drinkscheckout');
     }
-
 }
