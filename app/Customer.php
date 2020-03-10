@@ -19,7 +19,8 @@ class Customer extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['first_name', 'last_name', 'address', 'phone', 'email', 'country_id'];
+    //nok == next of kin
+    protected $fillable = ['first_name', 'last_name', 'address', 'phone', 'email', 'country_id','nok_name','nok_phone'];
     
     
 

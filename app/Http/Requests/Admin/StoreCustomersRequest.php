@@ -26,7 +26,20 @@ class StoreCustomersRequest extends FormRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'address' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|unique:customers',
+            'nok_name'=> 'required',
+            'nok_phone'=>'required|max:15',
+            'country_id'=>'required'
+        ];
+    }
+
+    public function messages() 
+    {
+        return [
+            'email.unique' => 'This email belongs to a customer',
+            'nok_name.required'=> 'Please enter next of kin name',
+            'country_id.required' => 'Please select a country',
+            'nok_phone.required' => 'Next of kin contact is required'
         ];
     }
 }

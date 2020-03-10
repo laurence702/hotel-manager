@@ -85,26 +85,28 @@
             <div class="row">
                 
             </div>
-
+            <div align="center" style="color:#2e6ae2;"><h3>Next of Kin info</h3></div>
+            <hr style="border-top: 1px solid #2e6ae2;">
+            
             <div class="row">
                 <div class="col-xs-6 form-group">
                 
-                    {!! Form::label('nokName', trans('Name').'*', ['class' => 'control-label']) !!}
-                    {!! Form::text('nokName', old('nokName'), ['class' => 'form-control', 'placeholder' => 'next of kin name', 'required' => '','minlength' => '5','maxlength' => '23']) !!}
+                    {!! Form::label('nok_name', trans('Name').'*', ['class' => 'control-label']) !!}
+                    {!! Form::text('nok_name', old('nok_name'), ['class' => 'form-control', 'placeholder' => 'next of kin name','minlength' => '5','maxlength' => '23']) !!}
                     <p class="help-block"></p>
-                    @if($errors->has('nokName'))
+                    @if($errors->has('nok_name'))
                         <p class="help-block">
-                            {{ $errors->first('nokName') }}
+                            {{ $errors->first('nok_name') }}
                         </p>
                     @endif
                 </div>
                 <div class="col-xs-6 form-group">
-                    {!! Form::label('nokNumber', trans('Next of Kin Number').'*', ['class' => 'control-label']) !!}
-                    {!! Form::number('nokNumber', old('nokNumber'), ['class' => 'form-control', 'pattern'=>'^[0]\d{10}$','title' => 'Example: 08012345678', 'maxlength' => '12','placeholder' => 'next of kin phone', 'required' => '']) !!}
+                    {!! Form::label('nok_phone', trans('Next of Kin Number').'*', ['class' => 'control-label']) !!}
+                    {!! Form::number('nok_phone', old('nok_phone'), ['class' => 'form-control', 'pattern'=>'^[0]\d{10}$','title' => 'Example: 08012345678', 'maxlength' => '12','placeholder' => 'next of kin phone']) !!}
                     <p class="help-block"></p>
-                    @if($errors->has('nokNumber'))
+                    @if($errors->has('nok_phone'))
                         <p class="help-block">
-                            {{ $errors->first('nokNumber') }}
+                            {{ $errors->first('nok_phone') }}
                         </p>
                     @endif
                 </div>
@@ -131,7 +133,7 @@
         $result.text("");
 
         if (validateEmail(email)) {
-            $result.text("Success");
+            $result.text("Email validated");
             $result.css("color", "green");
         } else {
             $result.text(email + " is not valid :(");

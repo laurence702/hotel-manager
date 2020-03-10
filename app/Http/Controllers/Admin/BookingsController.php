@@ -19,6 +19,7 @@ use App\Http\Requests\Admin\UpdateBookingsRequest;
 
 class BookingsController extends Controller
 {
+    public $emailAddress = 'thrivemaxhotel@gmail.com';
     public function showAllBooking(Request $request)
     {
         // $customers = Customer::all();
@@ -110,9 +111,8 @@ class BookingsController extends Controller
         $querySuccess = $booking->save();
         $bookingId = $booking->id;
         if ($discountGiven) {
-            $emailAddress = 'thrivemaxhotel@gmail.com';
-            Mail::to($emailAddress)
-                ->send(new DiscountgivenNotification($discountPrice, $AmountDue));
+            $CompanyEmail = $this->$emailAddress;
+            Mail::to($CompanyEmail)->send(new DiscountgivenNotification($discountPrice, $AmountDue));
         }
         if ($querySuccess) {
             //redirect to print receipt page

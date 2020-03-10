@@ -28,6 +28,11 @@
                             <th>@lang('quickadmin.customers.fields.phone')</th>
                             <td field-key='phone'>{{ $customer->phone }}</td>
                         </tr>
+                        
+                    </table>
+                </div>
+                <div class="col-md-6">
+                <table class="table table-bordered table-striped">
                         <tr>
                             <th>@lang('quickadmin.customers.fields.email')</th>
                             <td field-key='email'>{{ $customer->email }}</td>
@@ -36,6 +41,14 @@
                             <th>@lang('quickadmin.customers.fields.country')</th>
                             <td field-key='country'>{{ $customer->country->title or '' }}</td>
                         </tr>
+                        <tr>
+                            <th>@lang('Next of Kin')</th>
+                            <td field-key='nok_name'>{{ $customer->nok_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>@lang('Next of kin phone')</th>
+                            <td field-key='nok_phone'>{{ $customer->nok_phone }}</td>
+                        </tr>                       
                     </table>
                 </div>
             </div><!-- Nav tabs -->
@@ -97,13 +110,13 @@
                                 @else
                                 <td>
                                     @can('booking_view')
-                                    <a href="{{ route('admin.bookings.show',[$booking->id]) }}" class="btn btn-xs btn-primary">@lang('quickadmin.qa_view')</a>
+                                    <a href="{{ route('admin.bookings.show',[$booking->id]) }}" class="btn btn-xs btn-primary"><i class="fa fa-print"></i>@lang('Print')</a>
                                     @endcan
                                     @can('booking_edit')
                                     <a href="{{ route('admin.bookings.edit',[$booking->id]) }}" class="btn btn-xs btn-info">@lang('quickadmin.qa_edit')</a>
                                     @endcan
                                     @can('booking_delete')
-{!! Form::open(array(
+                                    {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',
                                         'onsubmit' => "return confirm('".trans("quickadmin.qa_are_you_sure")."');",
